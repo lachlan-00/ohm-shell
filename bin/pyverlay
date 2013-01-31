@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# launch pyverly
+/usr/share/pyverlay/pyverlay.py
