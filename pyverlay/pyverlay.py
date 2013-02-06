@@ -73,15 +73,24 @@ class PYVERLAY(object):
         self.contenttree.append_column(filecolumn)
         self.contenttree.set_model(self.contentlist)
         print len(self.loadselection())
-        self.activities.show()
+        #make windows undecorated and set
+        self.window.set_decorated(False)
+        #self.window.fullscreen()
+        self.activities.move(0,30)
+        self.activities.set_keep_above(True)
+        self.activities.set_decorated(False)
+        self.activities.set_position(Gtk.Align.START)
+        #show windows
         self.window.show()
+        self.activities.show()
+        #print dir(self.activities)
         Gtk.main()
 
     def keycatch(self, actor, event):
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
-        #print dir(Gdk.ModifierType)
-        #print event.state & Gdk.ModifierType.SUPER_MASK
+        print dir(Gdk.ModifierType)
+        print event.state & Gdk.ModifierType.SUPER_MASK
         if event.get_state() and test_mask:
             if self.window.get_visible():
                 self.hide()
@@ -89,8 +98,8 @@ class PYVERLAY(object):
                 self.show()
 
     def motion(self, actor, event):
-        #print dir(event.state)
-        #print dir(Gdk.ModifierType)
+        print dir(event.state)
+        print dir(Gdk.ModifierType)
         test_mask = (event.state & Gdk.ModifierType.META_MASK ==
                        Gdk.ModifierType.META_MASK)
         print event.get_state()
@@ -98,16 +107,20 @@ class PYVERLAY(object):
 
     def show(self, *args):
         """ fill and show the config window """
+        self.window.fullscreen()
+        self.window.set_keep_above(True)
         self.window.show()
         return
 
     def hide(self, *args):
         """ hide the config window """
+        self.window.set_keep_above(False)
         self.window.hide()
         return
 
     def quit(self, *args):
         """ stop the process thread and close the program"""
+        self.activities.destroy()
         self.window.destroy()
         Gtk.main_quit(*args)
         return False
