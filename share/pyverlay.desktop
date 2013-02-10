@@ -3,7 +3,7 @@
 [Desktop Entry]
 Name=pyverly
 Comment=Desktop Overlay
-Exec=/usr/bin/pyverly
+Exec=/usr/bin/pyverlay
 Icon=/usr/share/pixmaps/pyverly.png
 Terminal=false
 MultipleArgs=false
@@ -11,3 +11,4 @@ Type=Application
 Categories=System;Applications;
 StartupNotify=true
 Name[en_AU]=pyverlay
+GenericName=

@@ -60,6 +60,7 @@ class PYVERLAY(object):
         self.fileview = self.builder.get_object("fileview")
         self.contentlist = self.builder.get_object('filestore')
         self.contenttree = self.builder.get_object('fileview')
+        self.gobutton = self.builder.get_object("gobutton")
         self.closebutton = self.builder.get_object("closebutton")
         self.current_files = None
         # start
@@ -74,6 +75,7 @@ class PYVERLAY(object):
         self.mainactivitylabel.connect("button-press-event", self.button)
         self.activities.connect("key-release-event", self.keycatch)
         self.window.connect("key-release-event", self.keycatch)
+        self.gobutton.connect("clicked", self.execute)
         self.closebutton.connect("clicked", self.quit)
         # set up file and folder lists
         ##cell = Gtk.CellRendererText()
@@ -99,6 +101,7 @@ class PYVERLAY(object):
 
     def execute(self, *args):
         subprocess.Popen(str.split(self.runentry.get_text()))
+        self.runentry.set_text("")
         self.hide()
 
     def keycatch(self, actor, event):
