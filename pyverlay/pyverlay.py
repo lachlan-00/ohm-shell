@@ -26,6 +26,7 @@ import shutil
 import os
 import random
 import mimetypes
+import time
 import ConfigParser
 
 from gi.repository import Gtk
@@ -51,6 +52,8 @@ class PYVERLAY(object):
         # main window
         self.window = self.builder.get_object("main_window")
         self.activities = self.builder.get_object("hot_corner")
+        self.activitylabel = self.builder.get_object("mainlabel")
+        self.mainactivitylabel = self.builder.get_object("mainlabel")
         self.fileview = self.builder.get_object("fileview")
         self.contentlist = self.builder.get_object('filestore')
         self.contenttree = self.builder.get_object('fileview')
@@ -62,7 +65,10 @@ class PYVERLAY(object):
     def run(self, *args):
         """ Connect events and show the main window """
         self.window.connect("destroy", self.quit)
+        #self.activitylabel.connect("motion-notify-event", self.motion)
         self.activities.connect("motion-notify-event", self.motion)
+        self.mainactivitylabel.connect("motion-notify-event", self.motion)
+        self.mainactivitylabel.connect("button-press-event", self.button)
         self.activities.connect("key-release-event", self.keycatch)
         self.window.connect("key-release-event", self.keycatch)
         self.closebutton.connect("clicked", self.quit)
@@ -76,45 +82,56 @@ class PYVERLAY(object):
         #make windows undecorated and set
         self.window.set_decorated(False)
         #self.window.fullscreen()
-        self.activities.move(0,30)
+        self.activities.move(0,0)
         self.activities.set_keep_above(True)
         self.activities.set_decorated(False)
         self.activities.set_position(Gtk.Align.START)
         #show windows
-        self.window.show()
         self.activities.show()
-        #print dir(self.activities)
+        self.activities.grab_focus()
+        #self.window.show()
         Gtk.main()
 
     def keycatch(self, actor, event):
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
-        print dir(Gdk.ModifierType)
-        print event.state & Gdk.ModifierType.SUPER_MASK
         if event.get_state() and test_mask:
-            if self.window.get_visible():
-                self.hide()
-            elif self.window.get_visible():
-                self.show()
+            self.showorhide()
+
+    def button(self, actor, event):
+        print 'buttonpress'
+        test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
+                       Gdk.ModifierType.SUPER_MASK)
+        if event.get_state() and test_mask:
+            self.showorhide()
 
     def motion(self, actor, event):
-        print dir(event.state)
-        print dir(Gdk.ModifierType)
-        test_mask = (event.state & Gdk.ModifierType.META_MASK ==
-                       Gdk.ModifierType.META_MASK)
-        print event.get_state()
+        print self.activities.get_pointer()
+        if self.activities.get_pointer()[0] == 0 and (
+                self.activities.get_pointer()[1] == 0):
+            self.showorhide()
         return
+
+    def showorhide(self, *args):
+        if self.window.get_visible():
+            self.hide()
+        elif not self.window.get_visible():
+            self.show()
+        time.sleep(1)
 
     def show(self, *args):
         """ fill and show the config window """
-        self.window.fullscreen()
-        self.window.set_keep_above(True)
+        #self.window.fullscreen()
+        self.window.maximize()
         self.window.show()
+        self.activities.set_keep_above(True)
+        self.activities.grab_focus()
         return
 
     def hide(self, *args):
         """ hide the config window """
         self.window.set_keep_above(False)
+        self.activities.set_keep_above(True)
         self.window.hide()
         return
 
