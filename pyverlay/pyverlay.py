@@ -28,6 +28,7 @@ import random
 import mimetypes
 import time
 import ConfigParser
+import subprocess
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -54,6 +55,8 @@ class PYVERLAY(object):
         self.activities = self.builder.get_object("hot_corner")
         self.activitylabel = self.builder.get_object("mainlabel")
         self.mainactivitylabel = self.builder.get_object("mainlabel")
+        self.runentry = self.builder.get_object("runentry")
+        self.appgrid = self.builder.get_object("app_grid")
         self.fileview = self.builder.get_object("fileview")
         self.contentlist = self.builder.get_object('filestore')
         self.contenttree = self.builder.get_object('fileview')
@@ -73,12 +76,14 @@ class PYVERLAY(object):
         self.window.connect("key-release-event", self.keycatch)
         self.closebutton.connect("clicked", self.quit)
         # set up file and folder lists
-        cell = Gtk.CellRendererText()
-        filecolumn = Gtk.TreeViewColumn("Select Files", cell, text=0)
-        self.fileview.connect("row-activated", self.loadselection)
-        self.contenttree.append_column(filecolumn)
-        self.contenttree.set_model(self.contentlist)
+        ##cell = Gtk.CellRendererText()
+        ##filecolumn = Gtk.TreeViewColumn("Select Files", cell, text=0)
+        ##self.fileview.connect("row-activated", self.loadselection)
+        ##self.contenttree.append_column(filecolumn)
+        ##self.contenttree.set_model(self.contentlist)
         print len(self.loadselection())
+        print len(self.loadselection()) / 8.00
+        self.loadselection()
         #make windows undecorated and set
         self.window.set_decorated(False)
         #self.window.fullscreen()
@@ -92,11 +97,18 @@ class PYVERLAY(object):
         #self.window.show()
         Gtk.main()
 
+    def execute(self, *args):
+        subprocess.Popen(str.split(self.runentry.get_text()))
+        self.hide()
+
     def keycatch(self, actor, event):
+        print event.get_keycode()[1]
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
             self.showorhide()
+        elif event.get_keycode()[1] == 36:
+            self.execute()
 
     def button(self, actor, event):
         print 'buttonpress'
@@ -106,7 +118,7 @@ class PYVERLAY(object):
             self.showorhide()
 
     def motion(self, actor, event):
-        print self.activities.get_pointer()
+        #print self.activities.get_pointer()
         if self.activities.get_pointer()[0] == 0 and (
                 self.activities.get_pointer()[1] == 0):
             self.showorhide()
@@ -125,7 +137,7 @@ class PYVERLAY(object):
         self.window.maximize()
         self.window.show()
         self.activities.set_keep_above(True)
-        self.activities.grab_focus()
+        self.runentry.grab_focus()
         return
 
     def hide(self, *args):
@@ -143,7 +155,7 @@ class PYVERLAY(object):
         return False
 
     def loadselection(self, *args):
-        """ load selected files into tag editor """
+        """ load selected files into the list """
         self.current_files = []
         if args:
             if os.path.isdir(args[0]):
