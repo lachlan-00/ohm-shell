@@ -77,6 +77,10 @@ class PYVERLAY(object):
         self.favimage6 = self.builder.get_object("image6")
         self.fav7 = self.builder.get_object("favbutton7")
         self.favimage7 = self.builder.get_object("image7")
+        self.fav8 = self.builder.get_object("favbutton8")
+        self.favimage8 = self.builder.get_object("image8")
+        self.fav9 = self.builder.get_object("favbutton9")
+        self.favimage9 = self.builder.get_object("image9")
         # Connect UI
         self.window.connect("destroy", self.quit)
         #self.activitylabel.connect("motion-notify-event", self.motion)
@@ -98,6 +102,7 @@ class PYVERLAY(object):
         self.activities.set_position(Gtk.Align.START)
         # start
         self.run()
+        Gtk.main()
 
     def run(self, *args):
         """ configure and show the main window """
@@ -113,39 +118,87 @@ class PYVERLAY(object):
         self.favcmd5 = self.conf.get('conf', '5fav')
         self.favcmd6 = self.conf.get('conf', '6fav')
         self.favcmd7 = self.conf.get('conf', '7fav')
-        #print dir(self.favimage0)
+        self.favcmd8 = self.conf.get('conf', '8fav')
+        self.favcmd9 = self.conf.get('conf', '9fav')
         if not self.favcmd0 == "":
             self.fav0.set_visible(True)
+            self.fav0.set_tooltip_text(self.favcmd0)
             self.fav0.connect("clicked", self.favexec)
             self.favimage0.set_from_file(self.conf.get('conf', '0favicon'))
+        else:
+            self.fav0.set_visible(False)
         if not self.favcmd1 == "":
             self.fav1.set_visible(True)
+            self.fav1.set_tooltip_text(self.favcmd1)
             self.fav1.connect("clicked", self.favexec)
             self.favimage1.set_from_file(self.conf.get('conf', '1favicon'))
+        else:
+            self.fav1.set_visible(False)
+            self.fav1.set_tooltip_text("")
         if not self.favcmd2 == "":
             self.fav2.set_visible(True)
+            self.fav2.set_tooltip_text(self.favcmd2)
             self.fav2.connect("clicked", self.favexec)
             self.favimage2.set_from_file(self.conf.get('conf', '2favicon'))
+        else:
+            self.fav2.set_visible(False)
+            self.fav2.set_tooltip_text("")
         if not self.favcmd3 == "":
             self.fav3.set_visible(True)
+            self.fav3.set_tooltip_text(self.favcmd3)
             self.fav3.connect("clicked", self.favexec)
             self.favimage3.set_from_file(self.conf.get('conf', '3favicon'))
+        else:
+            self.fav3.set_visible(False)
+            self.fav3.set_tooltip_text("")
         if not self.favcmd4 == "":
             self.fav4.set_visible(True)
+            self.fav4.set_tooltip_text(self.favcmd4)
             self.fav4.connect("clicked", self.favexec)
             self.favimage4.set_from_file(self.conf.get('conf', '4favicon'))
+        else:
+            self.fav4.set_visible(False)
+            self.fav4.set_tooltip_text("")
         if not self.favcmd5 == "":
             self.fav5.set_visible(True)
+            self.fav5.set_tooltip_text(self.favcmd5)
             self.fav5.connect("clicked", self.favexec)
             self.favimage5.set_from_file(self.conf.get('conf', '5favicon'))
+        else:
+            self.fav5.set_visible(False)
+            self.fav5.set_tooltip_text("")
         if not self.favcmd6 == "":
             self.fav6.set_visible(True)
+            self.fav6.set_tooltip_text(self.favcmd6)
             self.fav6.connect("clicked", self.favexec)
             self.favimage6.set_from_file(self.conf.get('conf', '6favicon'))
+        else:
+            self.fav6.set_visible(False)
+            self.fav6.set_tooltip_text("")
         if not self.favcmd7 == "":
             self.fav7.set_visible(True)
+            self.fav7.set_tooltip_text(self.favcmd7)
             self.fav7.connect("clicked", self.favexec)
             self.favimage7.set_from_file(self.conf.get('conf', '7favicon'))
+        else:
+            self.fav7.set_visible(False)
+            self.fav7.set_tooltip_text("")
+        if not self.favcmd8 == "":
+            self.fav8.set_visible(True)
+            self.fav8.set_tooltip_text(self.favcmd8)
+            self.fav8.connect("clicked", self.favexec)
+            self.favimage8.set_from_file(self.conf.get('conf', '8favicon'))
+        else:
+            self.fav8.set_visible(False)
+            self.fav8.set_tooltip_text("")
+        if not self.favcmd9 == "":
+            self.fav9.set_visible(True)
+            self.fav9.set_tooltip_text(self.favcmd9)
+            self.fav9.connect("clicked", self.favexec)
+            self.favimage9.set_from_file(self.conf.get('conf', '9favicon'))
+        else:
+            self.fav9.set_visible(False)
+            self.fav9.set_tooltip_text("")
         #print len(self.loadselection())
         #print len(self.loadselection()) / 8.00
         #self.loadselection()
@@ -153,7 +206,6 @@ class PYVERLAY(object):
         self.activities.show()
         self.activities.grab_focus()
         self.window.hide()
-        Gtk.main()
 
     def favexec(self, actor):
         if actor == self.fav0:
@@ -179,6 +231,12 @@ class PYVERLAY(object):
             self.hide()
         if actor == self.fav7:
             subprocess.Popen(str.split(self.favcmd7))
+            self.hide()
+        if actor == self.fav8:
+            subprocess.Popen(str.split(self.favcmd8))
+            self.hide()
+        if actor == self.fav9:
+            subprocess.Popen(str.split(self.favcmd9))
             self.hide()
 
     def execute(self, *args):
