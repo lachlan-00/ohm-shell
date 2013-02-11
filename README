@@ -1,0 +1,31 @@
+----------------------------------------------------
+pyverlay: Python/GTK3 desktop overlay without GNOME3
+----------------------------------------------------
+v0.0000000000001
+
+Why do this?
+------------
+I love the gnome-shell overlay and I think the concept works well, especially on a lightweight-style desktop.
+
+About
+-----
+This is a program to bring lightweight desktop environments a slick overlay style desktop launcher.
+
+Think gnome-shell without gnome. I have been using it with openbox & gnome-settings-daemon and it's been really great so far. :)
+
+
+Recent Updates
+--------------
+ * pre-alpha quality, basic overlay looks good at least
+ * shortcuts set in the config and reload-able within the UI.
+
+Requires
+--------
+ * python 2.7
+ * gnome-icon-theme (for the moment)
+ * python-gobject (possibly others for light desktops)
+
+
+Links
+-----
+* https://github.com/lachlan-00/pyverlay
