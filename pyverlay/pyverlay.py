@@ -83,23 +83,25 @@ class PYVERLAY(object):
         self.favimage9 = self.builder.get_object("image9")
         # Connect UI
         self.window.connect("destroy", self.quit)
-        #self.activitylabel.connect("motion-notify-event", self.motion)
+        self.window.connect("key-release-event", self.keycatch)
         self.activities.connect("motion-notify-event", self.motion)
+        self.activities.connect("key-release-event", self.keycatch)
         self.mainactivitylabel.connect("motion-notify-event", self.motion)
         self.mainactivitylabel.connect("button-press-event", self.button)
-        self.activities.connect("key-release-event", self.keycatch)
-        self.window.connect("key-release-event", self.keycatch)
         self.gobutton.connect("clicked", self.execute)
         self.reloadbutton.connect("clicked", self.reloadme)
         self.optionbutton.connect("clicked", self.openconf)
         self.closebutton.connect("clicked", self.quit)
-        #make windows undecorated and set
+        # make windows undecorated and set options
         self.window.set_decorated(False)
-        #self.window.fullscreen()
-        self.activities.move(0,0)
-        self.activities.set_keep_above(True)
+        self.window.set_skip_taskbar_hint(True)
+        self.window.set_skip_pager_hint(True)
         self.activities.set_decorated(False)
-        self.activities.set_position(Gtk.Align.START)
+        self.activities.set_skip_taskbar_hint(True)
+        self.activities.set_skip_pager_hint(True)
+        self.activities.set_keep_above(True)
+        self.activities.move(0,0)
+        #self.activities.set_position(Gtk.Align.START)
         # start
         self.run()
         Gtk.main()
@@ -327,7 +329,8 @@ class PYVERLAY(object):
                            "/share/icons/gnome/24x24/apps/text-editor.png\n" +
                            "3fav = \n3favicon = \n4fav = \n4favicon = \n5f" +
                            "av = \n5favicon = \n6fav = \n6favicon = \n7fav" +
-                           " = \n7favicon = \n")
+                           " = \n7favicon = \n8fav = gnome-control-center\n" +
+                           "8favicon = \n9fav = \n9favicon =")
             conffile.close()
         return
 
