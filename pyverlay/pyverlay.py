@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" pyverly
+""" pyverlay
     ----------------Authors----------------
     Lachlan de Waard <lachlan.00@gmail.com>
     ----------------Licence----------------
@@ -22,16 +22,17 @@
 
 """
 
-import shutil
+#import shutil
 import os
-import random
-import mimetypes
+#import random
+#import mimetypes
 import time
 import ConfigParser
 import subprocess
 
 from gi.repository import Gtk
 from gi.repository import Gdk
+#from gi.repository import GObject
 from xdg.BaseDirectory import xdg_config_dirs
 
 HOMEFOLDER = os.getenv('HOME')
@@ -61,24 +62,35 @@ class PYVERLAY(object):
         self.optionbutton = self.builder.get_object("optionbutton")
         self.closebutton = self.builder.get_object("closebutton")
         self.current_files = None
+        self.conf = ConfigParser.RawConfigParser()
+        self.favcmd0 = None
         self.fav0 = self.builder.get_object("favbutton0")
         self.favimage0 = self.builder.get_object("image0")
+        self.favcmd1 = None
         self.fav1 = self.builder.get_object("favbutton1")
         self.favimage1 = self.builder.get_object("image1")
+        self.favcmd2 = None
         self.fav2 = self.builder.get_object("favbutton2")
         self.favimage2 = self.builder.get_object("image2")
+        self.favcmd3 = None
         self.fav3 = self.builder.get_object("favbutton3")
         self.favimage3 = self.builder.get_object("image3")
+        self.favcmd4 = None
         self.fav4 = self.builder.get_object("favbutton4")
         self.favimage4 = self.builder.get_object("image4")
+        self.favcmd5 = None
         self.fav5 = self.builder.get_object("favbutton5")
         self.favimage5 = self.builder.get_object("image5")
+        self.favcmd6 = None
         self.fav6 = self.builder.get_object("favbutton6")
         self.favimage6 = self.builder.get_object("image6")
+        self.favcmd7 = None
         self.fav7 = self.builder.get_object("favbutton7")
         self.favimage7 = self.builder.get_object("image7")
+        self.favcmd8 = None
         self.fav8 = self.builder.get_object("favbutton8")
         self.favimage8 = self.builder.get_object("image8")
+        self.favcmd9 = None
         self.fav9 = self.builder.get_object("favbutton9")
         self.favimage9 = self.builder.get_object("image9")
         # Connect UI
@@ -94,14 +106,16 @@ class PYVERLAY(object):
         self.closebutton.connect("clicked", self.quit)
         # make windows undecorated and set options
         self.window.set_decorated(False)
-        self.window.set_skip_taskbar_hint(True)
-        self.window.set_skip_pager_hint(True)
+        #self.window.set_skip_taskbar_hint(True)
+        #self.window.set_skip_pager_hint(True)
         self.activities.set_decorated(False)
         self.activities.set_skip_taskbar_hint(True)
         self.activities.set_skip_pager_hint(True)
         self.activities.set_keep_above(True)
-        self.activities.move(0,0)
-        #self.activities.set_position(Gtk.Align.START)
+        self.activities.move(0, 0)
+        self.activities.set_position(Gtk.Align.START)
+        self.display = self.activities.get_display()
+        self.screen = self.display.get_default_screen()
         # start
         self.run()
         Gtk.main()
@@ -110,7 +124,6 @@ class PYVERLAY(object):
         """ configure and show the main window """
         # get config info
         self.checkconfig()
-        self.conf = ConfigParser.RawConfigParser()
         self.conf.read(CONFIG)
         self.favcmd0 = self.conf.get('conf', '0fav')
         self.favcmd1 = self.conf.get('conf', '1fav')
@@ -208,8 +221,19 @@ class PYVERLAY(object):
         self.activities.show()
         self.activities.grab_focus()
         self.window.hide()
+        #print "RRRR"
+        print dir(self.screen)
+        #print self.screen.get_resolution()
+        #for windows in self.screen.get_window_stack():
+        #    #print windows.show()
+        #    #print dir(windows)
+        #    #print windows.get_user_data()
+        #    print windows
+        #print dir(self.display)
+        return
 
     def favexec(self, actor):
+        """ ??? """
         if actor == self.fav0:
             subprocess.Popen(str.split(self.favcmd0))
             self.hide()
@@ -242,12 +266,14 @@ class PYVERLAY(object):
             self.hide()
 
     def execute(self, *args):
+        """ ??? """
         subprocess.Popen(str.split(self.runentry.get_text()))
         self.runentry.set_text("")
         self.hide()
 
     def keycatch(self, actor, event):
-        print event.get_keycode()[1]
+        """ ??? """
+        #print event.get_keycode()[1]
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
@@ -256,18 +282,22 @@ class PYVERLAY(object):
             self.execute()
 
     def button(self, actor, event):
+        """ ??? """
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
             self.showorhide()
+        return
 
     def motion(self, actor, event):
+        """ ??? """
         if self.activities.get_pointer()[0] == 0 and (
                 self.activities.get_pointer()[1] == 0):
             self.showorhide()
         return
 
     def showorhide(self, *args):
+        """ ??? """
         if self.window.get_visible():
             self.hide()
         elif not self.window.get_visible():
@@ -280,6 +310,8 @@ class PYVERLAY(object):
         self.window.maximize()
         self.window.show()
         self.activities.set_keep_above(True)
+        #print dir(self.window)
+        #self.window.grab_focus()
         self.runentry.grab_focus()
         return
 
@@ -335,11 +367,13 @@ class PYVERLAY(object):
         return
 
     def openconf(self, *args):
+        """ ??? """
         self.checkconfig()
         subprocess.Popen(['/usr/bin/xdg-open', CONFIG])
         self.hide()
 
     def reloadme(self, event):
+        """ reload window so shortcuts can be updated """
         self.run()
 
 if __name__ == "__main__":
