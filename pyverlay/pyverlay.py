@@ -60,6 +60,8 @@ class PYVERLAY(object):
         self.gobutton = self.builder.get_object("gobutton")
         self.reloadbutton = self.builder.get_object("reloadbutton")
         self.optionbutton = self.builder.get_object("optionbutton")
+        self.restartbutton = self.builder.get_object("restartbutton")
+        self.haltbutton = self.builder.get_object("haltbutton")
         self.closebutton = self.builder.get_object("closebutton")
         self.current_files = None
         self.conf = ConfigParser.RawConfigParser()
@@ -93,6 +95,7 @@ class PYVERLAY(object):
         self.favcmd9 = None
         self.fav9 = self.builder.get_object("favbutton9")
         self.favimage9 = self.builder.get_object("image9")
+        self.autostart = None
         # Connect UI
         self.window.connect("destroy", self.quit)
         self.window.connect("key-release-event", self.keycatch)
@@ -103,6 +106,8 @@ class PYVERLAY(object):
         self.gobutton.connect("clicked", self.execute)
         self.reloadbutton.connect("clicked", self.reloadme)
         self.optionbutton.connect("clicked", self.openconf)
+        self.restartbutton.connect("clicked", self.execute)
+        self.haltbutton.connect("clicked", self.execute)
         self.closebutton.connect("clicked", self.quit)
         # make windows undecorated and set options
         self.window.set_decorated(False)
@@ -135,6 +140,12 @@ class PYVERLAY(object):
         self.favcmd7 = self.conf.get('conf', '7fav')
         self.favcmd8 = self.conf.get('conf', '8fav')
         self.favcmd9 = self.conf.get('conf', '9fav')
+        try:
+            self.autostart = self.conf.get('conf', 'autostart')
+        except ConfigParser.NoOptionError:
+            self.autostart = None
+        if self.autostart:
+            self.autostart = self.autostart.split("    ")
         if not self.favcmd0 == "":
             self.fav0.set_visible(True)
             self.fav0.set_tooltip_text(self.favcmd0)
@@ -221,6 +232,8 @@ class PYVERLAY(object):
         self.activities.show()
         self.activities.grab_focus()
         self.window.hide()
+        # run autostart commands
+        self.execute("autostart")
         #print "RRRR"
         print dir(self.screen)
         #print self.screen.get_resolution()
@@ -265,10 +278,21 @@ class PYVERLAY(object):
             subprocess.Popen(str.split(self.favcmd9))
             self.hide()
 
-    def execute(self, *args):
+    def execute(self, actor):
         """ ??? """
-        subprocess.Popen(str.split(self.runentry.get_text()))
-        self.runentry.set_text("")
+        if actor == "enter":
+            subprocess.Popen(str.split(self.runentry.get_text()))
+            self.runentry.set_text("")
+        elif actor == "autostart":
+            if self.autostart:
+                for items in self.autostart:
+                    subprocess.Popen(str.split(items))
+            else:
+                print "no autostart specified"
+        elif actor == self.restartbutton:
+            subprocess.Popen(['gksu', 'reboot'])
+        elif actor == self.haltbutton:
+            subprocess.Popen(['gksu', 'halt'])
         self.hide()
 
     def keycatch(self, actor, event):
@@ -279,7 +303,7 @@ class PYVERLAY(object):
         if event.get_state() and test_mask:
             self.showorhide()
         elif event.get_keycode()[1] == 36:
-            self.execute()
+            self.execute("enter")
 
     def button(self, actor, event):
         """ ??? """
@@ -353,7 +377,9 @@ class PYVERLAY(object):
         """ create a default config if not available """
         if not os.path.isfile(CONFIG):
             conffile = open(CONFIG, "w")
-            conffile.write("[conf]\n0fav = xdg-open " + os.getenv('HOME') +
+            conffile.write("[conf]\n# Shortcut bar: Enter the command then " +
+                           "the icon path\n0fav = xdg-open " +
+                           os.getenv('HOME') +
                            " \n0favicon = /usr/share/icons/gnome/24x24/places" +
                            "/folder_home.png\n1fav = xdg-open xterm\n1favi" +
                            "con = /usr/share/icons/gnome/24x24/apps/termin" +
@@ -362,7 +388,9 @@ class PYVERLAY(object):
                            "3fav = \n3favicon = \n4fav = \n4favicon = \n5f" +
                            "av = \n5favicon = \n6fav = \n6favicon = \n7fav" +
                            " = \n7favicon = \n8fav = gnome-control-center\n" +
-                           "8favicon = \n9fav = \n9favicon =")
+                           "8favicon = \n9fav = \n9favicon =\n# autostart a" +
+                           "llows multiple commands 4 space separated. ('  " +
+                           "  ')\nautostart =\n")
             conffile.close()
         return
 

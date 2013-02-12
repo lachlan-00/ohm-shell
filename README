@@ -22,10 +22,39 @@ Recent Updates
 Requires
 --------
  * python 2.7
- * gnome-icon-theme (for the moment)
  * python-gobject (possibly others for light desktops)
-
+ * gnome-icon-theme (for the moment)
+ * gksu (shutdown and restart)
 
 Links
 -----
 * https://github.com/lachlan-00/pyverlay
+
+Example Config File
+-------------------
+
+[conf]
+# Shortcut bar: Enter the command then the icon path
+0fav = xdg-open /home/user
+0favicon = /usr/share/icons/gnome/24x24/places/folder_home.png
+1fav = gnome-terminal
+1favicon = /usr/share/icons/gnome/24x24/apps/terminal.png
+2fav = gedit
+2favicon = /usr/share/icons/gnome/24x24/apps/text-editor.png
+3fav = gksu synaptic
+3favicon = /usr/share/icons/hicolor/24x24/actions/system-upgrade.png
+4fav = rhythmbox
+4favicon = /usr/share/icons/hicolor/24x24/apps/rhythmbox.png
+5fav = totem
+5favicon = /usr/share/icons/hicolor/24x24/apps/totem.png
+6fav = chromium
+6favicon = /usr/share/icons/hicolor/24x24/apps/chromium.png
+7fav = zim
+7favicon = /usr/share/icons/hicolor/24x24/apps/zim.png
+8fav = gnome-control-center
+8favicon = /usr/share/icons/gnome/24x24/categories/gnome-control-center.png
+9fav = 
+9favicon =
+
+# autostart allows multiple commands 4 space separated. ('    ')
+autostart = gnome-settings-daemon
