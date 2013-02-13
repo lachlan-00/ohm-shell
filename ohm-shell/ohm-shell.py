@@ -137,6 +137,7 @@ class OHMSHELL(object):
         # Connect UI
         self.window.connect("destroy", self.quit)
         self.window.connect("key-release-event", self.keycatch)
+        self.window.connect("motion-notify-event", self.motion)
         self.activities.connect("motion-notify-event", self.motion)
         self.activities.connect("key-release-event", self.keycatch)
         self.activities.connect("button-release-event", self.button)
