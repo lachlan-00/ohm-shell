@@ -34,6 +34,7 @@ from xdg.BaseDirectory import xdg_config_dirs
 
 HOMEFOLDER = os.getenv('HOME')
 CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
+HIDELIST = ['ohm-shell.py', 'Desktop', 'xfce4-panel', 'xfce4-notifyd']
 
 
 class OHMSHELL(object):
@@ -44,7 +45,7 @@ class OHMSHELL(object):
         self.builder.add_from_file("/usr/share/ohm-shell/ohm-shell.ui")
         self.builder.connect_signals(self)
         self.conf = ConfigParser.RawConfigParser()
-        # Load window ui
+        # Load primary windows, labels and button objects
         self.window = self.builder.get_object("main_window")
         self.activities = self.builder.get_object("hot_corner")
         self.activitylabel = self.builder.get_object("mainlabel")
@@ -60,8 +61,7 @@ class OHMSHELL(object):
         self.restartbutton = self.builder.get_object("restartbutton")
         self.haltbutton = self.builder.get_object("haltbutton")
         self.closebutton = self.builder.get_object("closebutton")
-        self.current_files = None
-        # Dock icons and buttons
+        # Load dock icon and button objects
         self.window0 = self.builder.get_object("windowimage0")
         self.window1 = self.builder.get_object("windowimage1")
         self.window2 = self.builder.get_object("windowimage2")
@@ -102,37 +102,55 @@ class OHMSHELL(object):
         self.dockbutton17 = self.builder.get_object("dockbutton17")
         self.dockbutton18 = self.builder.get_object("dockbutton18")
         self.dockbutton19 = self.builder.get_object("dockbutton19")
-        # commands and shortcuts
-        self.favcmd0 = None
+        # Dock lists to update buttons and images together
+        self.screen = Wnck.Screen.get_default()
+        self.screen.force_update()
+        self.windowlist = self.screen.get_windows()
+        self.dock = [[self.window0, self.dockbutton0], [self.window1,
+                      self.dockbutton1], [self.window2, self.dockbutton2],
+                     [self.window3, self.dockbutton3], [self.window4,
+                      self.dockbutton4], [self.window5, self.dockbutton5],
+                     [self.window6, self.dockbutton6], [self.window7,
+                      self.dockbutton7], [self.window8, self.dockbutton8],
+                     [self.window9, self.dockbutton9], [self.window10,
+                      self.dockbutton10], [self.window11, self.dockbutton11],
+                     [self.window12, self.dockbutton12], [self.window13,
+                      self.dockbutton13], [self.window14, self.dockbutton14],
+                     [self.window15, self.dockbutton15], [self.window16,
+                      self.dockbutton16], [self.window17, self.dockbutton17],
+                     [self.window18, self.dockbutton18], [self.window19,
+                      self.dockbutton19]]
+        # Shortcuts, buttons and images to connect from config
         self.fav0 = self.builder.get_object("favbutton0")
-        self.favimage0 = self.builder.get_object("image0")
-        self.favcmd1 = None
         self.fav1 = self.builder.get_object("favbutton1")
-        self.favimage1 = self.builder.get_object("image1")
-        self.favcmd2 = None
         self.fav2 = self.builder.get_object("favbutton2")
-        self.favimage2 = self.builder.get_object("image2")
-        self.favcmd3 = None
         self.fav3 = self.builder.get_object("favbutton3")
-        self.favimage3 = self.builder.get_object("image3")
-        self.favcmd4 = None
         self.fav4 = self.builder.get_object("favbutton4")
-        self.favimage4 = self.builder.get_object("image4")
-        self.favcmd5 = None
         self.fav5 = self.builder.get_object("favbutton5")
-        self.favimage5 = self.builder.get_object("image5")
-        self.favcmd6 = None
         self.fav6 = self.builder.get_object("favbutton6")
-        self.favimage6 = self.builder.get_object("image6")
-        self.favcmd7 = None
         self.fav7 = self.builder.get_object("favbutton7")
-        self.favimage7 = self.builder.get_object("image7")
-        self.favcmd8 = None
         self.fav8 = self.builder.get_object("favbutton8")
-        self.favimage8 = self.builder.get_object("image8")
-        self.favcmd9 = None
         self.fav9 = self.builder.get_object("favbutton9")
+        self.favimage0 = self.builder.get_object("image0")
+        self.favimage1 = self.builder.get_object("image1")
+        self.favimage2 = self.builder.get_object("image2")
+        self.favimage3 = self.builder.get_object("image3")
+        self.favimage4 = self.builder.get_object("image4")
+        self.favimage5 = self.builder.get_object("image5")
+        self.favimage6 = self.builder.get_object("image6")
+        self.favimage7 = self.builder.get_object("image7")
+        self.favimage8 = self.builder.get_object("image8")
         self.favimage9 = self.builder.get_object("image9")
+        self.favcmd0 = None
+        self.favcmd1 = None
+        self.favcmd2 = None
+        self.favcmd3 = None
+        self.favcmd4 = None
+        self.favcmd5 = None
+        self.favcmd6 = None
+        self.favcmd7 = None
+        self.favcmd8 = None
+        self.favcmd9 = None
         self.autostart = None
         # Connect UI
         self.window.connect("destroy", self.quit)
@@ -140,7 +158,8 @@ class OHMSHELL(object):
         self.window.connect("motion-notify-event", self.motion)
         self.activities.connect("motion-notify-event", self.motion)
         self.activities.connect("key-release-event", self.keycatch)
-        self.activities.connect("button-release-event", self.button)
+        #self.activities.connect("button-release-event", self.button)
+        #self.mainactivitylabel.connect("button-release-event", self.button)
         self.mainactivitylabel.connect("motion-notify-event", self.motion)
         self.gobutton.connect("clicked", self.execute)
         self.reloadbutton.connect("clicked", self.reloadme)
@@ -150,15 +169,12 @@ class OHMSHELL(object):
         self.closebutton.connect("clicked", self.quit)
         # make windows undecorated and set options
         self.window.set_decorated(False)
-        #self.window.set_skip_taskbar_hint(True)
-        #self.window.set_skip_pager_hint(True)
         self.activities.set_decorated(False)
         self.activities.set_skip_taskbar_hint(True)
         self.activities.set_skip_pager_hint(True)
         self.activities.set_keep_above(True)
         self.activities.move(0, 0)
         self.activities.set_position(Gtk.Align.START)
-        self.screen = None
         # start
         self.run()
         # run autostart commands
@@ -309,8 +325,6 @@ class OHMSHELL(object):
             if self.autostart:
                 for items in self.autostart:
                     subprocess.Popen(str.split(items))
-            else:
-                print "no autostart specified"
         elif actor == self.restartbutton:
             subprocess.Popen(['gksu', 'reboot'])
         elif actor == self.haltbutton:
@@ -328,12 +342,11 @@ class OHMSHELL(object):
 
     def button(self, actor, event):
         """ Catch mouse clicks """
-        test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
-                       Gdk.ModifierType.SUPER_MASK)
+        # NOT IMPLEMENTED YET test_mask = ...
         print event.state()
         print Gdk.ModifierType()
-        if event.get_state() and test_mask:
-            self.showorhide()
+        #if event.get_state() and test_mask:
+        #    self.showorhide()
         return
 
     def motion(self, actor, event):
@@ -361,31 +374,32 @@ class OHMSHELL(object):
         self.runentry.grab_focus()
         return
 
+    def hide(self, *args):
+        """ hide overlay window """
+        self.window.set_keep_above(False)
+        self.activities.set_keep_above(True)
+        self.window.hide()
+        return
+
+    def quit(self, *args):
+        """ stop the process thread and close the program"""
+        self.activities.destroy()
+        self.window.destroy()
+        Gtk.main_quit(*args)
+        return False
+
     def updatedock(self):
         """ Update the list of open windows on the overlay """
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
-        windowlist = self.screen.get_windows()
+        if self.windowlist == self.screen.get_windows():
+            return
+        self.windowlist = self.screen.get_windows()
         openwindows = []
-        # Dock list to update button and image together
-        self.dock = [[self.window0, self.dockbutton0], [self.window1,
-                      self.dockbutton1], [self.window2, self.dockbutton2],
-                     [self.window3, self.dockbutton3], [self.window4,
-                      self.dockbutton4], [self.window5, self.dockbutton5],
-                     [self.window6, self.dockbutton6], [self.window7,
-                      self.dockbutton7], [self.window8, self.dockbutton8],
-                     [self.window9, self.dockbutton9], [self.window10,
-                      self.dockbutton10], [self.window11, self.dockbutton11],
-                     [self.window12, self.dockbutton12], [self.window13,
-                      self.dockbutton13], [self.window14, self.dockbutton14],
-                     [self.window15, self.dockbutton15], [self.window16,
-                      self.dockbutton16], [self.window17, self.dockbutton17],
-                     [self.window18, self.dockbutton18], [self.window19,
-                      self.dockbutton19]]
-        if not len(windowlist) == 0:
+        if not len(self.windowlist) == 0:
             count = 0
-            for windows in windowlist:
-                if not windows.get_name() == "ohm-shell.py":
+            for windows in self.windowlist:
+                if not windows.get_name() in HIDELIST:
                     openwindows.append([windows.get_name(), windows.get_icon(),
                                            windows.is_minimized()])
             # blank before filling dock
@@ -401,32 +415,20 @@ class OHMSHELL(object):
                 self.dock[count][0].set_visible(True)
                 self.dock[count][1].set_visible(True)
                 count = count + 1
+            return
 
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
         self.screen.force_update()
-        windowlist = self.screen.get_windows()
-        for windows in windowlist:
+        self.windowlist = self.screen.get_windows()
+        for windows in self.windowlist:
+            # activate window that has the same name
             if windows.get_name() == actor.get_tooltip_text():
                 self.window.hide()
                 windows.activate(0)
                 return
-        print "couldn't open window"
+        # couldn't open window
         return
-
-    def hide(self, *args):
-        """ hide overlay window """
-        self.window.set_keep_above(False)
-        self.activities.set_keep_above(True)
-        self.window.hide()
-        return
-
-    def quit(self, *args):
-        """ stop the process thread and close the program"""
-        self.activities.destroy()
-        self.window.destroy()
-        Gtk.main_quit(*args)
-        return False
 
     def checkconfig(self):
         """ create a default config if not available """
