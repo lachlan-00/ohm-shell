@@ -32,6 +32,7 @@ import subprocess
 
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import Wnck
 #from gi.repository import GObject
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -47,6 +48,7 @@ class PYVERLAY(object):
         self.builder = Gtk.Builder()
         self.builder.add_from_file("/usr/share/pyverlay/pyverlay.ui")
         self.builder.connect_signals(self)
+        self.conf = ConfigParser.RawConfigParser()
         # Load UI
         self.window = self.builder.get_object("main_window")
         self.activities = self.builder.get_object("hot_corner")
@@ -64,7 +66,61 @@ class PYVERLAY(object):
         self.haltbutton = self.builder.get_object("haltbutton")
         self.closebutton = self.builder.get_object("closebutton")
         self.current_files = None
-        self.conf = ConfigParser.RawConfigParser()
+        self.window0 = self.builder.get_object("windowimage0")
+        self.window1 = self.builder.get_object("windowimage1")
+        self.window2 = self.builder.get_object("windowimage2")
+        self.window3 = self.builder.get_object("windowimage3")
+        self.window4 = self.builder.get_object("windowimage4")
+        self.window5 = self.builder.get_object("windowimage5")
+        self.window6 = self.builder.get_object("windowimage6")
+        self.window7 = self.builder.get_object("windowimage7")
+        self.window8 = self.builder.get_object("windowimage8")
+        self.window9 = self.builder.get_object("windowimage9")
+        self.window10 = self.builder.get_object("windowimage10")
+        self.window11 = self.builder.get_object("windowimage11")
+        self.window12 = self.builder.get_object("windowimage12")
+        self.window13 = self.builder.get_object("windowimage13")
+        self.window14 = self.builder.get_object("windowimage14")
+        self.window15 = self.builder.get_object("windowimage15")
+        self.window16 = self.builder.get_object("windowimage16")
+        self.window17 = self.builder.get_object("windowimage17")
+        self.window18 = self.builder.get_object("windowimage18")
+        self.window19 = self.builder.get_object("windowimage19")
+        self.dockbutton0 = self.builder.get_object("dockbutton0")
+        self.dockbutton1 = self.builder.get_object("dockbutton1")
+        self.dockbutton2 = self.builder.get_object("dockbutton2")
+        self.dockbutton3 = self.builder.get_object("dockbutton3")
+        self.dockbutton4 = self.builder.get_object("dockbutton4")
+        self.dockbutton5 = self.builder.get_object("dockbutton5")
+        self.dockbutton6 = self.builder.get_object("dockbutton6")
+        self.dockbutton7 = self.builder.get_object("dockbutton7")
+        self.dockbutton8 = self.builder.get_object("dockbutton8")
+        self.dockbutton9 = self.builder.get_object("dockbutton9")
+        self.dockbutton10 = self.builder.get_object("dockbutton10")
+        self.dockbutton11 = self.builder.get_object("dockbutton11")
+        self.dockbutton12 = self.builder.get_object("dockbutton12")
+        self.dockbutton13 = self.builder.get_object("dockbutton13")
+        self.dockbutton14 = self.builder.get_object("dockbutton14")
+        self.dockbutton15 = self.builder.get_object("dockbutton15")
+        self.dockbutton16 = self.builder.get_object("dockbutton16")
+        self.dockbutton17 = self.builder.get_object("dockbutton17")
+        self.dockbutton18 = self.builder.get_object("dockbutton18")
+        self.dockbutton19 = self.builder.get_object("dockbutton19")
+        self.dock = [[self.window0, self.dockbutton0], [self.window1,
+                      self.dockbutton1], [self.window2, self.dockbutton2],
+                     [self.window3, self.dockbutton3], [self.window4,
+                      self.dockbutton4], [self.window5, self.dockbutton5],
+                     [self.window6, self.dockbutton6], [self.window7,
+                      self.dockbutton7], [self.window8, self.dockbutton8],
+                     [self.window9, self.dockbutton9], [self.window10,
+                      self.dockbutton10], [self.window11, self.dockbutton11],
+                     [self.window12, self.dockbutton12], [self.window13,
+                      self.dockbutton13], [self.window14, self.dockbutton14],
+                     [self.window15, self.dockbutton15], [self.window16,
+                      self.dockbutton16], [self.window17, self.dockbutton17],
+                     [self.window18, self.dockbutton18], [self.window19,
+                      self.dockbutton19]]
+        # commands and shortcuts
         self.favcmd0 = None
         self.fav0 = self.builder.get_object("favbutton0")
         self.favimage0 = self.builder.get_object("image0")
@@ -119,10 +175,11 @@ class PYVERLAY(object):
         self.activities.set_keep_above(True)
         self.activities.move(0, 0)
         self.activities.set_position(Gtk.Align.START)
-        self.display = self.activities.get_display()
-        self.screen = self.display.get_default_screen()
+        self.screen = None
         # start
         self.run()
+        # run autostart commands
+        self.execute("autostart")
         Gtk.main()
 
     def run(self, *args):
@@ -232,17 +289,6 @@ class PYVERLAY(object):
         self.activities.show()
         self.activities.grab_focus()
         self.window.hide()
-        # run autostart commands
-        self.execute("autostart")
-        #print "RRRR"
-        print dir(self.screen)
-        #print self.screen.get_resolution()
-        #for windows in self.screen.get_window_stack():
-        #    #print windows.show()
-        #    #print dir(windows)
-        #    #print windows.get_user_data()
-        #    print windows
-        #print dir(self.display)
         return
 
     def favexec(self, actor):
@@ -331,12 +377,52 @@ class PYVERLAY(object):
     def show(self, *args):
         """ show overlay window """
         #self.window.fullscreen()
+        self.updatedock()
         self.window.maximize()
         self.window.show()
         self.activities.set_keep_above(True)
         #print dir(self.window)
         #self.window.grab_focus()
         self.runentry.grab_focus()
+        return
+
+    def updatedock(self):
+        self.screen = Wnck.Screen.get_default()
+        self.screen.force_update()
+        self.windowlist = self.screen.get_windows()
+        print len(self.windowlist)
+        openwindows = []
+        if not len(self.windowlist) == 0:
+            count = 0
+            for windows in self.windowlist:
+                if not windows.get_name() == "pyverlay.py":
+                    openwindows.append([windows.get_name(), windows.get_icon(),
+                                           windows.is_minimized()])
+            # blank before filling dock
+            for items in self.dock:
+                items[0].set_tooltip_text("")
+                items[0].set_visible(False)
+                items[1].set_visible(False)
+            # fill dock with open windows
+            for items in openwindows:
+                self.dock[count][1].set_tooltip_text(items[0])
+                self.dock[count][0].set_from_pixbuf(items[1])
+                self.dock[count][1].connect("clicked", self.changewindow)
+                self.dock[count][0].set_visible(True)
+                self.dock[count][1].set_visible(True)
+                count = count + 1
+
+    def changewindow(self, actor):
+        self.screen.force_update()
+        self.windowlist = self.screen.get_windows()
+        for windows in self.windowlist:
+            print actor.get_tooltip_text()
+            print windows.get_name()
+            if windows.get_name() == actor.get_tooltip_text():
+                self.window.hide()
+                windows.activate(0)
+                return
+        print "couldn't open window"
         return
 
     def hide(self, *args):
