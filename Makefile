@@ -1,25 +1,25 @@
-INSTALLPATH="/usr/share/pyverlay"
-INSTALLTEXT="pyverlay is now installed"
-UNINSTALLTEXT="pyverlay has been removed"
+INSTALLPATH="/usr/share/ohm-shell"
+INSTALLTEXT="ohm-shell is now installed"
+UNINSTALLTEXT="ohm-shell has been removed"
 
 install-req:
 	@mkdir -p $(INSTALLPATH)
-	@cp pyverlay/* $(INSTALLPATH) -f
+	@cp ohm-shell/* $(INSTALLPATH) -f
 	@cp README $(INSTALLPATH) -f
 	@cp AUTHORS $(INSTALLPATH) -f
 	@cp LICENSE $(INSTALLPATH) -f
-	@cp bin/pyverlay /usr/bin/ -f
-	@cp share/pyverlay.png /usr/share/pixmaps -f
-	@cp share/pyverlay.desktop /usr/share/applications/ -f
+	@cp bin/ohm-shell /usr/bin/ -f
+	@cp share/ohm-shell.png /usr/share/pixmaps -f
+	@cp share/ohm-shell.desktop /usr/share/applications/ -f
 
 install: install-req
 	@echo $(INSTALLTEXT)
 
 uninstall-req:
 	@rm -rf $(INSTALLPATH)
-	@rm /usr/share/pixmaps/pyverlay.png
-	@rm /usr/share/applications/pyverlay.desktop
-	@rm /usr/bin/pyverlay
+	@rm /usr/share/pixmaps/ohm-shell.png
+	@rm /usr/share/applications/ohm-shell.desktop
+	@rm /usr/bin/ohm-shell
 
 uninstall: uninstall-req
 	@echo $(UNINSTALLTEXT)

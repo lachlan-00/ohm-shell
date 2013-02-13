@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" pyverlay
+""" OHM-shell
     ----------------Authors----------------
     Lachlan de Waard <lachlan.00@gmail.com>
     ----------------Licence----------------
@@ -22,10 +22,7 @@
 
 """
 
-#import shutil
 import os
-#import random
-#import mimetypes
 import time
 import ConfigParser
 import subprocess
@@ -33,23 +30,21 @@ import subprocess
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Wnck
-#from gi.repository import GObject
 from xdg.BaseDirectory import xdg_config_dirs
 
 HOMEFOLDER = os.getenv('HOME')
-CONFIG = xdg_config_dirs[0] + '/pyverlay.conf'
-ICON_DIR = '/usr/share/icons/gnome/'
+CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
 
 
-class PYVERLAY(object):
-    """ overlay """
+class OHMSHELL(object):
+    """ OHM-shell overlay """
     def __init__(self):
-        """ Initialise the main window and start """
+        """ Initialise the main window and start the program """
         self.builder = Gtk.Builder()
-        self.builder.add_from_file("/usr/share/pyverlay/pyverlay.ui")
+        self.builder.add_from_file("/usr/share/ohm-shell/ohm-shell.ui")
         self.builder.connect_signals(self)
         self.conf = ConfigParser.RawConfigParser()
-        # Load UI
+        # Load window ui
         self.window = self.builder.get_object("main_window")
         self.activities = self.builder.get_object("hot_corner")
         self.activitylabel = self.builder.get_object("mainlabel")
@@ -66,6 +61,7 @@ class PYVERLAY(object):
         self.haltbutton = self.builder.get_object("haltbutton")
         self.closebutton = self.builder.get_object("closebutton")
         self.current_files = None
+        # Dock icons and buttons
         self.window0 = self.builder.get_object("windowimage0")
         self.window1 = self.builder.get_object("windowimage1")
         self.window2 = self.builder.get_object("windowimage2")
@@ -106,20 +102,6 @@ class PYVERLAY(object):
         self.dockbutton17 = self.builder.get_object("dockbutton17")
         self.dockbutton18 = self.builder.get_object("dockbutton18")
         self.dockbutton19 = self.builder.get_object("dockbutton19")
-        self.dock = [[self.window0, self.dockbutton0], [self.window1,
-                      self.dockbutton1], [self.window2, self.dockbutton2],
-                     [self.window3, self.dockbutton3], [self.window4,
-                      self.dockbutton4], [self.window5, self.dockbutton5],
-                     [self.window6, self.dockbutton6], [self.window7,
-                      self.dockbutton7], [self.window8, self.dockbutton8],
-                     [self.window9, self.dockbutton9], [self.window10,
-                      self.dockbutton10], [self.window11, self.dockbutton11],
-                     [self.window12, self.dockbutton12], [self.window13,
-                      self.dockbutton13], [self.window14, self.dockbutton14],
-                     [self.window15, self.dockbutton15], [self.window16,
-                      self.dockbutton16], [self.window17, self.dockbutton17],
-                     [self.window18, self.dockbutton18], [self.window19,
-                      self.dockbutton19]]
         # commands and shortcuts
         self.favcmd0 = None
         self.fav0 = self.builder.get_object("favbutton0")
@@ -157,8 +139,8 @@ class PYVERLAY(object):
         self.window.connect("key-release-event", self.keycatch)
         self.activities.connect("motion-notify-event", self.motion)
         self.activities.connect("key-release-event", self.keycatch)
+        self.activities.connect("button-release-event", self.button)
         self.mainactivitylabel.connect("motion-notify-event", self.motion)
-        self.mainactivitylabel.connect("button-press-event", self.button)
         self.gobutton.connect("clicked", self.execute)
         self.reloadbutton.connect("clicked", self.reloadme)
         self.optionbutton.connect("clicked", self.openconf)
@@ -206,14 +188,14 @@ class PYVERLAY(object):
         if not self.favcmd0 == "":
             self.fav0.set_visible(True)
             self.fav0.set_tooltip_text(self.favcmd0)
-            self.fav0.connect("clicked", self.favexec)
+            self.fav0.connect("clicked", self.execute)
             self.favimage0.set_from_file(self.conf.get('conf', '0favicon'))
         else:
             self.fav0.set_visible(False)
         if not self.favcmd1 == "":
             self.fav1.set_visible(True)
             self.fav1.set_tooltip_text(self.favcmd1)
-            self.fav1.connect("clicked", self.favexec)
+            self.fav1.connect("clicked", self.execute)
             self.favimage1.set_from_file(self.conf.get('conf', '1favicon'))
         else:
             self.fav1.set_visible(False)
@@ -221,7 +203,7 @@ class PYVERLAY(object):
         if not self.favcmd2 == "":
             self.fav2.set_visible(True)
             self.fav2.set_tooltip_text(self.favcmd2)
-            self.fav2.connect("clicked", self.favexec)
+            self.fav2.connect("clicked", self.execute)
             self.favimage2.set_from_file(self.conf.get('conf', '2favicon'))
         else:
             self.fav2.set_visible(False)
@@ -229,7 +211,7 @@ class PYVERLAY(object):
         if not self.favcmd3 == "":
             self.fav3.set_visible(True)
             self.fav3.set_tooltip_text(self.favcmd3)
-            self.fav3.connect("clicked", self.favexec)
+            self.fav3.connect("clicked", self.execute)
             self.favimage3.set_from_file(self.conf.get('conf', '3favicon'))
         else:
             self.fav3.set_visible(False)
@@ -237,7 +219,7 @@ class PYVERLAY(object):
         if not self.favcmd4 == "":
             self.fav4.set_visible(True)
             self.fav4.set_tooltip_text(self.favcmd4)
-            self.fav4.connect("clicked", self.favexec)
+            self.fav4.connect("clicked", self.execute)
             self.favimage4.set_from_file(self.conf.get('conf', '4favicon'))
         else:
             self.fav4.set_visible(False)
@@ -245,7 +227,7 @@ class PYVERLAY(object):
         if not self.favcmd5 == "":
             self.fav5.set_visible(True)
             self.fav5.set_tooltip_text(self.favcmd5)
-            self.fav5.connect("clicked", self.favexec)
+            self.fav5.connect("clicked", self.execute)
             self.favimage5.set_from_file(self.conf.get('conf', '5favicon'))
         else:
             self.fav5.set_visible(False)
@@ -253,7 +235,7 @@ class PYVERLAY(object):
         if not self.favcmd6 == "":
             self.fav6.set_visible(True)
             self.fav6.set_tooltip_text(self.favcmd6)
-            self.fav6.connect("clicked", self.favexec)
+            self.fav6.connect("clicked", self.execute)
             self.favimage6.set_from_file(self.conf.get('conf', '6favicon'))
         else:
             self.fav6.set_visible(False)
@@ -261,7 +243,7 @@ class PYVERLAY(object):
         if not self.favcmd7 == "":
             self.fav7.set_visible(True)
             self.fav7.set_tooltip_text(self.favcmd7)
-            self.fav7.connect("clicked", self.favexec)
+            self.fav7.connect("clicked", self.execute)
             self.favimage7.set_from_file(self.conf.get('conf', '7favicon'))
         else:
             self.fav7.set_visible(False)
@@ -269,7 +251,7 @@ class PYVERLAY(object):
         if not self.favcmd8 == "":
             self.fav8.set_visible(True)
             self.fav8.set_tooltip_text(self.favcmd8)
-            self.fav8.connect("clicked", self.favexec)
+            self.fav8.connect("clicked", self.execute)
             self.favimage8.set_from_file(self.conf.get('conf', '8favicon'))
         else:
             self.fav8.set_visible(False)
@@ -277,56 +259,49 @@ class PYVERLAY(object):
         if not self.favcmd9 == "":
             self.fav9.set_visible(True)
             self.fav9.set_tooltip_text(self.favcmd9)
-            self.fav9.connect("clicked", self.favexec)
+            self.fav9.connect("clicked", self.execute)
             self.favimage9.set_from_file(self.conf.get('conf', '9favicon'))
         else:
             self.fav9.set_visible(False)
             self.fav9.set_tooltip_text("")
-        #print len(self.loadselection())
-        #print len(self.loadselection()) / 8.00
-        #self.loadselection()
-        #show windows
         self.activities.show()
         self.activities.grab_focus()
         self.window.hide()
         return
 
-    def favexec(self, actor):
-        """ ??? """
+    def execute(self, actor):
+        """ Execute commands in a subprocess """
         if actor == self.fav0:
             subprocess.Popen(str.split(self.favcmd0))
             self.hide()
-        if actor == self.fav1:
+        elif actor == self.fav1:
             subprocess.Popen(str.split(self.favcmd1))
             self.hide()
-        if actor == self.fav2:
+        elif actor == self.fav2:
             subprocess.Popen(str.split(self.favcmd2))
             self.hide()
-        if actor == self.fav3:
+        elif actor == self.fav3:
             subprocess.Popen(str.split(self.favcmd3))
             self.hide()
-        if actor == self.fav4:
+        elif actor == self.fav4:
             subprocess.Popen(str.split(self.favcmd4))
             self.hide()
-        if actor == self.fav5:
+        elif actor == self.fav5:
             subprocess.Popen(str.split(self.favcmd5))
             self.hide()
-        if actor == self.fav6:
+        elif actor == self.fav6:
             subprocess.Popen(str.split(self.favcmd6))
             self.hide()
-        if actor == self.fav7:
+        elif actor == self.fav7:
             subprocess.Popen(str.split(self.favcmd7))
             self.hide()
-        if actor == self.fav8:
+        elif actor == self.fav8:
             subprocess.Popen(str.split(self.favcmd8))
             self.hide()
-        if actor == self.fav9:
+        elif actor == self.fav9:
             subprocess.Popen(str.split(self.favcmd9))
             self.hide()
-
-    def execute(self, actor):
-        """ ??? """
-        if actor == "enter":
+        elif actor == "enter":
             subprocess.Popen(str.split(self.runentry.get_text()))
             self.runentry.set_text("")
         elif actor == "autostart":
@@ -342,8 +317,7 @@ class PYVERLAY(object):
         self.hide()
 
     def keycatch(self, actor, event):
-        """ ??? """
-        #print event.get_keycode()[1]
+        """ Capture keys for execute or minimise """
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
@@ -352,22 +326,24 @@ class PYVERLAY(object):
             self.execute("enter")
 
     def button(self, actor, event):
-        """ ??? """
+        """ Catch mouse clicks """
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                        Gdk.ModifierType.SUPER_MASK)
+        print event.state()
+        print Gdk.ModifierType()
         if event.get_state() and test_mask:
             self.showorhide()
         return
 
     def motion(self, actor, event):
-        """ ??? """
+        """ Hot Corner functionality """
         if self.activities.get_pointer()[0] == 0 and (
                 self.activities.get_pointer()[1] == 0):
             self.showorhide()
         return
 
     def showorhide(self, *args):
-        """ ??? """
+        """ Show or hide the overlay depending on visibility """
         if self.window.get_visible():
             self.hide()
         elif not self.window.get_visible():
@@ -376,26 +352,39 @@ class PYVERLAY(object):
 
     def show(self, *args):
         """ show overlay window """
-        #self.window.fullscreen()
+        self.window.fullscreen()
         self.updatedock()
         self.window.maximize()
         self.window.show()
         self.activities.set_keep_above(True)
-        #print dir(self.window)
-        #self.window.grab_focus()
         self.runentry.grab_focus()
         return
 
     def updatedock(self):
+        """ Update the list of open windows on the overlay """
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
-        self.windowlist = self.screen.get_windows()
-        print len(self.windowlist)
+        windowlist = self.screen.get_windows()
         openwindows = []
-        if not len(self.windowlist) == 0:
+        # Dock list to update button and image together
+        self.dock = [[self.window0, self.dockbutton0], [self.window1,
+                      self.dockbutton1], [self.window2, self.dockbutton2],
+                     [self.window3, self.dockbutton3], [self.window4,
+                      self.dockbutton4], [self.window5, self.dockbutton5],
+                     [self.window6, self.dockbutton6], [self.window7,
+                      self.dockbutton7], [self.window8, self.dockbutton8],
+                     [self.window9, self.dockbutton9], [self.window10,
+                      self.dockbutton10], [self.window11, self.dockbutton11],
+                     [self.window12, self.dockbutton12], [self.window13,
+                      self.dockbutton13], [self.window14, self.dockbutton14],
+                     [self.window15, self.dockbutton15], [self.window16,
+                      self.dockbutton16], [self.window17, self.dockbutton17],
+                     [self.window18, self.dockbutton18], [self.window19,
+                      self.dockbutton19]]
+        if not len(windowlist) == 0:
             count = 0
-            for windows in self.windowlist:
-                if not windows.get_name() == "pyverlay.py":
+            for windows in windowlist:
+                if not windows.get_name() == "ohm-shell.py":
                     openwindows.append([windows.get_name(), windows.get_icon(),
                                            windows.is_minimized()])
             # blank before filling dock
@@ -413,11 +402,10 @@ class PYVERLAY(object):
                 count = count + 1
 
     def changewindow(self, actor):
+        """ Activate windows that you select from the dock """
         self.screen.force_update()
-        self.windowlist = self.screen.get_windows()
-        for windows in self.windowlist:
-            print actor.get_tooltip_text()
-            print windows.get_name()
+        windowlist = self.screen.get_windows()
+        for windows in windowlist:
             if windows.get_name() == actor.get_tooltip_text():
                 self.window.hide()
                 windows.activate(0)
@@ -439,56 +427,39 @@ class PYVERLAY(object):
         Gtk.main_quit(*args)
         return False
 
-    def loadselection(self, *args):
-        """ load selected files into the list """
-        self.current_files = []
-        if args:
-            if os.path.isdir(args[0]):
-                current_dir = args[0]
-        else:
-            current_dir = ['/usr/share/applications']
-        for items in current_dir:
-            filelist = os.listdir(items)
-            filelist.sort(key=lambda y: y.lower())
-            for files in filelist:
-                if files[(files.rfind('.')):] == '.desktop':
-                    self.current_files.append(items + '/' + files)
-        #model, fileiter = self.contenttree.get_selection().get_selected_rows()
-        #for files in fileiter:
-        #    tmp_file = current_dir + '/' + model[files][0]
-        #    self.current_files.append(tmp_file)
-        return self.current_files
-
     def checkconfig(self):
         """ create a default config if not available """
         if not os.path.isfile(CONFIG):
             conffile = open(CONFIG, "w")
-            conffile.write("[conf]\n# Shortcut bar: Enter the command then " +
-                           "the icon path\n0fav = xdg-open " +
-                           os.getenv('HOME') +
-                           " \n0favicon = /usr/share/icons/gnome/24x24/places" +
-                           "/folder_home.png\n1fav = xdg-open xterm\n1favi" +
-                           "con = /usr/share/icons/gnome/24x24/apps/termin" +
-                           "al.png\n2fav = /usr/bin/gedit\n2favicon = /usr" +
-                           "/share/icons/gnome/24x24/apps/text-editor.png\n" +
-                           "3fav = \n3favicon = \n4fav = \n4favicon = \n5f" +
-                           "av = \n5favicon = \n6fav = \n6favicon = \n7fav" +
-                           " = \n7favicon = \n8fav = gnome-control-center\n" +
-                           "8favicon = \n9fav = \n9favicon =\n# autostart a" +
-                           "llows multiple commands 4 space separated. ('  " +
-                           "  ')\nautostart =\n")
+            conffile.write("[conf]\n\n# Shortcut bar: Enter the command the" +
+                           "n the icon path\n0fav = xdg-open /home/user\n0f" +
+                           "avicon = /usr/share/icons/gnome/48x48/places/fo" +
+                           "lder_home.png\n1fav = gnome-terminal\n1favicon " +
+                           "= /usr/share/icons/gnome/48x48/apps/terminal.pn" +
+                           "g\n2fav = gedit\n2favicon = /usr/share/icons/gn" +
+                           "ome/48x48/apps/text-editor.png\n3fav = gksu syn" +
+                           "aptic\n3favicon = /usr/share/pixmaps/synaptic.p" +
+                           "ng\n4fav = rhythmbox\n4favicon = /usr/share/ico" +
+                           "ns/hicolor/48x48/apps/rhythmbox.png\n5fav = tot" +
+                           "em\n5favicon = /usr/share/icons/hicolor/48x48/a" +
+                           "pps/totem.png\n6fav = \n6favicon = \n7fav = \n7" +
+                           "favicon = \n8fav = gnome-control-center\n8favic" +
+                           "on = /usr/share/pixmaps/gnome-control-center.xp" +
+                           "m\n9fav = \n9favicon =\n\n# autostart allows mu" +
+                           "ltiple commands 4 space separated. ('    ')\nau" +
+                           "tostart = gnome-settings-daemon\n")
             conffile.close()
         return
 
     def openconf(self, *args):
-        """ ??? """
+        """ Open config file in default text editor """
         self.checkconfig()
         subprocess.Popen(['/usr/bin/xdg-open', CONFIG])
         self.hide()
 
     def reloadme(self, event):
-        """ reload window so shortcuts can be updated """
+        """ Reload the main window so shortcuts can be updated """
         self.run()
 
 if __name__ == "__main__":
-    PYVERLAY()
+    OHMSHELL()

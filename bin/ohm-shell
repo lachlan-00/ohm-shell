@@ -1,4 +1,4 @@
 #!/bin/sh
 
-# launch pyverly
-/usr/share/pyverlay/pyverlay.py
+# launch ohm-shell
+/usr/share/ohm-shell/ohm-shell.py

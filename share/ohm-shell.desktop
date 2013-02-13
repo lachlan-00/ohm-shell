@@ -1,14 +1,13 @@
-#!/usr/bin/env xdg-open
-
 [Desktop Entry]
-Name=pyverly
-Comment=Desktop Overlay
-Exec=/usr/bin/pyverlay
+Name=ohm-shell
+Comment=gnome-shell style, desktop overlay
+Exec=/usr/bin/ohm-shell
 Icon=/usr/share/pixmaps/pyverly.png
 Terminal=false
 MultipleArgs=false
 Type=Application
 Categories=System;Applications;
 StartupNotify=true
-Name[en_AU]=pyverlay
+Name[en_AU]=ohm-shell
 GenericName=
+Comment[en_AU.utf8]=gnome-shell style, desktop overlay

@@ -34,8 +34,8 @@
     <property name="width_request">640</property>
     <property name="height_request">480</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">pverlay: Activities</property>
-    <property name="icon">/usr/share/pixmaps/pyverlay.png</property>
+    <property name="title" translatable="yes">ohm-shell: Activities</property>
+    <property name="icon">/usr/share/pixmaps/ohm-shell.png</property>
     <property name="type_hint">utility</property>
     <child>
       <object class="GtkBox" id="mainbox">
@@ -103,6 +103,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">1</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -125,6 +126,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">1</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -204,6 +206,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton0">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -225,6 +229,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton1">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -246,6 +252,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton2">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -267,6 +275,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton3">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -288,6 +298,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton4">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -309,6 +321,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton5">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -330,6 +344,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton6">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -351,6 +367,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton7">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -372,6 +390,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton8">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -393,6 +413,8 @@
                 <child>
                   <object class="GtkButton" id="favbutton9">
                     <property name="use_action_appearance">False</property>
+                    <property name="width_request">48</property>
+                    <property name="height_request">48</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
@@ -1009,34 +1031,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label9">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">6</property>
-                    <property name="top_attach">5</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label10">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">5</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkLabel" id="label11">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1051,7 +1045,74 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkButton" id="pagerightbutton">
+                    <property name="use_action_appearance">False</property>
+                    <property name="width_request">64</property>
+                    <property name="height_request">64</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="margin_left">10</property>
+                    <property name="margin_right">10</property>
+                    <property name="margin_top">10</property>
+                    <property name="margin_bottom">10</property>
+                    <property name="use_action_appearance">False</property>
+                    <child>
+                      <object class="GtkImage" id="pagerightimage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">/usr/share/icons/gnome/48x48/actions/go-next.png</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">5</property>
+                    <property name="top_attach">5</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="pageleftbutton">
+                    <property name="use_action_appearance">False</property>
+                    <property name="width_request">64</property>
+                    <property name="height_request">64</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="margin_left">10</property>
+                    <property name="margin_right">10</property>
+                    <property name="margin_top">10</property>
+                    <property name="margin_bottom">10</property>
+                    <property name="use_action_appearance">False</property>
+                    <child>
+                      <object class="GtkImage" id="pageleftimage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">/usr/share/icons/gnome/16x16/actions/go-next-rtl.png</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">5</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label10">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">6</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
                 <child>
                   <placeholder/>
@@ -1103,6 +1164,38 @@
                 </child>
                 <child>
                   <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label9">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">6</property>
+                    <property name="top_attach">6</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -1182,6 +1275,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -1192,12 +1286,13 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="tooltip_text" translatable="yes">Close Pyverlay</property>
+                <property name="tooltip_text" translatable="yes">Close OHM-shell</property>
                 <property name="use_action_appearance">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">3</property>
               </packing>
             </child>
