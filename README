@@ -3,22 +3,24 @@ OHM-shell: Python/GTK3 desktop overlay without GNOME3
 -----------------------------------------------------
 v0.001
 
-Why do this?
-------------
-I love the gnome-shell overlay and I think the concept works well, especially on a lightweight-style desktop. I have always wanted to try using light desktops as my primary desktop and I love the overlay too much to leave it behind.
-
 About
 -----
 This is a program to bring lightweight desktop environments a slick overlay style desktop launcher.
 
 Think gnome-shell without gnome. I have been using it with openbox & gnome-settings-daemon and it's been really great so far. :)
 
+Why do this?
+------------
+I love the gnome-shell concept works well and has become my favourite desktop design. I have always wanted to try using light desktops as my primary desktop but there is nothing as slick as gnome-shell on light desktops.
 
 Recent Updates
 --------------
- * pre-alpha quality, basic overlay looks good at least
- * shortcuts set in the config and reload-able within the UI.
- * Open window 'dock' inside the overlay
+ * Alpha release containing:
+    - Overlay with hot corner activities rollover
+    - Shortcuts set in the config (Options button)
+      Reload changes to your favourites within the UI.
+      (Will do this automatically later.)
+    - Show your open windows inside the overlay
 
 Requires
 --------
@@ -29,7 +31,8 @@ Requires
 
 Links
 -----
-* https://github.com/lachlan-00/pyverlay
+ * https://github.com/lachlan-00/ohm-shell
+ * https://github.com/lachlan-00/ohm-shell/archive/master.zip
 
 Example Config File
 -------------------
@@ -37,23 +40,23 @@ Example Config File
 [conf]
 # Shortcut bar: Enter the command then the icon path
 0fav = xdg-open /home/user
-0favicon = /usr/share/icons/gnome/24x24/places/folder_home.png
+0favicon = /usr/share/icons/gnome/48x48/places/folder_home.png
 1fav = gnome-terminal
-1favicon = /usr/share/icons/gnome/24x24/apps/terminal.png
+1favicon = /usr/share/icons/gnome/48x48/apps/terminal.png
 2fav = gedit
-2favicon = /usr/share/icons/gnome/24x24/apps/text-editor.png
+2favicon = /usr/share/icons/gnome/48x48/apps/text-editor.png
 3fav = gksu synaptic
-3favicon = /usr/share/icons/hicolor/24x24/actions/system-upgrade.png
+3favicon = /usr/share/icons/hicolor/48x48/actions/system-upgrade.png
 4fav = rhythmbox
-4favicon = /usr/share/icons/hicolor/24x24/apps/rhythmbox.png
+4favicon = /usr/share/icons/hicolor/48x48/apps/rhythmbox.png
 5fav = totem
-5favicon = /usr/share/icons/hicolor/24x24/apps/totem.png
+5favicon = /usr/share/icons/hicolor/48x48/apps/totem.png
 6fav = chromium
-6favicon = /usr/share/icons/hicolor/24x24/apps/chromium.png
+6favicon = /usr/share/icons/hicolor/48x48/apps/chromium.png
 7fav = zim
-7favicon = /usr/share/icons/hicolor/24x24/apps/zim.png
+7favicon = /usr/share/icons/hicolor/48x48/apps/zim.png
 8fav = gnome-control-center
-8favicon = /usr/share/icons/gnome/24x24/categories/gnome-control-center.png
+8favicon = /usr/share/icons/gnome/48x48/categories/gnome-control-center.png
 9fav = 
 9favicon =
 
