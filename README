@@ -11,7 +11,7 @@ Think gnome-shell without gnome. I have been using it with openbox & gnome-setti
 
 Why do this?
 ------------
-I love the gnome-shell concept works well and has become my favourite desktop design. I have always wanted to try using light desktops as my primary desktop but there is nothing as slick as gnome-shell on light desktops.
+I love the gnome-shell concept; it works well and has become my favourite desktop design. I have always wanted to try using light desktops as my primary desktop but there is nothing as slick as gnome-shell on light desktops.
 
 Recent Updates
 --------------
@@ -21,6 +21,12 @@ Recent Updates
       Reload changes to your favourites within the UI.
       (Will do this automatically later.)
     - Show your open windows inside the overlay
+
+Recomendations
+--------------
+I have been using Openbox as my window manager using stalonetray (stand alone tray) as my system tray. I find this minimal setup very appealing and functional. as an added bonus it is configurable from obconf. :)
+
+stalonetray
 
 Requires
 --------
@@ -33,6 +39,7 @@ Links
 -----
  * https://github.com/lachlan-00/ohm-shell
  * https://github.com/lachlan-00/ohm-shell/archive/master.zip
+ * http://stalonetray.sourceforge.net/
 
 Example Config File
 -------------------
@@ -61,4 +68,4 @@ Example Config File
 9favicon =
 
 # autostart allows multiple commands 4 space separated. ('    ')
-autostart = gnome-settings-daemon
+autostart = gnome-settings-daemon    stalonetray --dockapp-mode simple
