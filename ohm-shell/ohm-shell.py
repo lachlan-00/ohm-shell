@@ -56,6 +56,7 @@ class OHMSHELL(object):
         self.contentlist = self.builder.get_object('filestore')
         self.contenttree = self.builder.get_object('fileview')
         self.gobutton = self.builder.get_object("gobutton")
+        self.timelabel = self.builder.get_object("timelabel")
         self.reloadbutton = self.builder.get_object("reloadbutton")
         self.optionbutton = self.builder.get_object("optionbutton")
         self.restartbutton = self.builder.get_object("restartbutton")
@@ -289,34 +290,34 @@ class OHMSHELL(object):
     def execute(self, actor):
         """ Execute commands in a subprocess """
         if actor == self.fav0:
-            subprocess.Popen(str.split(self.favcmd0))
+            subprocess.Popen(self.favcmd0.split(' '))
             self.hide()
         elif actor == self.fav1:
-            subprocess.Popen(str.split(self.favcmd1))
+            subprocess.Popen(self.favcmd1.split(' '))
             self.hide()
         elif actor == self.fav2:
-            subprocess.Popen(str.split(self.favcmd2))
+            subprocess.Popen(self.favcmd2.split(' '))
             self.hide()
         elif actor == self.fav3:
-            subprocess.Popen(str.split(self.favcmd3))
+            subprocess.Popen(self.favcmd3.split(' '))
             self.hide()
         elif actor == self.fav4:
-            subprocess.Popen(str.split(self.favcmd4))
+            subprocess.Popen(self.favcmd4.split(' '))
             self.hide()
         elif actor == self.fav5:
-            subprocess.Popen(str.split(self.favcmd5))
+            subprocess.Popen(self.favcmd5.split(' '))
             self.hide()
         elif actor == self.fav6:
-            subprocess.Popen(str.split(self.favcmd6))
+            subprocess.Popen(self.favcmd6.split(' '))
             self.hide()
         elif actor == self.fav7:
-            subprocess.Popen(str.split(self.favcmd7))
+            subprocess.Popen(self.favcmd7.split(' '))
             self.hide()
         elif actor == self.fav8:
-            subprocess.Popen(str.split(self.favcmd8))
+            subprocess.Popen(self.favcmd8.split(' '))
             self.hide()
         elif actor == self.fav9:
-            subprocess.Popen(str.split(self.favcmd9))
+            subprocess.Popen(self.favcmd9.split(' '))
             self.hide()
         elif actor == "enter":
             subprocess.Popen(str.split(self.runentry.get_text()))
@@ -324,7 +325,7 @@ class OHMSHELL(object):
         elif actor == "autostart":
             if self.autostart:
                 for items in self.autostart:
-                    subprocess.Popen(str.split(items))
+                    subprocess.Popen(items.split(' '))
         elif actor == self.restartbutton:
             subprocess.Popen(['gksu', 'reboot'])
         elif actor == self.haltbutton:
@@ -366,8 +367,10 @@ class OHMSHELL(object):
 
     def show(self, *args):
         """ show overlay window """
-        self.window.fullscreen()
         self.updatedock()
+        mytime = time.strftime('%H') + ':' + time.strftime('%M')
+        self.timelabel.set_text(mytime)
+        self.window.fullscreen()
         self.window.maximize()
         self.window.show()
         self.activities.set_keep_above(True)
@@ -376,6 +379,7 @@ class OHMSHELL(object):
 
     def hide(self, *args):
         """ hide overlay window """
+        self.timelabel.set_text("")
         self.window.set_keep_above(False)
         self.activities.set_keep_above(True)
         self.window.hide()
