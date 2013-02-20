@@ -319,7 +319,7 @@ class OHMSHELL(object):
         elif actor == self.fav9:
             subprocess.Popen(self.favcmd9.split(' '))
             self.hide()
-        elif actor == "enter":
+        elif actor == "enter" or actor == self.gobutton:
             subprocess.Popen(str.split(self.runentry.get_text()))
             self.runentry.set_text("")
         elif actor == "autostart":
