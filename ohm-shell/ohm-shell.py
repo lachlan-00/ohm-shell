@@ -103,24 +103,50 @@ class OHMSHELL(object):
         self.dockbutton17 = self.builder.get_object("dockbutton17")
         self.dockbutton18 = self.builder.get_object("dockbutton18")
         self.dockbutton19 = self.builder.get_object("dockbutton19")
+        self.docklabel0 = self.builder.get_object("docklabel0")
+        self.docklabel1 = self.builder.get_object("docklabel1")
+        self.docklabel2 = self.builder.get_object("docklabel2")
+        self.docklabel3 = self.builder.get_object("docklabel3")
+        self.docklabel4 = self.builder.get_object("docklabel4")
+        self.docklabel5 = self.builder.get_object("docklabel5")
+        self.docklabel6 = self.builder.get_object("docklabel6")
+        self.docklabel7 = self.builder.get_object("docklabel7")
+        self.docklabel8 = self.builder.get_object("docklabel8")
+        self.docklabel9 = self.builder.get_object("docklabel9")
+        self.docklabel10 = self.builder.get_object("docklabel10")
+        self.docklabel11 = self.builder.get_object("docklabel11")
+        self.docklabel12 = self.builder.get_object("docklabel12")
+        self.docklabel13 = self.builder.get_object("docklabel13")
+        self.docklabel14 = self.builder.get_object("docklabel14")
+        self.docklabel15 = self.builder.get_object("docklabel15")
+        self.docklabel16 = self.builder.get_object("docklabel16")
+        self.docklabel17 = self.builder.get_object("docklabel17")
+        self.docklabel18 = self.builder.get_object("docklabel18")
+        self.docklabel19 = self.builder.get_object("docklabel19")
         # Dock lists to update buttons and images together
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
         self.windowlist = self.screen.get_windows()
-        self.dock = [[self.window0, self.dockbutton0], [self.window1,
-                      self.dockbutton1], [self.window2, self.dockbutton2],
-                     [self.window3, self.dockbutton3], [self.window4,
-                      self.dockbutton4], [self.window5, self.dockbutton5],
-                     [self.window6, self.dockbutton6], [self.window7,
-                      self.dockbutton7], [self.window8, self.dockbutton8],
-                     [self.window9, self.dockbutton9], [self.window10,
-                      self.dockbutton10], [self.window11, self.dockbutton11],
-                     [self.window12, self.dockbutton12], [self.window13,
-                      self.dockbutton13], [self.window14, self.dockbutton14],
-                     [self.window15, self.dockbutton15], [self.window16,
-                      self.dockbutton16], [self.window17, self.dockbutton17],
-                     [self.window18, self.dockbutton18], [self.window19,
-                      self.dockbutton19]]
+        self.dock = [[self.window0, self.dockbutton0, self.docklabel0],
+                     [self.window1, self.dockbutton1, self.docklabel1],
+                     [self.window2, self.dockbutton2, self.docklabel2],
+                     [self.window3, self.dockbutton3, self.docklabel3],
+                     [self.window4, self.dockbutton4, self.docklabel4],
+                     [self.window5, self.dockbutton5, self.docklabel5],
+                     [self.window6, self.dockbutton6, self.docklabel6],
+                     [self.window7, self.dockbutton7, self.docklabel7],
+                     [self.window8, self.dockbutton8, self.docklabel8],
+                     [self.window9, self.dockbutton9, self.docklabel9],
+                     [self.window10, self.dockbutton10, self.docklabel10],
+                     [self.window11, self.dockbutton11, self.docklabel11],
+                     [self.window12, self.dockbutton12, self.docklabel12],
+                     [self.window13, self.dockbutton13, self.docklabel13],
+                     [self.window14, self.dockbutton14, self.docklabel14],
+                     [self.window15, self.dockbutton15, self.docklabel15],
+                     [self.window16, self.dockbutton16, self.docklabel16],
+                     [self.window17, self.dockbutton17, self.docklabel17],
+                     [self.window18, self.dockbutton18, self.docklabel18],
+                     [self.window19, self.dockbutton19, self.docklabel19]]
         # Shortcuts, buttons and images to connect from config
         self.fav0 = self.builder.get_object("favbutton0")
         self.fav1 = self.builder.get_object("favbutton1")
@@ -409,15 +435,24 @@ class OHMSHELL(object):
             # blank before filling dock
             for items in self.dock:
                 items[0].set_tooltip_text("")
+                items[2].set_text("")
                 items[0].set_visible(False)
                 items[1].set_visible(False)
+                items[2].set_visible(False)
             # fill dock with open windows
             for items in openwindows:
-                self.dock[count][1].set_tooltip_text(items[0])
+                if len(items[0]) > 13:
+                    text = items[0][:9] + '...'
+                else:
+                    text = items[0]
                 self.dock[count][0].set_from_pixbuf(items[1])
                 self.dock[count][1].connect("clicked", self.changewindow)
+                self.dock[count][1].set_tooltip_text(items[0])
+                self.dock[count][2].set_line_wrap(True)
+                self.dock[count][2].set_text(text)
                 self.dock[count][0].set_visible(True)
                 self.dock[count][1].set_visible(True)
+                self.dock[count][2].set_visible(True)
                 count = count + 1
             return
 
