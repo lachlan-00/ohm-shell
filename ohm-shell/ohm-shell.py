@@ -48,8 +48,7 @@ class OHMSHELL(object):
         # Load primary windows, labels and button objects
         self.window = self.builder.get_object("main_window")
         self.activities = self.builder.get_object("hot_corner")
-        self.activitylabel = self.builder.get_object("mainlabel")
-        self.mainactivitylabel = self.builder.get_object("mainlabel")
+        self.activitylabel = self.builder.get_object("mainevent")
         self.runentry = self.builder.get_object("runentry")
         self.appgrid = self.builder.get_object("app_grid")
         self.fileview = self.builder.get_object("fileview")
@@ -185,9 +184,7 @@ class OHMSHELL(object):
         self.window.connect("motion-notify-event", self.motion)
         self.activities.connect("motion-notify-event", self.motion)
         self.activities.connect("key-release-event", self.keycatch)
-        self.activities.connect("button-release-event", self.button)
-        #self.mainactivitylabel.connect("button-release-event", self.button)
-        self.mainactivitylabel.connect("motion-notify-event", self.motion)
+        self.activitylabel.connect("button-release-event", self.button)
         self.gobutton.connect("clicked", self.execute)
         self.reloadbutton.connect("clicked", self.reloadme)
         self.optionbutton.connect("clicked", self.openconf)
@@ -374,12 +371,11 @@ class OHMSHELL(object):
             self.execute("enter")
 
     def button(self, actor, event):
-        """ Catch mouse clicks """
-        # NOT IMPLEMENTED YET test_mask = ...
-        print event.state()
-        print Gdk.ModifierType()
-        #if event.get_state() and test_mask:
-        #    self.showorhide()
+        """ Catch mouse clicks"""
+        if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
+            # show the overlay on left mouse clicks
+            if actor.get_child().get_text() == "Activities":
+                self.showorhide()
         return
 
     def motion(self, actor, event):
@@ -395,7 +391,7 @@ class OHMSHELL(object):
             self.hide()
         elif not self.window.get_visible():
             self.show()
-        time.sleep(1)
+        time.sleep(0.5)
 
     def show(self, *args):
         """ show overlay window """
@@ -419,9 +415,9 @@ class OHMSHELL(object):
 
     def quit(self, *args):
         """ stop the process thread and close the program"""
-        self.execute("kill")
         self.activities.destroy()
         self.window.destroy()
+        self.execute("kill")
         Gtk.main_quit(*args)
         return False
 

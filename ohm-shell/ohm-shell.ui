@@ -23,10 +23,16 @@
     <property name="deletable">False</property>
     <property name="has_resize_grip">False</property>
     <child>
-      <object class="GtkLabel" id="mainlabel">
+      <object class="GtkEventBox" id="mainevent">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Activities</property>
+        <child>
+          <object class="GtkLabel" id="mainlabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Activities</property>
+          </object>
+        </child>
       </object>
     </child>
   </object>
