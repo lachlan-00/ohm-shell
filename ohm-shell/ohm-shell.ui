@@ -100,7 +100,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="box2">
+          <object class="GtkBox" id="commandbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -210,7 +210,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkBox" id="box1">
+              <object class="GtkBox" id="fabox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -229,17 +229,18 @@
                   <object class="GtkScrolledWindow" id="favscroll">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="vexpand">True</property>
                     <property name="hscrollbar_policy">never</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkViewport" id="faveview">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="vexpand">True</property>
                         <child>
                           <object class="GtkBox" id="favbox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="vexpand">True</property>
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkButton" id="favbutton0">
@@ -374,7 +375,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton" id="favbutton7">
+                              <object class="GtkButton" id="favbutton6">
                                 <property name="use_action_appearance">False</property>
                                 <property name="width_request">48</property>
                                 <property name="height_request">48</property>
@@ -383,7 +384,7 @@
                                 <property name="has_tooltip">True</property>
                                 <property name="use_action_appearance">False</property>
                                 <child>
-                                  <object class="GtkImage" id="image7">
+                                  <object class="GtkImage" id="image6">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -396,7 +397,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton" id="favbutton6">
+                              <object class="GtkButton" id="favbutton7">
                                 <property name="use_action_appearance">False</property>
                                 <property name="width_request">48</property>
                                 <property name="height_request">48</property>
@@ -405,7 +406,7 @@
                                 <property name="has_tooltip">True</property>
                                 <property name="use_action_appearance">False</property>
                                 <child>
-                                  <object class="GtkImage" id="image6">
+                                  <object class="GtkImage" id="image7">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -495,7 +496,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label8">
+                  <object class="GtkLabel" id="spacer0">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
@@ -509,7 +510,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label11">
+                  <object class="GtkLabel" id="spacer1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
@@ -579,7 +580,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label10">
+                  <object class="GtkLabel" id="spacer2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
@@ -593,7 +594,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label9">
+                  <object class="GtkLabel" id="spacer3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
@@ -607,7 +608,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box3">
+                  <object class="GtkBox" id="dockbox0">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -660,7 +661,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box4">
+                  <object class="GtkBox" id="dockbox1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -713,7 +714,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box5">
+                  <object class="GtkBox" id="dockbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -766,7 +767,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box6">
+                  <object class="GtkBox" id="dockbox3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -819,7 +820,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box7">
+                  <object class="GtkBox" id="dockbox4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -872,7 +873,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box8">
+                  <object class="GtkBox" id="dockbox5">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -925,7 +926,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box9">
+                  <object class="GtkBox" id="dockbox6">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">1</property>
@@ -1614,75 +1615,6 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="GtkBox" id="box22">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1735,6 +1667,75 @@
                     <property name="height">1</property>
                   </packing>
                 </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1754,9 +1755,6 @@
                 <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
           <packing>

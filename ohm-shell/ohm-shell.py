@@ -185,7 +185,7 @@ class OHMSHELL(object):
         self.window.connect("motion-notify-event", self.motion)
         self.activities.connect("motion-notify-event", self.motion)
         self.activities.connect("key-release-event", self.keycatch)
-        #self.activities.connect("button-release-event", self.button)
+        self.activities.connect("button-release-event", self.button)
         #self.mainactivitylabel.connect("button-release-event", self.button)
         self.mainactivitylabel.connect("motion-notify-event", self.motion)
         self.gobutton.connect("clicked", self.execute)
@@ -352,6 +352,12 @@ class OHMSHELL(object):
             if self.autostart:
                 for items in self.autostart:
                     subprocess.Popen(items.split(' '))
+        elif actor == "kill":
+            if self.autostart:
+                for items in self.autostart:
+                    temp = "/usr/bin/killall " + items.split(' ')[0]
+                    print temp
+                    os.system(temp)
         elif actor == self.restartbutton:
             subprocess.Popen(['gksu', 'reboot'])
         elif actor == self.haltbutton:
@@ -413,6 +419,7 @@ class OHMSHELL(object):
 
     def quit(self, *args):
         """ stop the process thread and close the program"""
+        self.execute("kill")
         self.activities.destroy()
         self.window.destroy()
         Gtk.main_quit(*args)
