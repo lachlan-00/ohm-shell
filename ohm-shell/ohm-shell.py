@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" OHM-shell
+""" OhM-shell
     ----------------Authors----------------
     Lachlan de Waard <lachlan.00@gmail.com>
     ----------------Licence----------------
@@ -177,6 +177,7 @@ class OHMSHELL(object):
         self.favcmd7 = None
         self.favcmd8 = None
         self.favcmd9 = None
+        self.favlist = None
         self.autostart = None
         # Connect UI
         self.window.connect("destroy", self.quit)
@@ -202,12 +203,13 @@ class OHMSHELL(object):
         # start
         self.run()
         # run autostart commands
-        self.execute("autostart")
+        if self.autostart:
+            self.autostart = self.autostart.split("    ")
+            self.execute("autostart")
         Gtk.main()
 
     def run(self, *args):
         """ configure and show the main window """
-        # get config info
         self.checkconfig()
         self.conf.read(CONFIG)
         self.favcmd0 = self.conf.get('conf', '0fav')
@@ -220,129 +222,52 @@ class OHMSHELL(object):
         self.favcmd7 = self.conf.get('conf', '7fav')
         self.favcmd8 = self.conf.get('conf', '8fav')
         self.favcmd9 = self.conf.get('conf', '9fav')
+        self.processfav()
         try:
             self.autostart = self.conf.get('conf', 'autostart')
         except ConfigParser.NoOptionError:
             self.autostart = None
-        if self.autostart:
-            self.autostart = self.autostart.split("    ")
-        if not self.favcmd0 == "":
-            self.fav0.set_visible(True)
-            self.fav0.set_tooltip_text(self.favcmd0)
-            self.fav0.connect("clicked", self.execute)
-            self.favimage0.set_from_file(self.conf.get('conf', '0favicon'))
-        else:
-            self.fav0.set_visible(False)
-        if not self.favcmd1 == "":
-            self.fav1.set_visible(True)
-            self.fav1.set_tooltip_text(self.favcmd1)
-            self.fav1.connect("clicked", self.execute)
-            self.favimage1.set_from_file(self.conf.get('conf', '1favicon'))
-        else:
-            self.fav1.set_visible(False)
-            self.fav1.set_tooltip_text("")
-        if not self.favcmd2 == "":
-            self.fav2.set_visible(True)
-            self.fav2.set_tooltip_text(self.favcmd2)
-            self.fav2.connect("clicked", self.execute)
-            self.favimage2.set_from_file(self.conf.get('conf', '2favicon'))
-        else:
-            self.fav2.set_visible(False)
-            self.fav2.set_tooltip_text("")
-        if not self.favcmd3 == "":
-            self.fav3.set_visible(True)
-            self.fav3.set_tooltip_text(self.favcmd3)
-            self.fav3.connect("clicked", self.execute)
-            self.favimage3.set_from_file(self.conf.get('conf', '3favicon'))
-        else:
-            self.fav3.set_visible(False)
-            self.fav3.set_tooltip_text("")
-        if not self.favcmd4 == "":
-            self.fav4.set_visible(True)
-            self.fav4.set_tooltip_text(self.favcmd4)
-            self.fav4.connect("clicked", self.execute)
-            self.favimage4.set_from_file(self.conf.get('conf', '4favicon'))
-        else:
-            self.fav4.set_visible(False)
-            self.fav4.set_tooltip_text("")
-        if not self.favcmd5 == "":
-            self.fav5.set_visible(True)
-            self.fav5.set_tooltip_text(self.favcmd5)
-            self.fav5.connect("clicked", self.execute)
-            self.favimage5.set_from_file(self.conf.get('conf', '5favicon'))
-        else:
-            self.fav5.set_visible(False)
-            self.fav5.set_tooltip_text("")
-        if not self.favcmd6 == "":
-            self.fav6.set_visible(True)
-            self.fav6.set_tooltip_text(self.favcmd6)
-            self.fav6.connect("clicked", self.execute)
-            self.favimage6.set_from_file(self.conf.get('conf', '6favicon'))
-        else:
-            self.fav6.set_visible(False)
-            self.fav6.set_tooltip_text("")
-        if not self.favcmd7 == "":
-            self.fav7.set_visible(True)
-            self.fav7.set_tooltip_text(self.favcmd7)
-            self.fav7.connect("clicked", self.execute)
-            self.favimage7.set_from_file(self.conf.get('conf', '7favicon'))
-        else:
-            self.fav7.set_visible(False)
-            self.fav7.set_tooltip_text("")
-        if not self.favcmd8 == "":
-            self.fav8.set_visible(True)
-            self.fav8.set_tooltip_text(self.favcmd8)
-            self.fav8.connect("clicked", self.execute)
-            self.favimage8.set_from_file(self.conf.get('conf', '8favicon'))
-        else:
-            self.fav8.set_visible(False)
-            self.fav8.set_tooltip_text("")
-        if not self.favcmd9 == "":
-            self.fav9.set_visible(True)
-            self.fav9.set_tooltip_text(self.favcmd9)
-            self.fav9.connect("clicked", self.execute)
-            self.favimage9.set_from_file(self.conf.get('conf', '9favicon'))
-        else:
-            self.fav9.set_visible(False)
-            self.fav9.set_tooltip_text("")
         self.activities.show()
         self.activities.grab_focus()
         self.window.hide()
         return
 
+    def processfav(self):
+        """ Read config and fill favourites dock """
+        tmpcount = 0
+        self.favlist = [[self.fav0, self.favcmd0, self.favimage0],
+                        [self.fav1, self.favcmd1, self.favimage1],
+                        [self.fav2, self.favcmd2, self.favimage2],
+                        [self.fav3, self.favcmd3, self.favimage3],
+                        [self.fav4, self.favcmd4, self.favimage4],
+                        [self.fav5, self.favcmd5, self.favimage5],
+                        [self.fav6, self.favcmd6, self.favimage6],
+                        [self.fav7, self.favcmd7, self.favimage7],
+                        [self.fav8, self.favcmd8, self.favimage8],
+                        [self.fav9, self.favcmd9, self.favimage9]]
+        for items in self.favlist:
+            if not items[1] == "":
+                tmpimage = self.conf.get('conf', (str(tmpcount) + 'favicon'))
+                items[0].set_visible(True)
+                items[0].set_tooltip_text(items[1])
+                items[0].connect("clicked", self.execute)
+                items[2].set_from_file(tmpimage)
+            else:
+                items[0].set_visible(False)
+                items[0].set_tooltip_text("")
+            tmpcount = tmpcount + 1
+        return
+
     def execute(self, actor):
         """ Execute commands in a subprocess """
-        if actor == self.fav0:
-            subprocess.Popen(self.favcmd0.split(' '))
-            self.hide()
-        elif actor == self.fav1:
-            subprocess.Popen(self.favcmd1.split(' '))
-            self.hide()
-        elif actor == self.fav2:
-            subprocess.Popen(self.favcmd2.split(' '))
-            self.hide()
-        elif actor == self.fav3:
-            subprocess.Popen(self.favcmd3.split(' '))
-            self.hide()
-        elif actor == self.fav4:
-            subprocess.Popen(self.favcmd4.split(' '))
-            self.hide()
-        elif actor == self.fav5:
-            subprocess.Popen(self.favcmd5.split(' '))
-            self.hide()
-        elif actor == self.fav6:
-            subprocess.Popen(self.favcmd6.split(' '))
-            self.hide()
-        elif actor == self.fav7:
-            subprocess.Popen(self.favcmd7.split(' '))
-            self.hide()
-        elif actor == self.fav8:
-            subprocess.Popen(self.favcmd8.split(' '))
-            self.hide()
-        elif actor == self.fav9:
-            subprocess.Popen(self.favcmd9.split(' '))
-            self.hide()
-        elif actor == "enter" or actor == self.gobutton:
+        tmpcount = 0
+        for items in self.favlist:
+            if actor == items[0]:
+                subprocess.Popen(items[1].split(' '))
+                self.hide()
+                return
+            tmpcount = tmpcount + 1
+        if actor == "enter" or actor == self.gobutton:
             subprocess.Popen(str.split(self.runentry.get_text()))
             self.runentry.set_text("")
         elif actor == "autostart":
@@ -350,11 +275,9 @@ class OHMSHELL(object):
                 for items in self.autostart:
                     subprocess.Popen(items.split(' '))
         elif actor == "kill":
-            if self.autostart:
-                for items in self.autostart:
-                    temp = "/usr/bin/killall " + items.split(' ')[0]
-                    print temp
-                    os.system(temp)
+            for items in self.autostart:
+                temp = "/usr/bin/killall " + items.split(' ')[0]
+                os.system(temp)
         elif actor == self.restartbutton:
             subprocess.Popen(['gksu', 'reboot'])
         elif actor == self.haltbutton:
