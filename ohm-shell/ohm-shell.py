@@ -157,6 +157,17 @@ class OHMSHELL(object):
         self.fav7 = self.builder.get_object("favbutton7")
         self.fav8 = self.builder.get_object("favbutton8")
         self.fav9 = self.builder.get_object("favbutton9")
+        self.fav10 = self.builder.get_object("favbutton10")
+        self.fav11 = self.builder.get_object("favbutton11")
+        self.fav12 = self.builder.get_object("favbutton12")
+        self.fav13 = self.builder.get_object("favbutton13")
+        self.fav14 = self.builder.get_object("favbutton14")
+        self.fav15 = self.builder.get_object("favbutton15")
+        self.fav16 = self.builder.get_object("favbutton16")
+        self.fav17 = self.builder.get_object("favbutton17")
+        self.fav18 = self.builder.get_object("favbutton18")
+        self.fav19 = self.builder.get_object("favbutton19")
+        self.fav20 = self.builder.get_object("favbutton20")
         self.favimage0 = self.builder.get_object("image0")
         self.favimage1 = self.builder.get_object("image1")
         self.favimage2 = self.builder.get_object("image2")
@@ -167,6 +178,17 @@ class OHMSHELL(object):
         self.favimage7 = self.builder.get_object("image7")
         self.favimage8 = self.builder.get_object("image8")
         self.favimage9 = self.builder.get_object("image9")
+        self.favimage10 = self.builder.get_object("image10")
+        self.favimage11 = self.builder.get_object("image11")
+        self.favimage12 = self.builder.get_object("image12")
+        self.favimage13 = self.builder.get_object("image13")
+        self.favimage14 = self.builder.get_object("image14")
+        self.favimage15 = self.builder.get_object("image15")
+        self.favimage16 = self.builder.get_object("image16")
+        self.favimage17 = self.builder.get_object("image17")
+        self.favimage18 = self.builder.get_object("image18")
+        self.favimage19 = self.builder.get_object("image19")
+        self.favimage20 = self.builder.get_object("image20")
         self.favcmd0 = None
         self.favcmd1 = None
         self.favcmd2 = None
@@ -177,6 +199,16 @@ class OHMSHELL(object):
         self.favcmd7 = None
         self.favcmd8 = None
         self.favcmd9 = None
+        self.favcmd10 = None
+        self.favcmd11 = None
+        self.favcmd12 = None
+        self.favcmd13 = None
+        self.favcmd14 = None
+        self.favcmd15 = None
+        self.favcmd16 = None
+        self.favcmd17 = None
+        self.favcmd18 = None
+        self.favcmd19 = None
         self.favlist = None
         self.autostart = None
         # remember pointer so hot corner doesn't continually open/close
@@ -238,6 +270,16 @@ class OHMSHELL(object):
         self.favcmd7 = self.conf.get('conf', '7fav')
         self.favcmd8 = self.conf.get('conf', '8fav')
         self.favcmd9 = self.conf.get('conf', '9fav')
+        self.favcmd10 = self.conf.get('conf', '10fav')
+        self.favcmd11 = self.conf.get('conf', '11fav')
+        self.favcmd12 = self.conf.get('conf', '12fav')
+        self.favcmd13 = self.conf.get('conf', '13fav')
+        self.favcmd14 = self.conf.get('conf', '14fav')
+        self.favcmd15 = self.conf.get('conf', '15fav')
+        self.favcmd16 = self.conf.get('conf', '16fav')
+        self.favcmd17 = self.conf.get('conf', '17fav')
+        self.favcmd18 = self.conf.get('conf', '18fav')
+        self.favcmd19 = self.conf.get('conf', '19fav')
         self.favlist = [[self.fav0, self.favcmd0, self.favimage0],
                         [self.fav1, self.favcmd1, self.favimage1],
                         [self.fav2, self.favcmd2, self.favimage2],
@@ -247,7 +289,17 @@ class OHMSHELL(object):
                         [self.fav6, self.favcmd6, self.favimage6],
                         [self.fav7, self.favcmd7, self.favimage7],
                         [self.fav8, self.favcmd8, self.favimage8],
-                        [self.fav9, self.favcmd9, self.favimage9]]
+                        [self.fav9, self.favcmd9, self.favimage9],
+                        [self.fav10, self.favcmd10, self.favimage10],
+                        [self.fav11, self.favcmd11, self.favimage11],
+                        [self.fav12, self.favcmd12, self.favimage12],
+                        [self.fav13, self.favcmd13, self.favimage13],
+                        [self.fav14, self.favcmd14, self.favimage14],
+                        [self.fav15, self.favcmd15, self.favimage15],
+                        [self.fav16, self.favcmd16, self.favimage16],
+                        [self.fav17, self.favcmd17, self.favimage17],
+                        [self.fav18, self.favcmd18, self.favimage18],
+                        [self.fav19, self.favcmd19, self.favimage19]]
         for items in self.favlist:
             if not items[1] == "":
                 tmpimage = self.conf.get('conf', (str(tmpcount) + 'favicon'))
@@ -309,6 +361,7 @@ class OHMSHELL(object):
         self.pointermaskold = self.pointermask
         self.pointermask = (str(self.activities.get_pointer()[0]) +
                             str(self.activities.get_pointer()[1]))
+        # avoid repeatedly opening/closing activities
         if self.pointermask == '00' and not self.pointermaskold == '00':
             self.showorhide()
         return
@@ -418,9 +471,14 @@ class OHMSHELL(object):
                            "pps/totem.png\n6fav = \n6favicon = \n7fav = \n7" +
                            "favicon = \n8fav = gnome-control-center\n8favic" +
                            "on = /usr/share/pixmaps/gnome-control-center.xp" +
-                           "m\n9fav = \n9favicon =\n\n# autostart allows mu" +
-                           "ltiple commands 4 space separated. ('    ')\nau" +
-                           "tostart = gnome-settings-daemon\n")
+                           "m\n9fav = \n9favicon =\n10fav = \n10favicon =\n" +
+                           "11fav = \n11favicon =\n12fav = \n12favicon =\n1" +
+                           "3fav = \n13favicon =\n14fav = \n14favicon =\n15" +
+                           "fav = \n15favicon =\n16fav = \n16favicon =\n17f" +
+                           "av = \n17favicon =\n18fav = \n18favicon =\n19fa" +
+                           "v = \n19favicon =\n\n# autostart allows multipl" +
+                           "e commands 4 space separated. ('    ')\nautosta" +
+                           "rt = gnome-settings-daemon\n")
             conffile.close()
         return
 

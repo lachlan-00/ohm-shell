@@ -468,6 +468,226 @@
                                 <property name="position">9</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton10">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image10">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">10</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton11">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image11">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">11</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton12">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image12">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">12</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton13">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image13">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">13</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton14">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image14">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">14</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton15">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image15">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">15</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton16">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image16">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">16</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton17">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image17">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">17</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton18">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image18">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">18</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="favbutton19">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image19">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">19</property>
+                              </packing>
+                            </child>
                           </object>
                         </child>
                       </object>
