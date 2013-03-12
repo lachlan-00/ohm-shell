@@ -179,6 +179,9 @@ class OHMSHELL(object):
         self.favcmd9 = None
         self.favlist = None
         self.autostart = None
+        # remember pointer so hot corner doesn't continually open/close
+        self.pointermask = None
+        self.pointermaskold = None
         # Connect UI
         self.window.connect("destroy", self.quit)
         self.window.connect("key-release-event", self.keycatch)
@@ -210,18 +213,6 @@ class OHMSHELL(object):
 
     def run(self, *args):
         """ configure and show the main window """
-        self.checkconfig()
-        self.conf.read(CONFIG)
-        self.favcmd0 = self.conf.get('conf', '0fav')
-        self.favcmd1 = self.conf.get('conf', '1fav')
-        self.favcmd2 = self.conf.get('conf', '2fav')
-        self.favcmd3 = self.conf.get('conf', '3fav')
-        self.favcmd4 = self.conf.get('conf', '4fav')
-        self.favcmd5 = self.conf.get('conf', '5fav')
-        self.favcmd6 = self.conf.get('conf', '6fav')
-        self.favcmd7 = self.conf.get('conf', '7fav')
-        self.favcmd8 = self.conf.get('conf', '8fav')
-        self.favcmd9 = self.conf.get('conf', '9fav')
         self.processfav()
         try:
             self.autostart = self.conf.get('conf', 'autostart')
@@ -235,6 +226,18 @@ class OHMSHELL(object):
     def processfav(self):
         """ Read config and fill favourites dock """
         tmpcount = 0
+        self.checkconfig()
+        self.conf.read(CONFIG)
+        self.favcmd0 = self.conf.get('conf', '0fav')
+        self.favcmd1 = self.conf.get('conf', '1fav')
+        self.favcmd2 = self.conf.get('conf', '2fav')
+        self.favcmd3 = self.conf.get('conf', '3fav')
+        self.favcmd4 = self.conf.get('conf', '4fav')
+        self.favcmd5 = self.conf.get('conf', '5fav')
+        self.favcmd6 = self.conf.get('conf', '6fav')
+        self.favcmd7 = self.conf.get('conf', '7fav')
+        self.favcmd8 = self.conf.get('conf', '8fav')
+        self.favcmd9 = self.conf.get('conf', '9fav')
         self.favlist = [[self.fav0, self.favcmd0, self.favimage0],
                         [self.fav1, self.favcmd1, self.favimage1],
                         [self.fav2, self.favcmd2, self.favimage2],
@@ -303,8 +306,10 @@ class OHMSHELL(object):
 
     def motion(self, actor, event):
         """ Hot Corner functionality """
-        if self.activities.get_pointer()[0] == 0 and (
-                self.activities.get_pointer()[1] == 0):
+        self.pointermaskold = self.pointermask
+        self.pointermask = (str(self.activities.get_pointer()[0]) +
+                            str(self.activities.get_pointer()[1]))
+        if self.pointermask == '00' and not self.pointermaskold == '00':
             self.showorhide()
         return
 
