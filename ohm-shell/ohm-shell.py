@@ -328,7 +328,11 @@ class OHMSHELL(object):
         elif actor == "autostart":
             if self.autostart:
                 for items in self.autostart:
-                    subprocess.Popen(items.split(' '))
+                    try:
+                        subprocess.Popen(items.split(' '))
+                    except OSError:
+                        #couldn't find the file to execute
+                        pass
         elif actor == "kill":
             for items in self.autostart:
                 temp = "/usr/bin/killall " + items.split(' ')[0]
@@ -478,7 +482,7 @@ class OHMSHELL(object):
                            "av = \n17favicon =\n18fav = \n18favicon =\n19fa" +
                            "v = \n19favicon =\n\n# autostart allows multipl" +
                            "e commands 4 space separated. ('    ')\nautosta" +
-                           "rt = gnome-settings-daemon\n")
+                           "rt = \n")
             conffile.close()
         return
 
