@@ -11,6 +11,13 @@ install-req:
 	@cp bin/ohm-shell /usr/bin/ -f
 	@cp share/ohm-shell.png /usr/share/pixmaps -f
 	@cp share/ohm-shell.desktop /usr/share/applications/ -f
+	@chmod 644 /usr/share/pixmaps/ohm-shell.png
+	@chmod 644 /usr/share/applications/ohm-shell.desktop
+	@chmod 644 /usr/bin/ohm-shell
+	@chmod 644 $(INSTALLPATH)/*
+	@chmod 644 /usr/bin/ohm-shell
+	@chmod +x $(INSTALLPATH)/ohm-shell.py
+	@chmod +x /usr/bin/ohm-shell
 
 install: install-req
 	@echo $(INSTALLTEXT)
