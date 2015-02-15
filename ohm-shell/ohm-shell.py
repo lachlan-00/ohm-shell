@@ -29,6 +29,7 @@ import subprocess
 
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GLib
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -49,6 +50,7 @@ class OHMSHELL(object):
         self.window = self.builder.get_object("main_window")
         self.activities = self.builder.get_object("hot_corner")
         self.activitylabel = self.builder.get_object("mainevent")
+        self.mainactivitylabel = self.builder.get_object("mainactivityevent")
         self.runentry = self.builder.get_object("runentry")
         self.appgrid = self.builder.get_object("app_grid")
         self.fileview = self.builder.get_object("fileview")
@@ -221,6 +223,7 @@ class OHMSHELL(object):
         self.activities.connect("motion-notify-event", self.motion)
         self.activities.connect("key-release-event", self.keycatch)
         self.activitylabel.connect("button-release-event", self.button)
+        self.mainactivitylabel.connect("button-release-event", self.button)
         self.gobutton.connect("clicked", self.execute)
         self.reloadbutton.connect("clicked", self.reloadme)
         self.optionbutton.connect("clicked", self.openconf)
@@ -383,11 +386,17 @@ class OHMSHELL(object):
         self.updatedock()
         mytime = time.strftime('%H') + ':' + time.strftime('%M')
         self.timelabel.set_text(mytime)
+        self.activities.set_keep_above(True)
         self.window.fullscreen()
         self.window.maximize()
         self.window.show()
-        self.activities.set_keep_above(True)
+        #self.window.grab_focus()
         self.runentry.grab_focus()
+        GLib.idle_add(self.bring_to_front)
+        return
+
+    def bring_to_front(self):
+        self.window.present()
         return
 
     def hide(self, *args):
