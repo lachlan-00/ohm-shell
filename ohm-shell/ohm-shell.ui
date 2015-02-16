@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.18.3 
+
+Copyright (C) 2013
+
+This file is part of OhM-shell.
+
+OhM-shell is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OhM-shell is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with OhM-shell.  If not, see <http://www.gnu.org/licenses/>.
+
+Author: Lachlan de Waard <lachlan.00@gmail.com>
+
+-->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.10"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name OhM-shell -->
+  <!-- interface-description A Lightweight gnome-shell clone -->
+  <!-- interface-copyright 2013 -->
+  <!-- interface-authors Lachlan de Waard <lachlan.00@gmail.com> -->
   <object class="GtkListStore" id="filestore">
     <columns>
       <!-- column-name filearray -->
@@ -12,14 +38,14 @@
     <property name="width_request">2</property>
     <property name="height_request">2</property>
     <property name="can_focus">True</property>
-    <property name="has_focus">True</property>
-    <property name="is_focus">True</property>
     <property name="receives_default">True</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_STRUCTURE_MASK</property>
     <property name="resizable">False</property>
     <property name="default_width">2</property>
     <property name="default_height">2</property>
     <property name="type_hint">dock</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
     <property name="decorated">False</property>
     <property name="deletable">False</property>
     <child>
@@ -39,10 +65,14 @@
   <object class="GtkWindow" id="main_window">
     <property name="width_request">640</property>
     <property name="height_request">480</property>
-    <property name="can_focus">False</property>
+    <property name="can_focus">True</property>
+    <property name="double_buffered">False</property>
     <property name="title" translatable="yes">ohm-shell: Activities</property>
+    <property name="resizable">False</property>
     <property name="icon">/usr/share/pixmaps/ohm-shell.png</property>
     <property name="type_hint">utility</property>
+    <property name="urgency_hint">True</property>
+    <property name="deletable">False</property>
     <child>
       <object class="GtkBox" id="mainbox">
         <property name="visible">True</property>
@@ -131,6 +161,12 @@
               <object class="GtkEntry" id="runentry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="is_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">baseline</property>
                 <property name="invisible_char">●</property>
               </object>
               <packing>
@@ -670,6 +706,29 @@
                                 <property name="position">19</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkButton" id="addfavbutton">
+                                <property name="use_action_appearance">False</property>
+                                <property name="width_request">48</property>
+                                <property name="height_request">48</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <child>
+                                  <object class="GtkImage" id="image20">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="pixbuf">/usr/share/icons/gnome/16x16/actions/add.png</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">20</property>
+                              </packing>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -700,11 +759,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label8">
+              <object class="GtkLabel" id="leftlabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
+                <property name="ellipsize">middle</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -750,12 +810,16 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="margin_top">10</property>
                     <property name="margin_bottom">10</property>
                     <child>
                       <object class="GtkImage" id="pagerightimage">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="pixbuf">/usr/share/icons/gnome/48x48/actions/go-next.png</property>
                       </object>
                     </child>
@@ -773,12 +837,16 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="has_tooltip">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="margin_top">10</property>
                     <property name="margin_bottom">10</property>
                     <child>
                       <object class="GtkImage" id="pageleftimage">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="pixbuf">/usr/share/icons/gnome/16x16/actions/go-next-rtl.png</property>
                       </object>
                     </child>
@@ -826,6 +894,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -843,8 +913,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel0">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -872,6 +950,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -889,8 +969,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel1">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -918,6 +1006,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -935,8 +1025,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel2">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -964,6 +1062,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -981,8 +1081,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel3">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1010,6 +1118,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1027,8 +1137,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel4">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1056,6 +1174,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1073,8 +1193,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel5">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1102,6 +1230,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1119,8 +1249,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel6">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1148,6 +1286,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1165,8 +1305,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel7">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1194,6 +1342,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1211,8 +1361,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel8">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1240,6 +1398,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1257,8 +1417,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel9">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1286,6 +1454,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1303,8 +1473,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel10">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1332,6 +1510,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1349,8 +1529,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel11">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1378,6 +1566,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1395,8 +1585,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel12">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1424,6 +1622,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1441,8 +1641,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel13">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1470,6 +1678,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1487,8 +1697,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel14">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1516,6 +1734,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1533,8 +1753,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel15">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1562,6 +1790,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1579,8 +1809,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel16">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1608,6 +1846,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1625,8 +1865,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel17">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1654,6 +1902,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1671,8 +1921,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel18">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1700,6 +1958,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="margin_top">10</property>
                         <property name="margin_bottom">10</property>
                         <child>
@@ -1717,8 +1977,16 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="docklabel19">
+                        <property name="width_request">128</property>
+                        <property name="height_request">44</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap_mode">char</property>
+                        <property name="width_chars">16</property>
+                        <property name="max_width_chars">14</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1809,7 +2077,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label4">
+              <object class="GtkLabel" id="rightlabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>

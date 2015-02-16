@@ -211,6 +211,7 @@ class OHMSHELL(object):
         self.favcmd17 = None
         self.favcmd18 = None
         self.favcmd19 = None
+        self.addfavbutton = self.builder.get_object("addfavbutton")
         self.favlist = None
         self.autostart = None
         # remember pointer so hot corner doesn't continually open/close
@@ -225,6 +226,7 @@ class OHMSHELL(object):
         self.activitylabel.connect("button-release-event", self.button)
         self.mainactivitylabel.connect("button-release-event", self.button)
         self.gobutton.connect("clicked", self.execute)
+        self.addfavbutton.connect("clicked", self.openconf)
         self.reloadbutton.connect("clicked", self.reloadme)
         self.optionbutton.connect("clicked", self.openconf)
         self.restartbutton.connect("clicked", self.execute)
@@ -393,6 +395,8 @@ class OHMSHELL(object):
         #self.window.grab_focus()
         self.runentry.grab_focus()
         GLib.idle_add(self.bring_to_front)
+        while Gtk.events_pending():
+            Gtk.main_iteration()
         return
 
     def bring_to_front(self):
@@ -403,8 +407,10 @@ class OHMSHELL(object):
         """ hide overlay window """
         self.timelabel.set_text("")
         self.window.set_keep_above(False)
-        self.activities.set_keep_above(True)
         self.window.hide()
+        self.activities.set_keep_above(True)
+        while Gtk.events_pending():
+            Gtk.main_iteration()
         return
 
     def quit(self, *args):
@@ -461,7 +467,7 @@ class OHMSHELL(object):
             # activate window that has the same name
             if windows.get_name() == actor.get_tooltip_text():
                 self.window.hide()
-                windows.activate(0)
+                windows.activate(int(time.time()))
                 return
         # couldn't open window
         return
