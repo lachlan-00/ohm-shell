@@ -256,7 +256,7 @@ class OHMSHELL(object):
         except ConfigParser.NoOptionError:
             self.autostart = None
         self.activities.show()
-        self.activities.grab_focus()
+        #self.activities.grab_focus()
         self.window.hide()
         return
 
@@ -393,7 +393,7 @@ class OHMSHELL(object):
         self.window.maximize()
         self.window.show()
         #self.window.grab_focus()
-        self.runentry.grab_focus()
+        #self.runentry.grab_focus()
         GLib.idle_add(self.bring_to_front)
         while Gtk.events_pending():
             Gtk.main_iteration()
@@ -444,10 +444,7 @@ class OHMSHELL(object):
                 items[2].set_visible(False)
             # fill dock with open windows
             for items in openwindows:
-                if len(items[0]) > 13:
-                    text = items[0][:9] + '...'
-                else:
-                    text = items[0]
+                text = items[0]
                 self.dock[count][0].set_from_pixbuf(items[1])
                 self.dock[count][1].connect("clicked", self.changewindow)
                 self.dock[count][1].set_tooltip_text(items[0])
