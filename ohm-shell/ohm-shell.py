@@ -237,6 +237,7 @@ class OHMSHELL(object):
         self.activities.set_decorated(False)
         self.activities.set_skip_taskbar_hint(True)
         self.activities.set_skip_pager_hint(True)
+        self.activitylabel.set_visible(False)
         self.activities.set_keep_above(True)
         self.activities.move(0, 0)
         self.activities.set_position(Gtk.Align.START)
@@ -389,9 +390,6 @@ class OHMSHELL(object):
         mytime = time.strftime('%H') + ':' + time.strftime('%M')
         self.timelabel.set_text(mytime)
         self.activities.set_keep_above(True)
-        self.window.fullscreen()
-        self.window.maximize()
-        self.window.show()
         #self.window.grab_focus()
         #self.runentry.grab_focus()
         GLib.idle_add(self.bring_to_front)
@@ -400,6 +398,12 @@ class OHMSHELL(object):
         return
 
     def bring_to_front(self):
+        #resize test for compiz
+        screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
+        screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
+        self.window.resize(screenwidth, screenheight)
+        self.window.maximize()
+        self.window.fullscreen()
         self.window.present()
         return
 
