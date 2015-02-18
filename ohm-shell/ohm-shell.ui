@@ -719,7 +719,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                   <object class="GtkImage" id="image20">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="pixbuf">/usr/share/icons/gnome/16x16/actions/add.png</property>
+                                    <property name="pixbuf">/usr/share/icons/gnome/48x48/actions/add.png</property>
                                   </object>
                                 </child>
                               </object>
