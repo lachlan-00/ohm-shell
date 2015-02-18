@@ -360,8 +360,8 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if actor == items[0]:
-                self.hide()
                 subprocess.Popen(items[1].split(' '))
+                self.hide()
                 return
             tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
@@ -387,6 +387,7 @@ class OHMSHELL(object):
         elif actor == self.haltbutton:
             subprocess.Popen(['gksu', 'halt'])
         self.hide()
+        return
 
     def keycatch(self, actor, event):
         """ Capture keys for execute or minimise """
