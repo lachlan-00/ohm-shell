@@ -58,6 +58,8 @@ class OHMSHELL(object):
         self.contenttree = self.builder.get_object('fileview')
         self.gobutton = self.builder.get_object("gobutton")
         self.timelabel = self.builder.get_object("timelabel")
+        self.leftlabel = self.builder.get_object("leftlabel")
+        self.rightlabel = self.builder.get_object("rightlabel")
         self.reloadbutton = self.builder.get_object("reloadbutton")
         self.optionbutton = self.builder.get_object("optionbutton")
         self.restartbutton = self.builder.get_object("restartbutton")
@@ -237,28 +239,50 @@ class OHMSHELL(object):
         self.activities.set_decorated(False)
         self.activities.set_skip_taskbar_hint(True)
         self.activities.set_skip_pager_hint(True)
-        self.activitylabel.set_visible(False)
         self.activities.set_keep_above(True)
         self.activities.move(0, 0)
         self.activities.set_position(Gtk.Align.START)
         # start
         self.run()
-        # run autostart commands
-        if self.autostart:
-            self.autostart = self.autostart.split("    ")
-            self.execute("autostart")
         Gtk.main()
 
     def run(self, *args):
         """ configure and show the main window """
         self.processfav()
-        try:
-            self.autostart = self.conf.get('conf', 'autostart')
-        except ConfigParser.NoOptionError:
-            self.autostart = None
+        self.initialloading()
         self.activities.show()
         #self.activities.grab_focus()
         self.window.hide()
+        return
+
+    def initialloading(self):
+        """ set up appearance and run startup commands according to config """
+        # Show or hide the hotcorner Activities label
+        if self.showhotlabel.lower() == 'true':
+            self.activitylabel.set_visible(True)
+        elif self.showhotlabel.lower() == 'false':
+            self.activitylabel.set_visible(False)
+        # allow moving the list of open apps to better fit dual monitors
+        if (self.appposition.lower() == 'centre' or
+                self.appposition.lower() == 'center'):
+            self.leftlabel.set_visible(True)
+            self.leftlabel.realize()
+            self.rightlabel.set_visible(True)
+            self.rightlabel.realize()
+        elif self.appposition.lower() == 'left':
+            self.leftlabel.set_visible(False)
+            self.leftlabel.unrealize()
+            self.rightlabel.set_visible(True)
+            self.rightlabel.realize()
+        elif self.appposition.lower() == 'right':
+            self.leftlabel.set_visible(True)
+            self.leftlabel.realize()
+            self.rightlabel.set_visible(False)
+            self.rightlabel.unrealize()
+        # run autostart commands
+        if self.autostart:
+            self.autostart = self.autostart.split("    ")
+            self.execute("autostart")
         return
 
     def processfav(self):
@@ -266,6 +290,18 @@ class OHMSHELL(object):
         tmpcount = 0
         self.checkconfig()
         self.conf.read(CONFIG)
+        try:
+            self.autostart = self.conf.get('conf', 'autostart')
+        except ConfigParser.NoOptionError:
+            self.autostart = None
+        try:
+            self.appposition = self.conf.get('conf', 'appposition')
+        except ConfigParser.NoOptionError:
+            self.appposition = 'Centre'
+        try:
+            self.showhotlabel = self.conf.get('conf', 'showhotlabel')
+        except ConfigParser.NoOptionError:
+            self.showhotlabel = 'False'
         self.favcmd0 = self.conf.get('conf', '0fav')
         self.favcmd1 = self.conf.get('conf', '1fav')
         self.favcmd2 = self.conf.get('conf', '2fav')
@@ -324,8 +360,8 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if actor == items[0]:
-                subprocess.Popen(items[1].split(' '))
                 self.hide()
+                subprocess.Popen(items[1].split(' '))
                 return
             tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
@@ -335,7 +371,10 @@ class OHMSHELL(object):
             if self.autostart:
                 for items in self.autostart:
                     try:
-                        subprocess.Popen(items.split(' '))
+                        # execute autorun programs as hidden shell commands
+                        tmpexec = items.split(' ').append('shell=True')
+                        if tmpexec:
+                            subprocess.Popen(tmpexec)
                     except OSError:
                         #couldn't find the file to execute
                         pass
@@ -498,7 +537,10 @@ class OHMSHELL(object):
                            "av = \n17favicon =\n18fav = \n18favicon =\n19fa" +
                            "v = \n19favicon =\n\n# autostart allows multipl" +
                            "e commands 4 space separated. ('    ')\nautosta" +
-                           "rt = \n")
+                           "rt = \n# Show open windows on the left or right" +
+                           " side of the main window\n# Options (left, righ" +
+                           "t or centre)\nappposition = centre\n\n#Show or " +
+                           "hide the hot corner label\nshowhotlabel = True\n")
             conffile.close()
         return
 
