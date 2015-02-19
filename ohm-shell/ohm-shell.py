@@ -491,11 +491,12 @@ class OHMSHELL(object):
 
     def bring_to_front(self):
         """ Present window using Glib.Idle_add """
-        #resize test for compiz
-        screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
-        screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
-        self.window.set_size_request(screenwidth, (screenheight - self.toolbarheight))
-        #self.window.resize(screenwidth, screenheight)
+        #resize for trenta/gnome-classic/compiz
+        if self.toolbarheight:
+            screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
+            screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
+            self.window.set_size_request(screenwidth, (screenheight - self.toolbarheight))
+            #self.window.resize(screenwidth, screenheight)
         self.window.maximize()
         self.window.fullscreen()
         self.window.present()
