@@ -63,8 +63,8 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
     </child>
   </object>
   <object class="GtkWindow" id="main_window">
-    <property name="width_request">640</property>
-    <property name="height_request">480</property>
+    <property name="width_request">1280</property>
+    <property name="height_request">960</property>
     <property name="can_focus">True</property>
     <property name="double_buffered">False</property>
     <property name="title" translatable="yes">ohm-shell: Activities</property>
@@ -294,6 +294,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image0">
                                     <property name="width_request">48</property>
@@ -315,6 +316,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image1">
                                     <property name="width_request">48</property>
@@ -336,6 +338,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image2">
                                     <property name="width_request">48</property>
@@ -357,6 +360,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image3">
                                     <property name="width_request">48</property>
@@ -378,6 +382,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image4">
                                     <property name="width_request">48</property>
@@ -399,6 +404,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image5">
                                     <property name="width_request">48</property>
@@ -420,6 +426,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image6">
                                     <property name="width_request">48</property>
@@ -441,6 +448,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image7">
                                     <property name="width_request">48</property>
@@ -462,6 +470,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image8">
                                     <property name="width_request">48</property>
@@ -483,6 +492,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image9">
                                     <property name="width_request">48</property>
@@ -504,6 +514,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image10">
                                     <property name="width_request">48</property>
@@ -525,6 +536,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image11">
                                     <property name="width_request">48</property>
@@ -546,6 +558,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image12">
                                     <property name="width_request">48</property>
@@ -567,6 +580,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image13">
                                     <property name="width_request">48</property>
@@ -588,6 +602,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image14">
                                     <property name="width_request">48</property>
@@ -609,6 +624,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image15">
                                     <property name="width_request">48</property>
@@ -630,6 +646,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image16">
                                     <property name="width_request">48</property>
@@ -651,6 +668,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image17">
                                     <property name="width_request">48</property>
@@ -672,6 +690,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image18">
                                     <property name="width_request">48</property>
@@ -693,6 +712,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image19">
                                     <property name="width_request">48</property>
@@ -715,6 +735,7 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image20">
                                     <property name="width_request">48</property>
