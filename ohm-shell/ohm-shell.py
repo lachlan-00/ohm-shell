@@ -37,7 +37,8 @@ from xdg.BaseDirectory import xdg_config_dirs
 
 HOMEFOLDER = os.getenv('HOME')
 CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
-HIDELIST = ['ohm-shell.py', 'Desktop', 'xfce4-panel', 'xfce4-notifyd']
+HIDELIST = ['ohm-shell.py', 'Desktop', 'xfce4-panel', 'xfce4-notifyd',
+            'Top Expanded Edge Panel', 'plank']
 
 
 class OHMSHELL(object):
@@ -131,6 +132,12 @@ class OHMSHELL(object):
         # Dock lists to update buttons and images together
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
+        self.windowlist = self.screen.get_windows()
+        self.toolbarheight = None
+        for windows in self.windowlist:
+            # activate window that has the same name
+            if windows.get_name() == 'Top Expanded Edge Panel':
+                self.toolbarheight = windows.get_geometry()[3]
         self.windowlist = self.screen.get_windows()
         self.dock = [[self.window0, self.dockbutton0, self.docklabel0],
                      [self.window1, self.dockbutton1, self.docklabel1],
@@ -472,6 +479,14 @@ class OHMSHELL(object):
         GLib.idle_add(self.bring_to_front)
         while Gtk.events_pending():
             Gtk.main_iteration()
+        self.screen.force_update()
+        self.windowlist = self.screen.get_windows()
+        for windows in self.windowlist:
+            # activate window that has the same name
+            if windows.get_name() == 'ohm-shell: Activities':
+                windows.activate(int(time.time()))
+                #overlayxid = wins.get_xid()
+        #overlayxid.activate(int(time.time()))
         return
 
     def bring_to_front(self):
@@ -479,10 +494,12 @@ class OHMSHELL(object):
         #resize test for compiz
         screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
         screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
-        self.window.resize(screenwidth, screenheight)
+        self.window.set_size_request(screenwidth, (screenheight - self.toolbarheight))
+        #self.window.resize(screenwidth, screenheight)
         self.window.maximize()
         self.window.fullscreen()
         self.window.present()
+        self.window.realize()
         return
 
     def hide(self, *args):
@@ -490,6 +507,7 @@ class OHMSHELL(object):
         self.timelabel.set_text("")
         self.window.set_keep_above(False)
         self.window.hide()
+        self.window.unrealize()
         self.activities.set_keep_above(True)
         while Gtk.events_pending():
             Gtk.main_iteration()
