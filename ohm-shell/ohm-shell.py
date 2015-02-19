@@ -374,8 +374,8 @@ class OHMSHELL(object):
                     tmpexec = [].append(items[1])
                 print(tmpexec)
                 try:
-                    subprocess.Popen(tmpexec)
                     self.hide()
+                    subprocess.Popen(tmpexec)
                     return
                 except OSError:
                     #no file found
@@ -388,6 +388,7 @@ class OHMSHELL(object):
             tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
             try:
+                self.hide()
                 subprocess.Popen(str.split(self.runentry.get_text()))
                 self.runentry.set_text("")
             except OSError:
