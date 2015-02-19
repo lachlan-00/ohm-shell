@@ -283,19 +283,21 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                         <property name="vexpand">True</property>
                         <child>
                           <object class="GtkBox" id="favbox">
+                            <property name="width_request">55</property>
+                            <property name="height_request">55</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkButton" id="favbutton0">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image0">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -310,13 +312,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton1">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image1">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -331,13 +333,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton2">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image2">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -352,13 +354,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton3">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image3">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -373,13 +375,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton4">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image4">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -394,13 +396,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton5">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image5">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -415,13 +417,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton6">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image6">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -436,13 +438,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton7">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image7">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -457,13 +459,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton8">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image8">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -478,13 +480,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton9">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image9">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -499,13 +501,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton10">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image10">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -520,13 +522,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton11">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image11">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -541,13 +543,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton12">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image12">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -562,13 +564,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton13">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image13">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -583,13 +585,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton14">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image14">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -604,13 +606,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton15">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image15">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -625,13 +627,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton16">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image16">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -646,13 +648,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton17">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image17">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -667,13 +669,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton18">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image18">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -688,13 +690,13 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="favbutton19">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image19">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                   </object>
@@ -709,14 +711,14 @@ Author: Lachlan de Waard <lachlan.00@gmail.com>
                             <child>
                               <object class="GtkButton" id="addfavbutton">
                                 <property name="use_action_appearance">False</property>
-                                <property name="width_request">48</property>
-                                <property name="height_request">48</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <child>
                                   <object class="GtkImage" id="image20">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="pixbuf">/usr/share/icons/gnome/48x48/actions/add.png</property>

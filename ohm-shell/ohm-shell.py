@@ -27,6 +27,8 @@ import time
 import ConfigParser
 import subprocess
 
+import checkconfig
+
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
@@ -216,6 +218,8 @@ class OHMSHELL(object):
         self.addfavbutton = self.builder.get_object("addfavbutton")
         self.favlist = None
         self.autostart = None
+        self.showhotlabel = None
+        self.appposition = None
         # remember pointer so hot corner doesn't continually open/close
         self.pointermask = None
         self.pointermaskold = None
@@ -288,7 +292,7 @@ class OHMSHELL(object):
     def processfav(self):
         """ Read config and fill favourites dock """
         tmpcount = 0
-        self.checkconfig()
+        checkconfig.checkconfig(CONFIG)
         self.conf.read(CONFIG)
         try:
             self.autostart = self.conf.get('conf', 'autostart')
@@ -392,7 +396,7 @@ class OHMSHELL(object):
     def keycatch(self, actor, event):
         """ Capture keys for execute or minimise """
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
-                       Gdk.ModifierType.SUPER_MASK)
+                     Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
             self.showorhide()
         elif event.get_keycode()[1] == 36:
@@ -438,6 +442,7 @@ class OHMSHELL(object):
         return
 
     def bring_to_front(self):
+        """ Present window using Glib.Idle_add """
         #resize test for compiz
         screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
         screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
@@ -478,7 +483,7 @@ class OHMSHELL(object):
             for windows in self.windowlist:
                 if not windows.get_name() in HIDELIST:
                     openwindows.append([windows.get_name(), windows.get_icon(),
-                                           windows.is_minimized()])
+                                        windows.is_minimized()])
             # blank before filling dock
             for items in self.dock:
                 items[0].set_tooltip_text("")
@@ -513,41 +518,9 @@ class OHMSHELL(object):
         # couldn't open window
         return
 
-    def checkconfig(self):
-        """ create a default config if not available """
-        if not os.path.isfile(CONFIG):
-            conffile = open(CONFIG, "w")
-            conffile.write("[conf]\n\n# Shortcut bar: Enter the command the" +
-                           "n the icon path\n0fav = xdg-open /home/user\n0f" +
-                           "avicon = /usr/share/icons/gnome/48x48/places/fo" +
-                           "lder_home.png\n1fav = gnome-terminal\n1favicon " +
-                           "= /usr/share/icons/gnome/48x48/apps/terminal.pn" +
-                           "g\n2fav = gedit\n2favicon = /usr/share/icons/gn" +
-                           "ome/48x48/apps/text-editor.png\n3fav = gksu syn" +
-                           "aptic\n3favicon = /usr/share/pixmaps/synaptic.p" +
-                           "ng\n4fav = rhythmbox\n4favicon = /usr/share/ico" +
-                           "ns/hicolor/48x48/apps/rhythmbox.png\n5fav = tot" +
-                           "em\n5favicon = /usr/share/icons/hicolor/48x48/a" +
-                           "pps/totem.png\n6fav = \n6favicon = \n7fav = \n7" +
-                           "favicon = \n8fav = gnome-control-center\n8favic" +
-                           "on = /usr/share/pixmaps/gnome-control-center.xp" +
-                           "m\n9fav = \n9favicon =\n10fav = \n10favicon =\n" +
-                           "11fav = \n11favicon =\n12fav = \n12favicon =\n1" +
-                           "3fav = \n13favicon =\n14fav = \n14favicon =\n15" +
-                           "fav = \n15favicon =\n16fav = \n16favicon =\n17f" +
-                           "av = \n17favicon =\n18fav = \n18favicon =\n19fa" +
-                           "v = \n19favicon =\n\n# autostart allows multipl" +
-                           "e commands 4 space separated. ('    ')\nautosta" +
-                           "rt = \n# Show open windows on the left or right" +
-                           " side of the main window\n# Options (left, righ" +
-                           "t or centre)\nappposition = centre\n\n#Show or " +
-                           "hide the hot corner label\nshowhotlabel = True\n")
-            conffile.close()
-        return
-
     def openconf(self, *args):
         """ Open config file in default text editor """
-        self.checkconfig()
+        checkconfig.checkconfig(CONFIG)
         subprocess.Popen(['/usr/bin/xdg-open', CONFIG])
         self.hide()
 
