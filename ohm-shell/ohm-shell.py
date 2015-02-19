@@ -364,27 +364,55 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if actor == items[0]:
-                subprocess.Popen(items[1].split(' '))
-                self.hide()
-                return
+                print(items[1])
+                tmpexec = (items[1]).split()
+                if not tmpexec:
+                    tmpexec = [].append(items[1])
+                print(tmpexec)
+                try:
+                    subprocess.Popen(tmpexec)
+                    self.hide()
+                    return
+                except OSError:
+                    #no file found
+                    print('No File Found')
+                    return False
+                except TypeError:
+                    #malformed entry
+                    print('Bad file name')
+                    return False
             tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
-            subprocess.Popen(str.split(self.runentry.get_text()))
-            self.runentry.set_text("")
+            try:
+                subprocess.Popen(str.split(self.runentry.get_text()))
+                self.runentry.set_text("")
+            except OSError:
+                #no file found
+                print('No File Found')
+                self.runentry.set_text("")
+                return False
+            except TypeError:
+                #malformed entry
+                print('Bad file name')
+                self.runentry.set_text("")
+                return False
         elif actor == "autostart":
             if self.autostart:
                 for items in self.autostart:
                     try:
                         # execute autorun programs as hidden shell commands
-                        tmpexec = items.split(' ').append('shell=True')
+                        tmpexec = items.split()
                         if tmpexec:
                             subprocess.Popen(tmpexec)
                     except OSError:
                         #couldn't find the file to execute
                         pass
+                    except TypeError:
+                        #malformed entry
+                        pass
         elif actor == "kill":
             for items in self.autostart:
-                temp = "/usr/bin/killall " + items.split(' ')[0]
+                temp = "/usr/bin/killall " + items.split()[0]
                 os.system(temp)
         elif actor == self.restartbutton:
             subprocess.Popen(['gksu', 'reboot'])
