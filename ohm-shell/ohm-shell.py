@@ -364,7 +364,11 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if actor == items[0]:
-                print(items[1])
+                print(items[0].get_tooltip_text())
+                if self.changewindow(items[0]):
+                    # Switch to Active windows
+                    self.hide()
+                    return
                 tmpexec = (items[1]).split()
                 if not tmpexec:
                     tmpexec = [].append(items[1])
@@ -535,16 +539,24 @@ class OHMSHELL(object):
 
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
+        tooltip = actor.get_tooltip_text()
         self.screen.force_update()
         self.windowlist = self.screen.get_windows()
         for windows in self.windowlist:
             # activate window that has the same name
-            if windows.get_name() == actor.get_tooltip_text():
+            if windows.get_name() == tooltip:
                 self.window.hide()
                 windows.activate(int(time.time()))
-                return
+                return True
+            else:
+                # Activate open windows that match the shortcut.
+                for items in self.favlist:
+                    if (actor == items[0] and tooltip in windows.get_name()):
+                        self.window.hide()
+                        windows.activate(int(time.time()))
+                        return True
         # couldn't open window
-        return
+        return False
 
     def openconf(self, *args):
         """ Open config file in default text editor """
