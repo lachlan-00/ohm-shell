@@ -28,30 +28,24 @@ def checkconfig(inputpath):
     """ create a default config if not available """
     if not os.path.isfile(inputpath):
         conffile = open(inputpath, "w")
-        conffile.write("[conf]\n\n# Shortcut bar: Enter the command the" +
-                       "n the icon path\n0fav = xdg-open /home/user\n0f" +
-                       "avicon = /usr/share/icons/gnome/48x48/places/fo" +
-                       "lder_home.png\n1fav = gnome-terminal\n1favicon " +
-                       "= /usr/share/icons/gnome/48x48/apps/terminal.pn" +
-                       "g\n2fav = gedit\n2favicon = /usr/share/icons/gn" +
-                       "ome/48x48/apps/text-editor.png\n3fav = gksu syn" +
-                       "aptic\n3favicon = /usr/share/pixmaps/synaptic.p" +
-                       "ng\n4fav = rhythmbox\n4favicon = /usr/share/ico" +
-                       "ns/hicolor/48x48/apps/rhythmbox.png\n5fav = tot" +
-                       "em\n5favicon = /usr/share/icons/hicolor/48x48/a" +
-                       "pps/totem.png\n6fav = \n6favicon = \n7fav = \n7" +
-                       "favicon = \n8fav = gnome-control-center\n8favic" +
-                       "on = /usr/share/pixmaps/gnome-control-center.xp" +
-                       "m\n9fav = \n9favicon =\n10fav = \n10favicon =\n" +
-                       "11fav = \n11favicon =\n12fav = \n12favicon =\n1" +
-                       "3fav = \n13favicon =\n14fav = \n14favicon =\n15" +
-                       "fav = \n15favicon =\n16fav = \n16favicon =\n17f" +
-                       "av = \n17favicon =\n18fav = \n18favicon =\n19fa" +
-                       "v = \n19favicon =\n\n# autostart allows multipl" +
-                       "e commands 4 space separated. ('    ')\nautosta" +
-                       "rt = \n# Show open windows on the left or right" +
-                       " side of the main window\n# Options (left, righ" +
-                       "t or centre)\nappposition = centre\n\n#Show or " +
-                       "hide the hot corner label\nshowhotlabel = True\n")
+        conffile.write("[conf]\n\n# Shortcut bar: Enter the command then the" +
+                       " icon path\n0fav = nautilus\n0favicon = /usr/share/i" +
+                       "cons/gnome/48x48/places/user-home.png\n1fav = x-term" +
+                       "inal-emulator\n1favicon = /usr/share/icons/gnome/48x" +
+                       "48/apps/utilities-terminal.png\n2fav = x-www-browser" +
+                       "\n2favicon = /usr/share/icons/gnome/48x48/apps/web-b" +
+                       "rowser.png\n3fav = \n3favicon = \n4fav = \n4favicon " +
+                       "= \n5fav = \n5favicon = \n6fav = \n6favicon = \n7fav" +
+                       " = \n7favicon = \n8fav = \n8favicon = \n9fav = \n9fa" +
+                       "vicon = \n10fav = \n10favicon = \n11fav = \n11favico" +
+                       "n = \n12fav = \n12favicon = \n13fav = \n13favicon = " +
+                       "\n14fav = \n14favicon = \n15fav = \n15favicon = \n16" +
+                       "fav = \n16favicon = \n17fav = \n17favicon = \n18fav " +
+                       "= \n18favicon = \n19fav = \n19favicon = \n\n# autost" +
+                       "art allows multiple commands 4 space separated. ('  " +
+                       "')\nautostart = \n\n# Show open windows on the left " +
+                       "or right side of the main window\n# Options (left, r" +
+                       "ight or centre)\nappposition = left\n\n#Show or hide" +
+                       " the hot corner label\nshowhotlabel = False\n")
         conffile.close()
         return
