@@ -508,7 +508,7 @@ class OHMSHELL(object):
         self.timelabel.set_text("")
         self.window.set_keep_above(False)
         self.window.hide()
-        self.window.unrealize()
+        self.activities.present()
         self.activities.set_keep_above(True)
         while Gtk.events_pending():
             Gtk.main_iteration()
