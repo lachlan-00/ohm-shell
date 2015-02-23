@@ -38,8 +38,9 @@ from xdg.BaseDirectory import xdg_config_dirs
 
 HOMEFOLDER = os.getenv('HOME')
 CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
-HIDELIST = ['ohm_shell.py', 'ohm_shell.py', 'Desktop', 'xfce4-panel',
-            'xfce4-notifyd', 'Top Expanded Edge Panel', 'plank']
+HIDELIST = ['ohm_shell.py', 'ohm_shell.py', 'Desktop', 'ohm-shell: Activities',
+            'ohm-shell: Overlay', 'xfce4-panel', 'xfce4-notifyd',
+            'Top Expanded Edge Panel', 'plank']
 
 
 class OHMSHELL(object):
@@ -55,6 +56,7 @@ class OHMSHELL(object):
         self.activities = self.builder.get_object("hot_corner")
         self.activitylabel = self.builder.get_object("mainevent")
         self.mainactivitylabel = self.builder.get_object("mainactivityevent")
+        self.mainlabel = self.builder.get_object("mainlabel")
         self.runentry = self.builder.get_object("runentry")
         self.appgrid = self.builder.get_object("app_grid")
         self.fileview = self.builder.get_object("fileview")
@@ -140,7 +142,6 @@ class OHMSHELL(object):
             # activate window that has the same name
             if windows.get_name() == 'Top Expanded Edge Panel':
                 self.toolbarheight = windows.get_geometry()[3]
-        self.windowlist = self.screen.get_windows()
         self.dock = [[self.window0, self.dockbutton0, self.docklabel0],
                      [self.window1, self.dockbutton1, self.docklabel1],
                      [self.window2, self.dockbutton2, self.docklabel2],
@@ -246,12 +247,13 @@ class OHMSHELL(object):
         self.pid19 = None
         self.addfavbutton = self.builder.get_object("addfavbutton")
         self.favlist = None
+        self.openwindows = None
         self.autostart = None
         self.showhotlabel = None
         self.appposition = None
         # remember pointer so hot corner doesn't continually open/close
-        self.pointermask = None
-        self.pointermaskold = None
+        self.mask = None
+        self.maskold = None
         # Connect UI
         self.window.connect("destroy", self.quit)
         self.window.connect("key-release-event", self.keycatch)
@@ -286,16 +288,15 @@ class OHMSHELL(object):
         self.activities.show()
         #self.activities.grab_focus()
         self.window.hide()
-        self.open = False
         return
 
     def initialloading(self):
         """ set up appearance and run startup commands according to config """
         # Show or hide the hotcorner Activities label
         if self.showhotlabel.lower() == 'true':
-            self.activitylabel.set_visible(True)
+            self.activitylabel.get_child().set_text('Activities')
         elif self.showhotlabel.lower() == 'false':
-            self.activitylabel.set_visible(False)
+            self.activitylabel.get_child().set_text('<')
         # allow moving the list of open apps to better fit dual monitors
         if (self.appposition.lower() == 'centre' or
                 self.appposition.lower() == 'center'):
@@ -393,6 +394,7 @@ class OHMSHELL(object):
         """ Execute commands in a subprocess """
         tmpcount = 0
         tmppid = None
+        print('execute: ' + time.asctime())
         for items in self.favlist:
             if actor == items[0]:
                 print(items[0].get_tooltip_text())
@@ -441,12 +443,12 @@ class OHMSHELL(object):
                      Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
             if self.window.get_visible():
-                print('SUPER: hide overlay')
-                self.showorhide('hide')
+                print('SUPER: hide overlay ' + time.asctime())
+                self.hide()
                 return
             elif not self.window.get_visible():
-                print('SUPER: show overlay')
-                self.showorhide('show')
+                print('SUPER: show overlay ' + time.asctime())
+                self.show()
                 return
         elif event.get_keycode()[1] == 36:
             self.execute("enter")
@@ -457,52 +459,49 @@ class OHMSHELL(object):
             # show the overlay on left mouse clicks
             if actor.get_child().get_text() == "Activities":
                 if self.window.get_visible():
-                    print('BUTTON: hide overlay')
-                    self.showorhide('hide')
+                    print('BUTTON: hide overlay ' + time.asctime())
+                    self.hide()
                     return
                 elif not self.window.get_visible():
-                    print('BUTTON: show overlay')
-                    self.showorhide('show')
+                    print('BUTTON: show overlay ' + time.asctime())
+                    self.show()
                     return
         return
 
     def motion(self, actor, event):
         """ Hot Corner functionality """
-        self.pointermaskold = self.pointermask
-        self.pointermask = (str(self.activities.get_pointer()[0]) +
-        str(self.activities.get_pointer()[1]))
+        winname = actor.get_title()
+        self.maskold = self.mask
+        #self.mask = (self.activities.get_pointer())
+        self.mask = (event.get_coords())
         # avoid repeatedly opening/closing activities
-        if self.pointermask == '00' and not self.pointermaskold == '00':
-            self.showorhide()
-            return
-
-    def showorhide(self, *args):
-        """ Show or hide the overlay depending on visibility """
-        print('showorhide')
-        if self.window.get_visible():
-            self.hide()
-        elif not self.window.get_visible():
-            self.show()
-        time.sleep(0.5)
+        if self.mask == (0.0, 0.0) and not self.maskold == (0.0, 0.0):
+            print('MOTION ' + time.asctime())
+            if winname == 'ohm-shell: Overlay':
+                self.hide()
+            if winname == 'ohm-shell: Activities':
+                self.show()
+        return
 
     def show(self, *args):
         """ show overlay window """
-        print('show')
+        print('show: ' + time.asctime())
         self.updatedock()
-        mytime = time.strftime('%H') + ':' + time.strftime('%M')
-        self.timelabel.set_text(mytime)
+        #mytime = time.strftime('%H') + ':' + time.strftime('%M')
+        self.timelabel.set_text(time.asctime())
         self.activities.set_keep_above(True)
         #self.window.grab_focus()
-        #self.runentry.grab_focus()
-        GLib.idle_add(self.bring_to_front)
-        while Gtk.events_pending():
-            Gtk.main_iteration()
-        self.screen.force_update()
-        self.windowlist = self.screen.get_windows()
-        for windows in self.windowlist:
-            # activate window that has the same name
-            if windows.get_name() == 'ohm-shell: Activities':
-                windows.activate(int(time.time()))
+        self.runentry.grab_focus()
+        #resize for trenta/gnome-classic/compiz
+        if self.toolbarheight:
+            screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
+            screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
+            self.window.set_size_request(screenwidth, (screenheight -
+                                                       self.toolbarheight))
+        self.window.maximize()
+        self.window.fullscreen()
+        self.window.present()
+        self.window.realize()
         #overlayxid = wins.get_xid()
         #overlayxid.activate(int(time.time()))
         return
@@ -513,7 +512,8 @@ class OHMSHELL(object):
         if self.toolbarheight:
             screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
             screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
-            self.window.set_size_request(screenwidth, (screenheight - self.toolbarheight))
+            self.window.set_size_request(screenwidth, (screenheight -
+                                                       self.toolbarheight))
         self.window.maximize()
         self.window.fullscreen()
         self.window.present()
@@ -522,7 +522,7 @@ class OHMSHELL(object):
 
     def hide(self, *args):
         """ hide overlay window """
-        print('hide')
+        print('hide: ' + time.asctime())
         self.timelabel.set_text("")
         self.window.set_keep_above(False)
         self.window.hide()
@@ -540,40 +540,55 @@ class OHMSHELL(object):
         Gtk.main_quit(*args)
         return False
 
-    def updatedock(self):
-        """ Update the list of open windows on the overlay """
+    def getwindowlist(self):
+        """ get running windows and return true if the list has changed"""
+        print('UPDATE: running apps ' + time.asctime())
+        oldwindows = self.openwindows
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
+        #Don't update when the windows are the same.
         if self.windowlist == self.screen.get_windows():
-            return
+            return False
         self.windowlist = self.screen.get_windows()
-        openwindows = []
+        self.openwindows = []
         if not len(self.windowlist) == 0:
-            count = 0
             for windows in self.windowlist:
                 if not windows.get_name() in HIDELIST:
-                    openwindows.append([windows.get_name(), windows.get_icon(),
-                                        windows.is_minimized()])
-            # blank before filling dock
-            for items in self.dock:
-                items[0].set_tooltip_text("")
-                items[2].set_text("")
-                items[0].set_visible(False)
-                items[1].set_visible(False)
-                items[2].set_visible(False)
-            # fill dock with open windows
-            for items in openwindows:
-                text = items[0]
-                self.dock[count][0].set_from_pixbuf(items[1])
-                self.dock[count][1].connect("clicked", self.changewindow)
-                self.dock[count][1].set_tooltip_text(items[0])
-                self.dock[count][2].set_line_wrap(True)
-                self.dock[count][2].set_text(text)
-                self.dock[count][0].set_visible(True)
-                self.dock[count][1].set_visible(True)
-                self.dock[count][2].set_visible(True)
-                count = count + 1
+                    self.openwindows.append([windows.get_name(),
+                                             windows.get_icon(),
+                                             windows.is_minimized()])
+            if oldwindows == self.openwindows:
+                # no change
+                return False
+        self.updatedock()
+        return True
+
+    def updatedock(self):
+        """ Update the list of open windows on the overlay """
+        if not self.getwindowlist():
+            print('Apps: No change')
             return
+        count = 0
+        # blank before filling dock
+        for items in self.dock:
+            items[0].set_tooltip_text("")
+            items[2].set_text("")
+            items[0].set_visible(False)
+            items[1].set_visible(False)
+            items[2].set_visible(False)
+        # fill dock with open windows
+        for items in self.openwindows:
+            text = items[0]
+            self.dock[count][0].set_from_pixbuf(items[1])
+            self.dock[count][1].connect("clicked", self.changewindow)
+            self.dock[count][1].set_tooltip_text(items[0])
+            self.dock[count][2].set_line_wrap(True)
+            self.dock[count][2].set_text(text)
+            self.dock[count][0].set_visible(True)
+            self.dock[count][1].set_visible(True)
+            self.dock[count][2].set_visible(True)
+            count = count + 1
+        return True
 
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
