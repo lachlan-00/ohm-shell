@@ -514,7 +514,8 @@ class OHMSHELL(object):
             screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
             self.window.set_size_request(screenwidth, (screenheight -
                                                        self.toolbarheight))
-        self.window.maximize()
+        if not self.window.is_maximized():
+            self.window.maximize()
         self.window.fullscreen()
         self.window.present()
         self.window.realize()
@@ -637,6 +638,8 @@ class OHMSHELL(object):
             return True
         else:
             # couldn't open window
+            print('ERROR: window missing')
+            self.reloadme(windows)
             return False
 
     def openconf(self, *args):
