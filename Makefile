@@ -16,7 +16,7 @@ install-req:
 	@chmod 644 /usr/bin/ohm-shell
 	@chmod 644 $(INSTALLPATH)/*
 	@chmod 644 /usr/bin/ohm-shell
-	@chmod +x $(INSTALLPATH)/ohm-shell.py
+	@chmod +x $(INSTALLPATH)/ohm_shell.py
 	@chmod +x /usr/bin/ohm-shell
 
 install: install-req

@@ -32,8 +32,10 @@ Requires
 --------
  * python 2.7
  * python-gobject (possibly others for light desktops)
+ * python-psutil
+ * python-xdg
  * gnome-icon-theme (for the moment)
- * gksu (shutdown and restart)
+ * gnome-session
 
 Links
 -----

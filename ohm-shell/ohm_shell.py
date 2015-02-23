@@ -24,10 +24,11 @@
 
 import os
 import time
+import psutil
 import ConfigParser
-import subprocess
 
 import checkconfig
+import procman
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -37,8 +38,8 @@ from xdg.BaseDirectory import xdg_config_dirs
 
 HOMEFOLDER = os.getenv('HOME')
 CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
-HIDELIST = ['ohm-shell.py', 'Desktop', 'xfce4-panel', 'xfce4-notifyd',
-            'Top Expanded Edge Panel', 'plank']
+HIDELIST = ['ohm_shell.py', 'ohm_shell.py', 'Desktop', 'xfce4-panel',
+            'xfce4-notifyd', 'Top Expanded Edge Panel', 'plank']
 
 
 class OHMSHELL(object):
@@ -65,6 +66,7 @@ class OHMSHELL(object):
         self.rightlabel = self.builder.get_object("rightlabel")
         self.reloadbutton = self.builder.get_object("reloadbutton")
         self.optionbutton = self.builder.get_object("optionbutton")
+        self.logoutbutton = self.builder.get_object("logoutbutton")
         self.restartbutton = self.builder.get_object("restartbutton")
         self.haltbutton = self.builder.get_object("haltbutton")
         self.closebutton = self.builder.get_object("closebutton")
@@ -181,47 +183,67 @@ class OHMSHELL(object):
         self.fav18 = self.builder.get_object("favbutton18")
         self.fav19 = self.builder.get_object("favbutton19")
         self.fav20 = self.builder.get_object("favbutton20")
-        self.favimage0 = self.builder.get_object("image0")
-        self.favimage1 = self.builder.get_object("image1")
-        self.favimage2 = self.builder.get_object("image2")
-        self.favimage3 = self.builder.get_object("image3")
-        self.favimage4 = self.builder.get_object("image4")
-        self.favimage5 = self.builder.get_object("image5")
-        self.favimage6 = self.builder.get_object("image6")
-        self.favimage7 = self.builder.get_object("image7")
-        self.favimage8 = self.builder.get_object("image8")
-        self.favimage9 = self.builder.get_object("image9")
-        self.favimage10 = self.builder.get_object("image10")
-        self.favimage11 = self.builder.get_object("image11")
-        self.favimage12 = self.builder.get_object("image12")
-        self.favimage13 = self.builder.get_object("image13")
-        self.favimage14 = self.builder.get_object("image14")
-        self.favimage15 = self.builder.get_object("image15")
-        self.favimage16 = self.builder.get_object("image16")
-        self.favimage17 = self.builder.get_object("image17")
-        self.favimage18 = self.builder.get_object("image18")
-        self.favimage19 = self.builder.get_object("image19")
-        self.favimage20 = self.builder.get_object("image20")
-        self.favcmd0 = None
-        self.favcmd1 = None
-        self.favcmd2 = None
-        self.favcmd3 = None
-        self.favcmd4 = None
-        self.favcmd5 = None
-        self.favcmd6 = None
-        self.favcmd7 = None
-        self.favcmd8 = None
-        self.favcmd9 = None
-        self.favcmd10 = None
-        self.favcmd11 = None
-        self.favcmd12 = None
-        self.favcmd13 = None
-        self.favcmd14 = None
-        self.favcmd15 = None
-        self.favcmd16 = None
-        self.favcmd17 = None
-        self.favcmd18 = None
-        self.favcmd19 = None
+        self.image0 = self.builder.get_object("image0")
+        self.image1 = self.builder.get_object("image1")
+        self.image2 = self.builder.get_object("image2")
+        self.image3 = self.builder.get_object("image3")
+        self.image4 = self.builder.get_object("image4")
+        self.image5 = self.builder.get_object("image5")
+        self.image6 = self.builder.get_object("image6")
+        self.image7 = self.builder.get_object("image7")
+        self.image8 = self.builder.get_object("image8")
+        self.image9 = self.builder.get_object("image9")
+        self.image10 = self.builder.get_object("image10")
+        self.image11 = self.builder.get_object("image11")
+        self.image12 = self.builder.get_object("image12")
+        self.image13 = self.builder.get_object("image13")
+        self.image14 = self.builder.get_object("image14")
+        self.image15 = self.builder.get_object("image15")
+        self.image16 = self.builder.get_object("image16")
+        self.image17 = self.builder.get_object("image17")
+        self.image18 = self.builder.get_object("image18")
+        self.image19 = self.builder.get_object("image19")
+        self.image20 = self.builder.get_object("image20")
+        self.cmd0 = None
+        self.cmd1 = None
+        self.cmd2 = None
+        self.cmd3 = None
+        self.cmd4 = None
+        self.cmd5 = None
+        self.cmd6 = None
+        self.cmd7 = None
+        self.cmd8 = None
+        self.cmd9 = None
+        self.cmd10 = None
+        self.cmd11 = None
+        self.cmd12 = None
+        self.cmd13 = None
+        self.cmd14 = None
+        self.cmd15 = None
+        self.cmd16 = None
+        self.cmd17 = None
+        self.cmd18 = None
+        self.cmd19 = None
+        self.pid0 = None
+        self.pid1 = None
+        self.pid2 = None
+        self.pid3 = None
+        self.pid4 = None
+        self.pid5 = None
+        self.pid6 = None
+        self.pid7 = None
+        self.pid8 = None
+        self.pid9 = None
+        self.pid10 = None
+        self.pid11 = None
+        self.pid12 = None
+        self.pid13 = None
+        self.pid14 = None
+        self.pid15 = None
+        self.pid16 = None
+        self.pid17 = None
+        self.pid18 = None
+        self.pid19 = None
         self.addfavbutton = self.builder.get_object("addfavbutton")
         self.favlist = None
         self.autostart = None
@@ -264,6 +286,7 @@ class OHMSHELL(object):
         self.activities.show()
         #self.activities.grab_focus()
         self.window.hide()
+        self.open = False
         return
 
     def initialloading(self):
@@ -313,46 +336,46 @@ class OHMSHELL(object):
             self.showhotlabel = self.conf.get('conf', 'showhotlabel')
         except ConfigParser.NoOptionError:
             self.showhotlabel = 'False'
-        self.favcmd0 = self.conf.get('conf', '0fav')
-        self.favcmd1 = self.conf.get('conf', '1fav')
-        self.favcmd2 = self.conf.get('conf', '2fav')
-        self.favcmd3 = self.conf.get('conf', '3fav')
-        self.favcmd4 = self.conf.get('conf', '4fav')
-        self.favcmd5 = self.conf.get('conf', '5fav')
-        self.favcmd6 = self.conf.get('conf', '6fav')
-        self.favcmd7 = self.conf.get('conf', '7fav')
-        self.favcmd8 = self.conf.get('conf', '8fav')
-        self.favcmd9 = self.conf.get('conf', '9fav')
-        self.favcmd10 = self.conf.get('conf', '10fav')
-        self.favcmd11 = self.conf.get('conf', '11fav')
-        self.favcmd12 = self.conf.get('conf', '12fav')
-        self.favcmd13 = self.conf.get('conf', '13fav')
-        self.favcmd14 = self.conf.get('conf', '14fav')
-        self.favcmd15 = self.conf.get('conf', '15fav')
-        self.favcmd16 = self.conf.get('conf', '16fav')
-        self.favcmd17 = self.conf.get('conf', '17fav')
-        self.favcmd18 = self.conf.get('conf', '18fav')
-        self.favcmd19 = self.conf.get('conf', '19fav')
-        self.favlist = [[self.fav0, self.favcmd0, self.favimage0],
-                        [self.fav1, self.favcmd1, self.favimage1],
-                        [self.fav2, self.favcmd2, self.favimage2],
-                        [self.fav3, self.favcmd3, self.favimage3],
-                        [self.fav4, self.favcmd4, self.favimage4],
-                        [self.fav5, self.favcmd5, self.favimage5],
-                        [self.fav6, self.favcmd6, self.favimage6],
-                        [self.fav7, self.favcmd7, self.favimage7],
-                        [self.fav8, self.favcmd8, self.favimage8],
-                        [self.fav9, self.favcmd9, self.favimage9],
-                        [self.fav10, self.favcmd10, self.favimage10],
-                        [self.fav11, self.favcmd11, self.favimage11],
-                        [self.fav12, self.favcmd12, self.favimage12],
-                        [self.fav13, self.favcmd13, self.favimage13],
-                        [self.fav14, self.favcmd14, self.favimage14],
-                        [self.fav15, self.favcmd15, self.favimage15],
-                        [self.fav16, self.favcmd16, self.favimage16],
-                        [self.fav17, self.favcmd17, self.favimage17],
-                        [self.fav18, self.favcmd18, self.favimage18],
-                        [self.fav19, self.favcmd19, self.favimage19]]
+        self.cmd0 = self.conf.get('conf', '0fav')
+        self.cmd1 = self.conf.get('conf', '1fav')
+        self.cmd2 = self.conf.get('conf', '2fav')
+        self.cmd3 = self.conf.get('conf', '3fav')
+        self.cmd4 = self.conf.get('conf', '4fav')
+        self.cmd5 = self.conf.get('conf', '5fav')
+        self.cmd6 = self.conf.get('conf', '6fav')
+        self.cmd7 = self.conf.get('conf', '7fav')
+        self.cmd8 = self.conf.get('conf', '8fav')
+        self.cmd9 = self.conf.get('conf', '9fav')
+        self.cmd10 = self.conf.get('conf', '10fav')
+        self.cmd11 = self.conf.get('conf', '11fav')
+        self.cmd12 = self.conf.get('conf', '12fav')
+        self.cmd13 = self.conf.get('conf', '13fav')
+        self.cmd14 = self.conf.get('conf', '14fav')
+        self.cmd15 = self.conf.get('conf', '15fav')
+        self.cmd16 = self.conf.get('conf', '16fav')
+        self.cmd17 = self.conf.get('conf', '17fav')
+        self.cmd18 = self.conf.get('conf', '18fav')
+        self.cmd19 = self.conf.get('conf', '19fav')
+        self.favlist = [[self.fav0, self.cmd0, self.image0, self.pid0],
+                        [self.fav1, self.cmd1, self.image1, self.pid1],
+                        [self.fav2, self.cmd2, self.image2, self.pid2],
+                        [self.fav3, self.cmd3, self.image3, self.pid3],
+                        [self.fav4, self.cmd4, self.image4, self.pid4],
+                        [self.fav5, self.cmd5, self.image5, self.pid5],
+                        [self.fav6, self.cmd6, self.image6, self.pid6],
+                        [self.fav7, self.cmd7, self.image7, self.pid7],
+                        [self.fav8, self.cmd8, self.image8, self.pid8],
+                        [self.fav9, self.cmd9, self.image9, self.pid9],
+                        [self.fav10, self.cmd10, self.image10, self.pid10],
+                        [self.fav11, self.cmd11, self.image11, self.pid11],
+                        [self.fav12, self.cmd12, self.image12, self.pid12],
+                        [self.fav13, self.cmd13, self.image13, self.pid13],
+                        [self.fav14, self.cmd14, self.image14, self.pid14],
+                        [self.fav15, self.cmd15, self.image15, self.pid15],
+                        [self.fav16, self.cmd16, self.image16, self.pid16],
+                        [self.fav17, self.cmd17, self.image17, self.pid17],
+                        [self.fav18, self.cmd18, self.image18, self.pid18],
+                        [self.fav19, self.cmd19, self.image19, self.pid19]]
         for items in self.favlist:
             if not items[1] == "":
                 tmpimage = self.conf.get('conf', (str(tmpcount) + 'favicon'))
@@ -369,68 +392,47 @@ class OHMSHELL(object):
     def execute(self, actor):
         """ Execute commands in a subprocess """
         tmpcount = 0
+        tmppid = None
         for items in self.favlist:
             if actor == items[0]:
                 print(items[0].get_tooltip_text())
+                # Switch to Active windows
                 if self.changewindow(items[0]):
-                    # Switch to Active windows
-                    self.hide()
-                    return
+                    return True
                 tmpexec = (items[1]).split()
                 if not tmpexec:
                     tmpexec = [].append(items[1])
-                print(tmpexec)
-                try:
-                    self.hide()
-                    subprocess.Popen(tmpexec)
-                    return
-                except OSError:
-                    #no file found
-                    print('No File Found')
-                    return False
-                except TypeError:
-                    #malformed entry
-                    print('Bad file name')
-                    return False
+                tmppid = procman.startprocess(tmpexec)
             tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
-            try:
-                self.hide()
-                subprocess.Popen(str.split(self.runentry.get_text()))
-                self.runentry.set_text("")
-            except OSError:
-                #no file found
-                print('No File Found')
-                self.runentry.set_text("")
-                return False
-            except TypeError:
-                #malformed entry
-                print('Bad file name')
-                self.runentry.set_text("")
-                return False
+            runcmd = str.split(self.runentry.get_text())
+            tmppid = procman.startprocess(runcmd)
+            print(tmppid)
+            self.runentry.set_text("")
         elif actor == "autostart":
             if self.autostart:
                 for items in self.autostart:
-                    try:
-                        # execute autorun programs as hidden shell commands
-                        tmpexec = items.split()
-                        if tmpexec:
-                            subprocess.Popen(tmpexec)
-                    except OSError:
-                        #couldn't find the file to execute
-                        pass
-                    except TypeError:
-                        #malformed entry
-                        pass
+                    # execute autorun programs as hidden shell commands
+                    tmpexec = items.split()
+                    if tmpexec:
+                        tmppid = procman.startprocess(tmpexec)
+                        print(tmppid)
         elif actor == "kill":
             for items in self.autostart:
                 temp = "/usr/bin/killall " + items.split()[0]
                 os.system(temp)
+        elif actor == self.logoutbutton:
+            tmppid = procman.startprocess(['gnome-session-quit',
+                                           '--logout'])
         elif actor == self.restartbutton:
-            subprocess.Popen(['gksu', 'reboot'])
+            tmppid = procman.startprocess(['gnome-session-quit',
+                                           '--reboot'])
         elif actor == self.haltbutton:
-            subprocess.Popen(['gksu', 'halt'])
-        self.hide()
+            tmppid = procman.startprocess(['gnome-session-quit',
+                                           '--power-off'])
+        print(tmppid)
+        if tmppid:
+            self.hide()
         return
 
     def keycatch(self, actor, event):
@@ -438,7 +440,14 @@ class OHMSHELL(object):
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                      Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
-            self.showorhide()
+            if self.window.get_visible():
+                print('SUPER: hide overlay')
+                self.showorhide('hide')
+                return
+            elif not self.window.get_visible():
+                print('SUPER: show overlay')
+                self.showorhide('show')
+                return
         elif event.get_keycode()[1] == 36:
             self.execute("enter")
 
@@ -447,21 +456,29 @@ class OHMSHELL(object):
         if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
             # show the overlay on left mouse clicks
             if actor.get_child().get_text() == "Activities":
-                self.showorhide()
+                if self.window.get_visible():
+                    print('BUTTON: hide overlay')
+                    self.showorhide('hide')
+                    return
+                elif not self.window.get_visible():
+                    print('BUTTON: show overlay')
+                    self.showorhide('show')
+                    return
         return
 
     def motion(self, actor, event):
         """ Hot Corner functionality """
         self.pointermaskold = self.pointermask
         self.pointermask = (str(self.activities.get_pointer()[0]) +
-                            str(self.activities.get_pointer()[1]))
+        str(self.activities.get_pointer()[1]))
         # avoid repeatedly opening/closing activities
         if self.pointermask == '00' and not self.pointermaskold == '00':
             self.showorhide()
-        return
+            return
 
     def showorhide(self, *args):
         """ Show or hide the overlay depending on visibility """
+        print('showorhide')
         if self.window.get_visible():
             self.hide()
         elif not self.window.get_visible():
@@ -470,6 +487,7 @@ class OHMSHELL(object):
 
     def show(self, *args):
         """ show overlay window """
+        print('show')
         self.updatedock()
         mytime = time.strftime('%H') + ':' + time.strftime('%M')
         self.timelabel.set_text(mytime)
@@ -485,7 +503,7 @@ class OHMSHELL(object):
             # activate window that has the same name
             if windows.get_name() == 'ohm-shell: Activities':
                 windows.activate(int(time.time()))
-                #overlayxid = wins.get_xid()
+        #overlayxid = wins.get_xid()
         #overlayxid.activate(int(time.time()))
         return
 
@@ -496,7 +514,6 @@ class OHMSHELL(object):
             screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
             screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
             self.window.set_size_request(screenwidth, (screenheight - self.toolbarheight))
-            #self.window.resize(screenwidth, screenheight)
         self.window.maximize()
         self.window.fullscreen()
         self.window.present()
@@ -505,6 +522,7 @@ class OHMSHELL(object):
 
     def hide(self, *args):
         """ hide overlay window """
+        print('hide')
         self.timelabel.set_text("")
         self.window.set_keep_above(False)
         self.window.hide()
@@ -559,33 +577,63 @@ class OHMSHELL(object):
 
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
+        found = False
         tooltip = actor.get_tooltip_text()
         self.screen.force_update()
         self.windowlist = self.screen.get_windows()
+        if found:
+            self.window.hide()
+            return True
         for windows in self.windowlist:
+            winpid = windows.get_pid()
+            winname = windows.get_name()
+            # identify process by the pid
+            for proc in psutil.process_iter():
+                xpid = proc.ppid()
+                xname = proc.name()
+                #print xname
+                #print winname
+                if winpid == xpid and winname in xname:
+                    print('PID!!!!')
+                    windows.activate(int(time.time()))
+                    #self.window.hide()
+                    #return True
+                    found = True
             # activate window that has the same name
-            if windows.get_name() == tooltip:
-                self.window.hide()
+            if winname == tooltip and not found:
                 windows.activate(int(time.time()))
-                return True
-            else:
+                #self.window.hide()
+                #return True
+                found = True
+            elif not found:
                 # Activate open windows that match the shortcut.
                 for items in self.favlist:
-                    if (actor == items[0] and tooltip in windows.get_name()):
-                        self.window.hide()
-                        windows.activate(int(time.time()))
-                        return True
-        # couldn't open window
-        return False
+                    if actor == items[0]:
+                        #identify process by the tooltip
+                        if (tooltip in winname or (tooltip.split()[0] in
+                                                   winname)):
+                            print(tooltip + " is already active")
+                            windows.activate(int(time.time()))
+                            #self.window.hide()
+                            #return True
+                            found = True
+        if found:
+            self.window.hide()
+            return True
+        else:
+            # couldn't open window
+            return False
 
     def openconf(self, *args):
         """ Open config file in default text editor """
         checkconfig.checkconfig(CONFIG)
-        subprocess.Popen(['/usr/bin/xdg-open', CONFIG])
-        self.hide()
+        tmppid = procman.startprocess(['/usr/bin/xdg-open', CONFIG])
+        if tmppid:
+            self.hide()
 
     def reloadme(self, event):
         """ Reload the main window so shortcuts can be updated """
+        print (event)
         self.run()
 
 if __name__ == "__main__":
