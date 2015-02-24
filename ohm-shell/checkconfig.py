@@ -22,30 +22,61 @@
 
 """
 
-import os
+#import os
+
+#ConfigParser renamed for python3
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
+
 
 def checkconfig(inputpath):
     """ create a default config if not available """
-    if not os.path.isfile(inputpath):
+    conf = ConfigParser.RawConfigParser()
+    conf.read(inputpath)
+    if not conf.has_section('dock'):
+        count = 0
+        print('adding dock')
         conffile = open(inputpath, "w")
-        conffile.write("[conf]\n\n# Shortcut bar: Enter the command then the" +
-                       " icon path\n0fav = nautilus\n0favicon = /usr/share/i" +
-                       "cons/gnome/48x48/places/user-home.png\n1fav = x-term" +
-                       "inal-emulator\n1favicon = /usr/share/icons/gnome/48x" +
-                       "48/apps/utilities-terminal.png\n2fav = x-www-browser" +
-                       "\n2favicon = /usr/share/icons/gnome/48x48/apps/web-b" +
-                       "rowser.png\n3fav = \n3favicon = \n4fav = \n4favicon " +
-                       "= \n5fav = \n5favicon = \n6fav = \n6favicon = \n7fav" +
-                       " = \n7favicon = \n8fav = \n8favicon = \n9fav = \n9fa" +
-                       "vicon = \n10fav = \n10favicon = \n11fav = \n11favico" +
-                       "n = \n12fav = \n12favicon = \n13fav = \n13favicon = " +
-                       "\n14fav = \n14favicon = \n15fav = \n15favicon = \n16" +
-                       "fav = \n16favicon = \n17fav = \n17favicon = \n18fav " +
-                       "= \n18favicon = \n19fav = \n19favicon = \n\n# autost" +
-                       "art allows multiple commands 4 space separated. ('  " +
-                       "')\nautostart = \n\n# Show open windows on the left " +
-                       "or right side of the main window\n# Options (left, r" +
-                       "ight or centre)\nappposition = left\n\n#Show or hide" +
-                       " the hot corner label\nshowhotlabel = False\n")
+        conf.add_section('dock')
+        while count < 20:
+            conf.set('dock', str(count) + 'fav', '')
+            conf.set('dock', str(count) + 'icon', '')
+            count = count + 1
+        conf.write(conffile)
+        conffile.close()
+    if not conf.has_section('options'):
+        conffile = open(inputpath, "w")
+        print('adding options')
+        conf.add_section('options')
+        conf.set('options', 'autostart', '')
+        conf.set('options', 'appposition', 'centre')
+        conf.set('options', 'showhotlabel', 'True')
+        conf.write(conffile)
         conffile.close()
         return
+
+def checksetting(inputpath, settingid, setting ):
+    """ try to identify the default icon theme path """
+    conf = ConfigParser.RawConfigParser()
+    conf.read(inputpath)
+    try:
+        name = conf.get(settingid, setting)
+    except ConfigParser.NoOptionError:
+        return None
+    return name
+
+def changesetting(inputpath, settingid, setting, value):
+    """ set values for settings """
+    conf = ConfigParser.RawConfigParser()
+    conf.read(inputpath)
+    conf.set(settingid, setting, value)
+    conffile = open(inputpath, "w")
+    conf.write(conffile)
+    conffile.close()
+    return
+
+def checkdesktopfile(inputfile):
+    """ get basic information from the selected desktop file """
+    return

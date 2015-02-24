@@ -2,6 +2,69 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
+  <object class="GtkAction" id="action1"/>
+  <object class="GtkFileFilter" id="desktopfilter">
+    <mime-types>
+      <mime-type>application/x-desktop</mime-type>
+    </mime-types>
+  </object>
+  <object class="GtkFileChooserDialog" id="addfavs">
+    <property name="can_focus">False</property>
+    <property name="type_hint">dialog</property>
+    <property name="filter">desktopfilter</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="addfavsbox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="addfavs-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="addfavcancel">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="yalign">0.55000001192092896</property>
+                <property name="always_show_image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="addfavok">
+                <property name="label">gtk-add</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkListStore" id="filestore">
     <columns>
       <!-- column-name filearray -->
@@ -746,6 +809,30 @@
                                 <property name="position">20</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkButton" id="delfavbutton">
+                                <property name="use_action_appearance">False</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="focus_on_click">False</property>
+                                <child>
+                                  <object class="GtkImage" id="image21">
+                                    <property name="width_request">48</property>
+                                    <property name="height_request">48</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="pixbuf">/usr/share/icons/gnome/48x48/actions/remove.png</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">21</property>
+                              </packing>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -903,7 +990,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton0">
+                      <object class="GtkButton" id="winbutton0">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -929,7 +1016,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel0">
+                      <object class="GtkLabel" id="winlabel0">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -959,7 +1046,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton1">
+                      <object class="GtkButton" id="winbutton1">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -985,7 +1072,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel1">
+                      <object class="GtkLabel" id="winlabel1">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1015,7 +1102,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton2">
+                      <object class="GtkButton" id="winbutton2">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1041,7 +1128,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel2">
+                      <object class="GtkLabel" id="winlabel2">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1071,7 +1158,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton3">
+                      <object class="GtkButton" id="winbutton3">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1097,7 +1184,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel3">
+                      <object class="GtkLabel" id="winlabel3">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1127,7 +1214,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton4">
+                      <object class="GtkButton" id="winbutton4">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1153,7 +1240,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel4">
+                      <object class="GtkLabel" id="winlabel4">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1183,7 +1270,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton5">
+                      <object class="GtkButton" id="winbutton5">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1209,7 +1296,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel5">
+                      <object class="GtkLabel" id="winlabel5">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1239,7 +1326,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton6">
+                      <object class="GtkButton" id="winbutton6">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1265,7 +1352,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel6">
+                      <object class="GtkLabel" id="winlabel6">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1295,7 +1382,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton7">
+                      <object class="GtkButton" id="winbutton7">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1321,7 +1408,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel7">
+                      <object class="GtkLabel" id="winlabel7">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1351,7 +1438,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton8">
+                      <object class="GtkButton" id="winbutton8">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1377,7 +1464,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel8">
+                      <object class="GtkLabel" id="winlabel8">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1407,7 +1494,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton9">
+                      <object class="GtkButton" id="winbutton9">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1433,7 +1520,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel9">
+                      <object class="GtkLabel" id="winlabel9">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1463,7 +1550,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton10">
+                      <object class="GtkButton" id="winbutton10">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1489,7 +1576,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel10">
+                      <object class="GtkLabel" id="winlabel10">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1519,7 +1606,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton11">
+                      <object class="GtkButton" id="winbutton11">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1545,7 +1632,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel11">
+                      <object class="GtkLabel" id="winlabel11">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1575,7 +1662,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton12">
+                      <object class="GtkButton" id="winbutton12">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1601,7 +1688,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel12">
+                      <object class="GtkLabel" id="winlabel12">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1631,7 +1718,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton13">
+                      <object class="GtkButton" id="winbutton13">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1657,7 +1744,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel13">
+                      <object class="GtkLabel" id="winlabel13">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1687,7 +1774,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton14">
+                      <object class="GtkButton" id="winbutton14">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1713,7 +1800,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel14">
+                      <object class="GtkLabel" id="winlabel14">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1743,7 +1830,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton15">
+                      <object class="GtkButton" id="winbutton15">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1769,7 +1856,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel15">
+                      <object class="GtkLabel" id="winlabel15">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1799,7 +1886,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton16">
+                      <object class="GtkButton" id="winbutton16">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1825,7 +1912,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel16">
+                      <object class="GtkLabel" id="winlabel16">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1855,7 +1942,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton17">
+                      <object class="GtkButton" id="winbutton17">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1881,7 +1968,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel17">
+                      <object class="GtkLabel" id="winlabel17">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1911,7 +1998,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton18">
+                      <object class="GtkButton" id="winbutton18">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1937,7 +2024,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel18">
+                      <object class="GtkLabel" id="winlabel18">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>
@@ -1967,7 +2054,7 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="dockbutton19">
+                      <object class="GtkButton" id="winbutton19">
                         <property name="use_action_appearance">False</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
@@ -1993,7 +2080,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="docklabel19">
+                      <object class="GtkLabel" id="winlabel19">
                         <property name="width_request">128</property>
                         <property name="height_request">44</property>
                         <property name="visible">True</property>

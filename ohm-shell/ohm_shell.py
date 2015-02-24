@@ -24,7 +24,7 @@
 
 import os
 import time
-import psutil
+#import psutil
 import ConfigParser
 
 import checkconfig
@@ -32,7 +32,7 @@ import procman
 
 from gi.repository import Gtk
 from gi.repository import Gdk
-from gi.repository import GLib
+#from gi.repository import GLib
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -41,6 +41,16 @@ CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
 HIDELIST = ['ohm_shell.py', 'ohm_shell.py', 'Desktop', 'ohm-shell: Activities',
             'ohm-shell: Overlay', 'xfce4-panel', 'xfce4-notifyd',
             'Top Expanded Edge Panel', 'plank']
+DEFAULTTHEME = '/usr/share/icons/default/index.theme'
+THEMENAME = checkconfig.checksetting(DEFAULTTHEME, 'Icon Theme', 'Inherits')
+MYTHEMEBASE = '/usr/share/icons/' + THEMENAME + '/'
+MYTHEMEPATHS = checkconfig.checksetting(MYTHEMEBASE + '/index.theme',
+                                        'Icon Theme', 'Directories')
+ICONSEARCHPATHS = []
+for path in MYTHEMEPATHS.split(','):
+    if len(path) > 0:
+        ICONSEARCHPATHS.append(MYTHEMEBASE + path)
+print(ICONSEARCHPATHS)
 
 
 class OHMSHELL(object):
@@ -93,47 +103,52 @@ class OHMSHELL(object):
         self.window17 = self.builder.get_object("windowimage17")
         self.window18 = self.builder.get_object("windowimage18")
         self.window19 = self.builder.get_object("windowimage19")
-        self.dockbutton0 = self.builder.get_object("dockbutton0")
-        self.dockbutton1 = self.builder.get_object("dockbutton1")
-        self.dockbutton2 = self.builder.get_object("dockbutton2")
-        self.dockbutton3 = self.builder.get_object("dockbutton3")
-        self.dockbutton4 = self.builder.get_object("dockbutton4")
-        self.dockbutton5 = self.builder.get_object("dockbutton5")
-        self.dockbutton6 = self.builder.get_object("dockbutton6")
-        self.dockbutton7 = self.builder.get_object("dockbutton7")
-        self.dockbutton8 = self.builder.get_object("dockbutton8")
-        self.dockbutton9 = self.builder.get_object("dockbutton9")
-        self.dockbutton10 = self.builder.get_object("dockbutton10")
-        self.dockbutton11 = self.builder.get_object("dockbutton11")
-        self.dockbutton12 = self.builder.get_object("dockbutton12")
-        self.dockbutton13 = self.builder.get_object("dockbutton13")
-        self.dockbutton14 = self.builder.get_object("dockbutton14")
-        self.dockbutton15 = self.builder.get_object("dockbutton15")
-        self.dockbutton16 = self.builder.get_object("dockbutton16")
-        self.dockbutton17 = self.builder.get_object("dockbutton17")
-        self.dockbutton18 = self.builder.get_object("dockbutton18")
-        self.dockbutton19 = self.builder.get_object("dockbutton19")
-        self.docklabel0 = self.builder.get_object("docklabel0")
-        self.docklabel1 = self.builder.get_object("docklabel1")
-        self.docklabel2 = self.builder.get_object("docklabel2")
-        self.docklabel3 = self.builder.get_object("docklabel3")
-        self.docklabel4 = self.builder.get_object("docklabel4")
-        self.docklabel5 = self.builder.get_object("docklabel5")
-        self.docklabel6 = self.builder.get_object("docklabel6")
-        self.docklabel7 = self.builder.get_object("docklabel7")
-        self.docklabel8 = self.builder.get_object("docklabel8")
-        self.docklabel9 = self.builder.get_object("docklabel9")
-        self.docklabel10 = self.builder.get_object("docklabel10")
-        self.docklabel11 = self.builder.get_object("docklabel11")
-        self.docklabel12 = self.builder.get_object("docklabel12")
-        self.docklabel13 = self.builder.get_object("docklabel13")
-        self.docklabel14 = self.builder.get_object("docklabel14")
-        self.docklabel15 = self.builder.get_object("docklabel15")
-        self.docklabel16 = self.builder.get_object("docklabel16")
-        self.docklabel17 = self.builder.get_object("docklabel17")
-        self.docklabel18 = self.builder.get_object("docklabel18")
-        self.docklabel19 = self.builder.get_object("docklabel19")
+        self.winbutton0 = self.builder.get_object("winbutton0")
+        self.winbutton1 = self.builder.get_object("winbutton1")
+        self.winbutton2 = self.builder.get_object("winbutton2")
+        self.winbutton3 = self.builder.get_object("winbutton3")
+        self.winbutton4 = self.builder.get_object("winbutton4")
+        self.winbutton5 = self.builder.get_object("winbutton5")
+        self.winbutton6 = self.builder.get_object("winbutton6")
+        self.winbutton7 = self.builder.get_object("winbutton7")
+        self.winbutton8 = self.builder.get_object("winbutton8")
+        self.winbutton9 = self.builder.get_object("winbutton9")
+        self.winbutton10 = self.builder.get_object("winbutton10")
+        self.winbutton11 = self.builder.get_object("winbutton11")
+        self.winbutton12 = self.builder.get_object("winbutton12")
+        self.winbutton13 = self.builder.get_object("winbutton13")
+        self.winbutton14 = self.builder.get_object("winbutton14")
+        self.winbutton15 = self.builder.get_object("winbutton15")
+        self.winbutton16 = self.builder.get_object("winbutton16")
+        self.winbutton17 = self.builder.get_object("winbutton17")
+        self.winbutton18 = self.builder.get_object("winbutton18")
+        self.winbutton19 = self.builder.get_object("winbutton19")
+        self.winlabel0 = self.builder.get_object("winlabel0")
+        self.winlabel1 = self.builder.get_object("winlabel1")
+        self.winlabel2 = self.builder.get_object("winlabel2")
+        self.winlabel3 = self.builder.get_object("winlabel3")
+        self.winlabel4 = self.builder.get_object("winlabel4")
+        self.winlabel5 = self.builder.get_object("winlabel5")
+        self.winlabel6 = self.builder.get_object("winlabel6")
+        self.winlabel7 = self.builder.get_object("winlabel7")
+        self.winlabel8 = self.builder.get_object("winlabel8")
+        self.winlabel9 = self.builder.get_object("winlabel9")
+        self.winlabel10 = self.builder.get_object("winlabel10")
+        self.winlabel11 = self.builder.get_object("winlabel11")
+        self.winlabel12 = self.builder.get_object("winlabel12")
+        self.winlabel13 = self.builder.get_object("winlabel13")
+        self.winlabel14 = self.builder.get_object("winlabel14")
+        self.winlabel15 = self.builder.get_object("winlabel15")
+        self.winlabel16 = self.builder.get_object("winlabel16")
+        self.winlabel17 = self.builder.get_object("winlabel17")
+        self.winlabel18 = self.builder.get_object("winlabel18")
+        self.winlabel19 = self.builder.get_object("winlabel19")
+        # file chooser to add to dock
+        self.addfavs = self.builder.get_object('addfavs')
+        self.addfavok = self.builder.get_object('addfavok')
+        self.addfavcancel = self.builder.get_object('addfavcancel')
         # Dock lists to update buttons and images together
+        self.screen = None
         self.toolbarheight = None
         self.windowlist = None
         self.openwindows = None
@@ -142,26 +157,26 @@ class OHMSHELL(object):
             # activate window that has the same name
             if windows.get_name() == 'Top Expanded Edge Panel':
                 self.toolbarheight = windows.get_geometry()[3]
-        self.dock = [[self.window0, self.dockbutton0, self.docklabel0],
-                     [self.window1, self.dockbutton1, self.docklabel1],
-                     [self.window2, self.dockbutton2, self.docklabel2],
-                     [self.window3, self.dockbutton3, self.docklabel3],
-                     [self.window4, self.dockbutton4, self.docklabel4],
-                     [self.window5, self.dockbutton5, self.docklabel5],
-                     [self.window6, self.dockbutton6, self.docklabel6],
-                     [self.window7, self.dockbutton7, self.docklabel7],
-                     [self.window8, self.dockbutton8, self.docklabel8],
-                     [self.window9, self.dockbutton9, self.docklabel9],
-                     [self.window10, self.dockbutton10, self.docklabel10],
-                     [self.window11, self.dockbutton11, self.docklabel11],
-                     [self.window12, self.dockbutton12, self.docklabel12],
-                     [self.window13, self.dockbutton13, self.docklabel13],
-                     [self.window14, self.dockbutton14, self.docklabel14],
-                     [self.window15, self.dockbutton15, self.docklabel15],
-                     [self.window16, self.dockbutton16, self.docklabel16],
-                     [self.window17, self.dockbutton17, self.docklabel17],
-                     [self.window18, self.dockbutton18, self.docklabel18],
-                     [self.window19, self.dockbutton19, self.docklabel19]]
+        self.dock = [[self.window0, self.winbutton0, self.winlabel0],
+                     [self.window1, self.winbutton1, self.winlabel1],
+                     [self.window2, self.winbutton2, self.winlabel2],
+                     [self.window3, self.winbutton3, self.winlabel3],
+                     [self.window4, self.winbutton4, self.winlabel4],
+                     [self.window5, self.winbutton5, self.winlabel5],
+                     [self.window6, self.winbutton6, self.winlabel6],
+                     [self.window7, self.winbutton7, self.winlabel7],
+                     [self.window8, self.winbutton8, self.winlabel8],
+                     [self.window9, self.winbutton9, self.winlabel9],
+                     [self.window10, self.winbutton10, self.winlabel10],
+                     [self.window11, self.winbutton11, self.winlabel11],
+                     [self.window12, self.winbutton12, self.winlabel12],
+                     [self.window13, self.winbutton13, self.winlabel13],
+                     [self.window14, self.winbutton14, self.winlabel14],
+                     [self.window15, self.winbutton15, self.winlabel15],
+                     [self.window16, self.winbutton16, self.winlabel16],
+                     [self.window17, self.winbutton17, self.winlabel17],
+                     [self.window18, self.winbutton18, self.winlabel18],
+                     [self.window19, self.winbutton19, self.winlabel19]]
         # Shortcuts, buttons and images to connect from config
         self.fav0 = self.builder.get_object("favbutton0")
         self.fav1 = self.builder.get_object("favbutton1")
@@ -246,6 +261,7 @@ class OHMSHELL(object):
         self.pid18 = None
         self.pid19 = None
         self.addfavbutton = self.builder.get_object("addfavbutton")
+        self.delfavbutton = self.builder.get_object("delfavbutton")
         self.favlist = None
         self.autostart = None
         self.showhotlabel = None
@@ -262,7 +278,10 @@ class OHMSHELL(object):
         self.activitylabel.connect("button-release-event", self.button)
         self.mainactivitylabel.connect("button-release-event", self.button)
         self.gobutton.connect("clicked", self.execute)
-        self.addfavbutton.connect("clicked", self.openconf)
+        self.addfavbutton.connect("clicked", self.choosefavs)
+        self.delfavbutton.connect("clicked", self.delmode)
+        self.addfavok.connect("clicked", self.addfavtoconf)
+        self.addfavcancel.connect("clicked", self.cancelchoose)
         self.reloadbutton.connect("clicked", self.run)
         self.optionbutton.connect("clicked", self.openconf)
         self.restartbutton.connect("clicked", self.execute)
@@ -325,37 +344,37 @@ class OHMSHELL(object):
         checkconfig.checkconfig(CONFIG)
         self.conf.read(CONFIG)
         try:
-            self.autostart = self.conf.get('conf', 'autostart')
+            self.autostart = self.conf.get('options', 'autostart')
         except ConfigParser.NoOptionError:
             self.autostart = None
         try:
-            self.appposition = self.conf.get('conf', 'appposition')
+            self.appposition = self.conf.get('options', 'appposition')
         except ConfigParser.NoOptionError:
             self.appposition = 'Centre'
         try:
-            self.showhotlabel = self.conf.get('conf', 'showhotlabel')
+            self.showhotlabel = self.conf.get('options', 'showhotlabel')
         except ConfigParser.NoOptionError:
             self.showhotlabel = 'False'
-        self.cmd0 = self.conf.get('conf', '0fav')
-        self.cmd1 = self.conf.get('conf', '1fav')
-        self.cmd2 = self.conf.get('conf', '2fav')
-        self.cmd3 = self.conf.get('conf', '3fav')
-        self.cmd4 = self.conf.get('conf', '4fav')
-        self.cmd5 = self.conf.get('conf', '5fav')
-        self.cmd6 = self.conf.get('conf', '6fav')
-        self.cmd7 = self.conf.get('conf', '7fav')
-        self.cmd8 = self.conf.get('conf', '8fav')
-        self.cmd9 = self.conf.get('conf', '9fav')
-        self.cmd10 = self.conf.get('conf', '10fav')
-        self.cmd11 = self.conf.get('conf', '11fav')
-        self.cmd12 = self.conf.get('conf', '12fav')
-        self.cmd13 = self.conf.get('conf', '13fav')
-        self.cmd14 = self.conf.get('conf', '14fav')
-        self.cmd15 = self.conf.get('conf', '15fav')
-        self.cmd16 = self.conf.get('conf', '16fav')
-        self.cmd17 = self.conf.get('conf', '17fav')
-        self.cmd18 = self.conf.get('conf', '18fav')
-        self.cmd19 = self.conf.get('conf', '19fav')
+        self.cmd0 = self.conf.get('dock', '0fav')
+        self.cmd1 = self.conf.get('dock', '1fav')
+        self.cmd2 = self.conf.get('dock', '2fav')
+        self.cmd3 = self.conf.get('dock', '3fav')
+        self.cmd4 = self.conf.get('dock', '4fav')
+        self.cmd5 = self.conf.get('dock', '5fav')
+        self.cmd6 = self.conf.get('dock', '6fav')
+        self.cmd7 = self.conf.get('dock', '7fav')
+        self.cmd8 = self.conf.get('dock', '8fav')
+        self.cmd9 = self.conf.get('dock', '9fav')
+        self.cmd10 = self.conf.get('dock', '10fav')
+        self.cmd11 = self.conf.get('dock', '11fav')
+        self.cmd12 = self.conf.get('dock', '12fav')
+        self.cmd13 = self.conf.get('dock', '13fav')
+        self.cmd14 = self.conf.get('dock', '14fav')
+        self.cmd15 = self.conf.get('dock', '15fav')
+        self.cmd16 = self.conf.get('dock', '16fav')
+        self.cmd17 = self.conf.get('dock', '17fav')
+        self.cmd18 = self.conf.get('dock', '18fav')
+        self.cmd19 = self.conf.get('dock', '19fav')
         self.favlist = [[self.fav0, self.cmd0, self.image0, self.pid0],
                         [self.fav1, self.cmd1, self.image1, self.pid1],
                         [self.fav2, self.cmd2, self.image2, self.pid2],
@@ -378,7 +397,7 @@ class OHMSHELL(object):
                         [self.fav19, self.cmd19, self.image19, self.pid19]]
         for items in self.favlist:
             if not items[1] == "":
-                tmpimage = self.conf.get('conf', (str(tmpcount) + 'favicon'))
+                tmpimage = self.conf.get('dock', (str(tmpcount) + 'icon'))
                 items[0].set_visible(True)
                 items[0].set_tooltip_text(items[1])
                 items[0].connect("clicked", self.execute)
@@ -575,57 +594,65 @@ class OHMSHELL(object):
             count = count + 1
         return True
 
+    def activewindows(self, search):
+        """ sort through open windows to activate """
+        found = False
+        # identify windows by title
+        self.getwindowlist()
+        for windows in self.windowlist:
+            name = windows.get_name().lower()
+            # Activate windows with the same name from the overlay
+            if not found and (name == search or name.split()[0] in search):
+                print('FOUNDWINDOW: ' + name)
+                windows.activate(int(time.time()))
+                return True
+        # Error, Window not activated.
+        return False
+
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
         found = False
         tooltip = actor.get_tooltip_text().lower()
-        # identify process by the pid
+        # identify open applications from clicked buttons
         proclist = procman.getprocesses()
+        if self.activewindows(tooltip):
+            self.window.hide()
+            return True
+        procfound = False
+        procname = None
+        proccmd = None
         self.getwindowlist()
-        for windows in self.windowlist:
-            winname = windows.get_name().lower()
-            # Activate windows with the same name from the overlay
-            if not found and (winname == tooltip or winname.split()[0] in tooltip):
-                    print('FOUNDWINDOW: ' + winname)
-                    windows.activate(int(time.time()))
-                    found = True
-        if not found:
-            proclist = procman.getprocesses()
-            procfound = False
-            procname = None
-            proccmd = None
-            self.getwindowlist()
-            #identify process by the tooltip
-            for proc in proclist:
-                if not procfound:
-                    name = proc[1]
-                    cmd = proc[2]
-                    if cmd == []:
-                        cmd = name
-                    if tooltip in name or name.split()[0] in tooltip:
-                        procname = name.lower()
-                        procfound = True
-                    if tooltip in cmd or tooltip.split()[0] in cmd:
-                        proccmd = cmd
-            if procname or proccmd:
-                print(procname)
-                print(proccmd)
-                for windows in self.windowlist:
-                    if not found:
-                        winname = windows.get_name().lower()
-                        # Activate open windows that match the shortcut.
-                        for items in self.favlist:
-                            if actor == items[0] and not found:
-                                if procname in winname or winname in proccmd:
-                                    found = True
-                                elif procname in items[1] or items[1] in proccmd:
-                                    found = True
-                                if found:
-                                    print("FOUNDPROCESS: " + winname)
-                                    print(procname)
-                                    print(proccmd)
-                                    print(tooltip)
-                                    windows.activate(int(time.time()))
+        #identify process by the tooltip
+        for proc in proclist:
+            if not procfound:
+                name = proc[1]
+                cmd = proc[2]
+                if cmd == []:
+                    cmd = name
+                if tooltip in name or name.split()[0] in tooltip:
+                    procname = name.lower()
+                    procfound = True
+                if tooltip in cmd or tooltip.split()[0] in cmd:
+                    proccmd = cmd
+        if procname or proccmd:
+            print(procname)
+            print(proccmd)
+            for windows in self.windowlist:
+                if not found:
+                    winname = windows.get_name().lower()
+                    # Activate open windows that match the shortcut.
+                    for items in self.favlist:
+                        if actor == items[0] and not found:
+                            if procname in winname or winname in proccmd:
+                                found = True
+                            elif procname in items[1] or items[1] in proccmd:
+                                found = True
+                            if found:
+                                print("FOUNDPROCESS: " + winname)
+                                print(procname)
+                                print(proccmd)
+                                print(tooltip)
+                                windows.activate(int(time.time()))
         if found:
             self.window.hide()
             return True
@@ -639,7 +666,33 @@ class OHMSHELL(object):
         checkconfig.checkconfig(CONFIG)
         tmppid = procman.startprocess(['/usr/bin/xdg-open', CONFIG])
         if tmppid:
-            self.hide()
+            self.hide()    
 
+    def addfavtoconf(self, actor):
+        """ get desktop entry info """
+        entry = 'Desktop Entry'
+        filelist = []
+        self.fileitem = self.addfavs.get_filename()
+        filelist.append(checkconfig.checksetting(self.fileitem, entry, 'Name'))
+        filelist.append(checkconfig.checksetting(self.fileitem, entry, 'Exec'))
+        filelist.append(checkconfig.checksetting(self.fileitem, entry, 'Icon'))
+        filelist.append(checkconfig.checksetting(self.fileitem, entry,
+                                                 'Comment'))
+        self.openconf()
+        self.addfavs.hide()
+        return
+
+    def delmode(self, actor):
+        """ allow live deleting of favourites """
+        return
+
+    def choosefavs(self, actor):
+        if actor == self.addfavbutton:
+            self.addfavs.present()
+        return
+        
+    def cancelchoose(self, actor):
+        if actor == self.addfavcancel:
+            self.addfavs.hide()
 if __name__ == "__main__":
     OHMSHELL()
