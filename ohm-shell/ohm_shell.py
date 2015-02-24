@@ -134,10 +134,10 @@ class OHMSHELL(object):
         self.docklabel18 = self.builder.get_object("docklabel18")
         self.docklabel19 = self.builder.get_object("docklabel19")
         # Dock lists to update buttons and images together
-        self.screen = Wnck.Screen.get_default()
-        self.screen.force_update()
-        self.windowlist = self.screen.get_windows()
         self.toolbarheight = None
+        self.windowlist = None
+        self.openwindows = None
+        self.getwindowlist()
         for windows in self.windowlist:
             # activate window that has the same name
             if windows.get_name() == 'Top Expanded Edge Panel':
@@ -247,7 +247,6 @@ class OHMSHELL(object):
         self.pid19 = None
         self.addfavbutton = self.builder.get_object("addfavbutton")
         self.favlist = None
-        self.openwindows = None
         self.autostart = None
         self.showhotlabel = None
         self.appposition = None
@@ -264,7 +263,7 @@ class OHMSHELL(object):
         self.mainactivitylabel.connect("button-release-event", self.button)
         self.gobutton.connect("clicked", self.execute)
         self.addfavbutton.connect("clicked", self.openconf)
-        self.reloadbutton.connect("clicked", self.reloadme)
+        self.reloadbutton.connect("clicked", self.run)
         self.optionbutton.connect("clicked", self.openconf)
         self.restartbutton.connect("clicked", self.execute)
         self.haltbutton.connect("clicked", self.execute)
@@ -400,13 +399,19 @@ class OHMSHELL(object):
                 print(items[0].get_tooltip_text())
                 # Switch to Active windows
                 if self.changewindow(items[0]):
+                    print('ACTIVATING: ' + items[0].get_tooltip_text())
                     return True
                 tmpexec = (items[1]).split()
                 if not tmpexec:
                     tmpexec = [].append(items[1])
+                print('fav execute')
                 tmppid = procman.startprocess(tmpexec)
+                if tmppid:
+                    self.hide()
+                    return True
             tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
+            print('runentry execute')
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
             print(tmppid)
@@ -417,6 +422,7 @@ class OHMSHELL(object):
                     # execute autorun programs as hidden shell commands
                     tmpexec = items.split()
                     if tmpexec:
+                        print('autostart execute')
                         tmppid = procman.startprocess(tmpexec)
                         print(tmppid)
         elif actor == "kill":
@@ -425,14 +431,14 @@ class OHMSHELL(object):
                 os.system(temp)
         elif actor == self.logoutbutton:
             tmppid = procman.startprocess(['gnome-session-quit',
-                                           '--logout'])
+                                           '--logout', '--force'])
         elif actor == self.restartbutton:
             tmppid = procman.startprocess(['gnome-session-quit',
                                            '--reboot'])
         elif actor == self.haltbutton:
             tmppid = procman.startprocess(['gnome-session-quit',
                                            '--power-off'])
-        print(tmppid)
+        ###debug###print(tmppid)
         if tmppid:
             self.hide()
         return
@@ -443,11 +449,11 @@ class OHMSHELL(object):
                      Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
             if self.window.get_visible():
-                print('SUPER: hide overlay ' + time.asctime())
+                ###debug###print('SUPER: hide overlay ' + time.asctime())
                 self.hide()
                 return
             elif not self.window.get_visible():
-                print('SUPER: show overlay ' + time.asctime())
+                ###debug###print('SUPER: show overlay ' + time.asctime())
                 self.show()
                 return
         elif event.get_keycode()[1] == 36:
@@ -457,15 +463,15 @@ class OHMSHELL(object):
         """ Catch mouse clicks"""
         if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
             # show the overlay on left mouse clicks
-            if actor.get_child().get_text() == "Activities":
-                if self.window.get_visible():
-                    print('BUTTON: hide overlay ' + time.asctime())
-                    self.hide()
-                    return
-                elif not self.window.get_visible():
-                    print('BUTTON: show overlay ' + time.asctime())
-                    self.show()
-                    return
+            identity = actor.get_child().get_name()
+            if identity == 'overlaylabel':
+                ###debug###print('BUTTON: hide overlay ' + time.asctime())
+                self.hide()
+                return
+            elif identity == 'hotlabel':
+                ###debug###print('BUTTON: show overlay ' + time.asctime())
+                self.show()
+                return
         return
 
     def motion(self, actor, event):
@@ -476,7 +482,7 @@ class OHMSHELL(object):
         self.mask = (event.get_coords())
         # avoid repeatedly opening/closing activities
         if self.mask == (0.0, 0.0) and not self.maskold == (0.0, 0.0):
-            print('MOTION ' + time.asctime())
+            ###debug###print('MOTION ' + time.asctime())
             if winname == 'ohm-shell: Overlay':
                 self.hide()
             if winname == 'ohm-shell: Activities':
@@ -485,7 +491,7 @@ class OHMSHELL(object):
 
     def show(self, *args):
         """ show overlay window """
-        print('show: ' + time.asctime())
+        ###debug###print('show: ' + time.asctime())
         self.updatedock()
         #mytime = time.strftime('%H') + ':' + time.strftime('%M')
         self.timelabel.set_text(time.asctime())
@@ -506,24 +512,9 @@ class OHMSHELL(object):
         #overlayxid.activate(int(time.time()))
         return
 
-    def bring_to_front(self):
-        """ Present window using Glib.Idle_add """
-        #resize for trenta/gnome-classic/compiz
-        if self.toolbarheight:
-            screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
-            screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
-            self.window.set_size_request(screenwidth, (screenheight -
-                                                       self.toolbarheight))
-        if not self.window.is_maximized():
-            self.window.maximize()
-        self.window.fullscreen()
-        self.window.present()
-        self.window.realize()
-        return
-
     def hide(self, *args):
         """ hide overlay window """
-        print('hide: ' + time.asctime())
+        ###debug###print('hide: ' + time.asctime())
         self.timelabel.set_text("")
         self.window.set_keep_above(False)
         self.window.hide()
@@ -543,32 +534,25 @@ class OHMSHELL(object):
 
     def getwindowlist(self):
         """ get running windows and return true if the list has changed"""
-        print('UPDATE: running apps ' + time.asctime())
-        oldwindows = self.openwindows
+        ###debug###print('UPDATE: running apps ' + time.asctime())
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
-        #Don't update when the windows are the same.
-        if self.windowlist == self.screen.get_windows():
-            return False
+        #windowlist is the complete list of open windows
         self.windowlist = self.screen.get_windows()
+        #openwindows is used to hide desktop windows like toolbars
         self.openwindows = []
         if not len(self.windowlist) == 0:
             for windows in self.windowlist:
                 if not windows.get_name() in HIDELIST:
-                    self.openwindows.append([windows.get_name(),
-                                             windows.get_icon(),
-                                             windows.is_minimized()])
-            if oldwindows == self.openwindows:
-                # no change
-                return False
-        self.updatedock()
+                    self.openwindows.append(windows)
         return True
 
     def updatedock(self):
         """ Update the list of open windows on the overlay """
-        if not self.getwindowlist():
+        winlist = self.getwindowlist()
+        if not winlist:
             print('Apps: No change')
-            return
+            return False
         count = 0
         # blank before filling dock
         for items in self.dock:
@@ -578,11 +562,11 @@ class OHMSHELL(object):
             items[1].set_visible(False)
             items[2].set_visible(False)
         # fill dock with open windows
-        for items in self.openwindows:
-            text = items[0]
-            self.dock[count][0].set_from_pixbuf(items[1])
+        for windows in self.openwindows:
+            text = windows.get_name()
+            self.dock[count][0].set_from_pixbuf(windows.get_icon())
             self.dock[count][1].connect("clicked", self.changewindow)
-            self.dock[count][1].set_tooltip_text(items[0])
+            self.dock[count][1].set_tooltip_text(text)
             self.dock[count][2].set_line_wrap(True)
             self.dock[count][2].set_text(text)
             self.dock[count][0].set_visible(True)
@@ -594,52 +578,60 @@ class OHMSHELL(object):
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
         found = False
-        tooltip = actor.get_tooltip_text()
-        self.screen.force_update()
-        self.windowlist = self.screen.get_windows()
-        if found:
-            self.window.hide()
-            return True
+        tooltip = actor.get_tooltip_text().lower()
+        # identify process by the pid
+        proclist = procman.getprocesses()
+        self.getwindowlist()
         for windows in self.windowlist:
-            winpid = windows.get_pid()
-            winname = windows.get_name()
-            # identify process by the pid
-            for proc in psutil.process_iter():
-                xpid = proc.ppid()
-                xname = proc.name()
-                #print xname
-                #print winname
-                if winpid == xpid and winname in xname:
-                    print('PID!!!!')
+            winname = windows.get_name().lower()
+            # Activate windows with the same name from the overlay
+            if not found and (winname == tooltip or winname.split()[0] in tooltip):
+                    print('FOUNDWINDOW: ' + winname)
                     windows.activate(int(time.time()))
-                    #self.window.hide()
-                    #return True
                     found = True
-            # activate window that has the same name
-            if winname == tooltip and not found:
-                windows.activate(int(time.time()))
-                #self.window.hide()
-                #return True
-                found = True
-            elif not found:
-                # Activate open windows that match the shortcut.
-                for items in self.favlist:
-                    if actor == items[0]:
-                        #identify process by the tooltip
-                        if (tooltip in winname or (tooltip.split()[0] in
-                                                   winname)):
-                            print(tooltip + " is already active")
-                            windows.activate(int(time.time()))
-                            #self.window.hide()
-                            #return True
-                            found = True
+        if not found:
+            proclist = procman.getprocesses()
+            procfound = False
+            procname = None
+            proccmd = None
+            self.getwindowlist()
+            #identify process by the tooltip
+            for proc in proclist:
+                if not procfound:
+                    name = proc[1]
+                    cmd = proc[2]
+                    if cmd == []:
+                        cmd = name
+                    if tooltip in name or name.split()[0] in tooltip:
+                        procname = name.lower()
+                        procfound = True
+                    if tooltip in cmd or tooltip.split()[0] in cmd:
+                        proccmd = cmd
+            if procname or proccmd:
+                print(procname)
+                print(proccmd)
+                for windows in self.windowlist:
+                    if not found:
+                        winname = windows.get_name().lower()
+                        # Activate open windows that match the shortcut.
+                        for items in self.favlist:
+                            if actor == items[0] and not found:
+                                if procname in winname or winname in proccmd:
+                                    found = True
+                                elif procname in items[1] or items[1] in proccmd:
+                                    found = True
+                                if found:
+                                    print("FOUNDPROCESS: " + winname)
+                                    print(procname)
+                                    print(proccmd)
+                                    print(tooltip)
+                                    windows.activate(int(time.time()))
         if found:
             self.window.hide()
             return True
+        # couldn't open window
         else:
-            # couldn't open window
-            print('ERROR: window missing')
-            self.reloadme(windows)
+            print('ERROR: ' + tooltip + ' missing')
             return False
 
     def openconf(self, *args):
@@ -648,11 +640,6 @@ class OHMSHELL(object):
         tmppid = procman.startprocess(['/usr/bin/xdg-open', CONFIG])
         if tmppid:
             self.hide()
-
-    def reloadme(self, event):
-        """ Reload the main window so shortcuts can be updated """
-        print (event)
-        self.run()
 
 if __name__ == "__main__":
     OHMSHELL()

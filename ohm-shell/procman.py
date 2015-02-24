@@ -22,22 +22,36 @@
 
 """
 
+import psutil
 import subprocess
 
 def startprocess(proclist):
     """ start process returning the pid """
     process = None
     pid = None
+    print('PROCMAN: executing process...')
     try:
         process = subprocess.Popen(proclist)
         pid = process.pid
     except OSError:
         #no file found
-        print('STARTPROCESS: No File Found')
+        print('PROCMAN: No File Found')
         return False
     except TypeError:
         #malformed entry
-        print('STARTPROCESS: Bad file name')
+        print('PROCMAN: Bad file name')
         return False
     #process.wait()
     return pid
+
+def getprocesses():
+    """ identify process by the pid """
+    proclist = []
+    print('PROCMAN: Scanning processes...')
+    for proc in psutil.process_iter():
+        xpid = proc.ppid()
+        xname = proc.name()
+        xproc = proc.cmdline()
+        proclist.append([xpid, xname, xproc])
+    return proclist
+    
