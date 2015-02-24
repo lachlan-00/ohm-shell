@@ -25,7 +25,11 @@
 import os
 import time
 #import psutil
-import ConfigParser
+
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 
 import checkconfig
 import procman
@@ -50,7 +54,6 @@ ICONSEARCHPATHS = []
 for path in MYTHEMEPATHS.split(','):
     if len(path) > 0:
         ICONSEARCHPATHS.append(MYTHEMEBASE + path)
-print(ICONSEARCHPATHS)
 
 
 class OHMSHELL(object):
@@ -82,6 +85,8 @@ class OHMSHELL(object):
         self.restartbutton = self.builder.get_object("restartbutton")
         self.haltbutton = self.builder.get_object("haltbutton")
         self.closebutton = self.builder.get_object("closebutton")
+        self.addfavbutton = self.builder.get_object("addfavbutton")
+        self.delfavbutton = self.builder.get_object("delfavbutton")
         # Load dock icon and button objects
         self.window0 = self.builder.get_object("windowimage0")
         self.window1 = self.builder.get_object("windowimage1")
@@ -260,8 +265,7 @@ class OHMSHELL(object):
         self.pid17 = None
         self.pid18 = None
         self.pid19 = None
-        self.addfavbutton = self.builder.get_object("addfavbutton")
-        self.delfavbutton = self.builder.get_object("delfavbutton")
+        self.fileitem = None
         self.favlist = None
         self.autostart = None
         self.showhotlabel = None
@@ -603,7 +607,7 @@ class OHMSHELL(object):
             name = windows.get_name().lower()
             # Activate windows with the same name from the overlay
             if not found and (name == search or name.split()[0] in search):
-                print('FOUNDWINDOW: ' + name)
+                print('FOUNDWINDOW: ' + name + ' - ' + search)
                 windows.activate(int(time.time()))
                 return True
         # Error, Window not activated.
@@ -611,62 +615,59 @@ class OHMSHELL(object):
 
     def changewindow(self, actor):
         """ Activate windows that you select from the dock """
-        found = False
+        #found = False
         tooltip = actor.get_tooltip_text().lower()
         # identify open applications from clicked buttons
-        proclist = procman.getprocesses()
+        #proclist = procman.getprocesses()
         if self.activewindows(tooltip):
             self.window.hide()
             return True
-        procfound = False
-        procname = None
-        proccmd = None
-        self.getwindowlist()
-        #identify process by the tooltip
-        for proc in proclist:
-            if not procfound:
-                name = proc[1]
-                cmd = proc[2]
-                if cmd == []:
-                    cmd = name
-                if tooltip in name or name.split()[0] in tooltip:
-                    procname = name.lower()
-                    procfound = True
-                if tooltip in cmd or tooltip.split()[0] in cmd:
-                    proccmd = cmd
-        if procname or proccmd:
-            print(procname)
-            print(proccmd)
-            for windows in self.windowlist:
-                if not found:
-                    winname = windows.get_name().lower()
-                    # Activate open windows that match the shortcut.
-                    for items in self.favlist:
-                        if actor == items[0] and not found:
-                            if procname in winname or winname in proccmd:
-                                found = True
-                            elif procname in items[1] or items[1] in proccmd:
-                                found = True
-                            if found:
-                                print("FOUNDPROCESS: " + winname)
-                                print(procname)
-                                print(proccmd)
-                                print(tooltip)
-                                windows.activate(int(time.time()))
-        if found:
-            self.window.hide()
-            return True
-        # couldn't open window
-        else:
-            print('ERROR: ' + tooltip + ' missing')
-            return False
+        #procfound = False
+        #procname = None
+        #proccmd = None
+        #self.getwindowlist()
+        ##identify process by the tooltip
+        #for proc in proclist:
+        #    if not procfound:
+        #        name = proc[1]
+        #        cmd = proc[2]
+        #        if cmd == []:
+        #            cmd = name
+        #        if tooltip in name or name.split()[0] in tooltip:
+        #            procname = name.lower()
+        #            procfound = True
+        #        if tooltip in cmd or tooltip.split()[0] in cmd:
+        #            proccmd = cmd
+        #if procname or proccmd:
+        #    print(procname)
+        #    print(proccmd)
+        #    for windows in self.windowlist:
+        #        if not found:
+        #            winname = windows.get_name().lower()
+        #            # Activate open windows that match the shortcut.
+        #            for items in self.favlist:
+        #                if actor == items[0] and not found:
+        #                    if procname in winname or winname in proccmd:
+        #                        found = True
+        #                    elif procname in items[1] or items[1] in proccmd:
+        #                        found = True
+        #                    if found:
+        #                        print("FOUNDPROCESS: " + winname)
+        #                        print(procname)
+        #                        print(proccmd)
+        #                        print(tooltip)
+        #                        windows.activate(int(time.time()))
+        #if found:
+        #    print('ERROR: ' + tooltip + ' missing')
+        #    return False
+        return False
 
     def openconf(self, *args):
         """ Open config file in default text editor """
         checkconfig.checkconfig(CONFIG)
         tmppid = procman.startprocess(['/usr/bin/xdg-open', CONFIG])
         if tmppid:
-            self.hide()    
+            self.hide()
 
     def addfavtoconf(self, actor):
         """ get desktop entry info """
@@ -687,11 +688,13 @@ class OHMSHELL(object):
         return
 
     def choosefavs(self, actor):
+        """ file chooser to pick favourites by *.desktop file """
         if actor == self.addfavbutton:
             self.addfavs.present()
         return
-        
+
     def cancelchoose(self, actor):
+        """ close the filechooser """
         if actor == self.addfavcancel:
             self.addfavs.hide()
 if __name__ == "__main__":

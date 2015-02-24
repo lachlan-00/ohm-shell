@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# launch ohm-shell
+python3 /usr/share/ohm-shell/ohm_shell.py
