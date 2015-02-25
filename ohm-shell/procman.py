@@ -53,8 +53,8 @@ def getprocesses():
     print('PROCMAN: Scanning processes...')
     for proc in psutil.process_iter():
         xpid = proc.pid
-        xname = proc.name()
-        xproc = proc.cmdline()
+        xname = proc.name
+        xproc = proc.cmdline
         proclist.append([xpid, xname, xproc])
     return proclist
     
