@@ -110,7 +110,7 @@
     <property name="title" translatable="yes">ohm-shell: Overlay</property>
     <property name="resizable">False</property>
     <property name="icon">/usr/share/pixmaps/ohm-shell.png</property>
-    <property name="type_hint">utility</property>
+    <property name="type_hint">dock</property>
     <property name="urgency_hint">True</property>
     <property name="deletable">False</property>
     <child>
