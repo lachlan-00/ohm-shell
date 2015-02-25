@@ -321,8 +321,9 @@ class OHMSHELL(object):
         self.addfavcancel.connect("clicked", self.cancelchoose)
         self.reloadbutton.connect("clicked", self.run)
         self.optionbutton.connect("clicked", self.openconf)
-        self.restartbutton.connect("clicked", self.execute)
-        self.haltbutton.connect("clicked", self.execute)
+        self.logoutbutton.connect("clicked", self.sessionman)
+        self.restartbutton.connect("clicked", self.sessionman)
+        self.haltbutton.connect("clicked", self.sessionman)
         self.closebutton.connect("clicked", self.quit)
         # make windows undecorated and set options
         self.window.set_decorated(False)
@@ -491,7 +492,14 @@ class OHMSHELL(object):
             for items in self.autostart:
                 temp = "/usr/bin/killall " + items.split()[0]
                 os.system(temp)
-        elif actor == self.logoutbutton:
+        ###debug###print(tmppid)
+        if tmppid:
+            self.hide()
+        return
+
+    def sessionman(self, actor):
+        """ session management processes """
+        if actor == self.logoutbutton:
             tmppid = procman.startprocess(['gnome-session-quit',
                                            '--logout', '--force'])
         elif actor == self.restartbutton:
@@ -500,7 +508,6 @@ class OHMSHELL(object):
         elif actor == self.haltbutton:
             tmppid = procman.startprocess(['gnome-session-quit',
                                            '--power-off'])
-        ###debug###print(tmppid)
         if tmppid:
             self.hide()
         return
@@ -637,7 +644,8 @@ class OHMSHELL(object):
             if not count == 28:
                 text = windows.get_name()
                 self.open[count][0].set_from_pixbuf(windows.get_icon())
-                self.open[count][1].connect("button-release-event", self.changewindow)
+                self.open[count][1].connect("button-release-event",
+                                            self.changewindow)
                 self.open[count][1].set_tooltip_text(text)
                 self.open[count][2].set_line_wrap(True)
                 self.open[count][2].set_text(text)
@@ -738,7 +746,8 @@ class OHMSHELL(object):
             #                if actor == items[0] and not found:
             #                    if procname in winname or winname in proccmd:
             #                        found = True
-            #                    elif procname in items[1] or items[1] in proccmd:
+            #                    elif procname in items[1] or items[1] in
+            #proccmd:
             #                        found = True
             #                    if found:
             #                        print("FOUNDPROCESS: " + winname)
