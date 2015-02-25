@@ -12,10 +12,12 @@ install-req:
 	@cp bin/ohm-shell3 /usr/bin/ -f
 	@cp share/ohm-shell.png /usr/share/pixmaps -f
 	@cp share/ohm-shell.desktop /usr/share/applications/ -f
+	@cp share/ohm-shell3.desktop /usr/share/applications/ -f
 	@chmod 644 $(INSTALLPATH)/*
 	@chmod +x $(INSTALLPATH)/ohm_shell.py
 	@chmod 644 /usr/share/pixmaps/ohm-shell.png
 	@chmod 644 /usr/share/applications/ohm-shell.desktop
+	@chmod 644 /usr/share/applications/ohm-shell3.desktop
 	@chmod 644 /usr/bin/ohm-shell
 	@chmod 644 /usr/bin/ohm-shell
 	@chmod +x /usr/bin/ohm-shell

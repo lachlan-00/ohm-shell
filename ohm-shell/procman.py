@@ -27,12 +27,10 @@ import subprocess
 
 def startprocess(proclist):
     """ start process returning the pid """
-    process = None
     pid = None
     print('PROCMAN: executing process...')
     try:
-        process = subprocess.Popen(proclist)
-        pid = process.pid
+        pid = subprocess.Popen(proclist).pid
     except OSError:
         #no file found
         print('PROCMAN: No File Found')
@@ -42,14 +40,19 @@ def startprocess(proclist):
         print('PROCMAN: Bad file name')
         return False
     #process.wait()
-    return pid
+    tmpproc = getprocesses()
+    for proc in tmpproc:
+        ###debug###print(str(pid) + ' - ' + str(proc))
+        if proc[0] == pid:
+            return proc
+    return False
 
 def getprocesses():
     """ identify process by the pid """
     proclist = []
     print('PROCMAN: Scanning processes...')
     for proc in psutil.process_iter():
-        xpid = proc.ppid()
+        xpid = proc.pid
         xname = proc.name()
         xproc = proc.cmdline()
         proclist.append([xpid, xname, xproc])

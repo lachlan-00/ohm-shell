@@ -37,7 +37,7 @@ def checkconfig(inputpath):
     conf.read(inputpath)
     if not conf.has_section('dock'):
         count = 0
-        print('adding dock')
+        print('CHECKCONFIG: adding dock')
         conffile = open(inputpath, "w")
         conf.add_section('dock')
         while count < 20:
@@ -48,7 +48,7 @@ def checkconfig(inputpath):
         conffile.close()
     if not conf.has_section('options'):
         conffile = open(inputpath, "w")
-        print('adding options')
+        print('CHECKCONFIG: adding options')
         conf.add_section('options')
         conf.set('options', 'autostart', '')
         conf.set('options', 'appposition', 'centre')

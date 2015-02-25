@@ -87,6 +87,7 @@ class OHMSHELL(object):
         self.closebutton = self.builder.get_object("closebutton")
         self.addfavbutton = self.builder.get_object("addfavbutton")
         self.delfavbutton = self.builder.get_object("delfavbutton")
+        self.overflowlabel = self.builder.get_object("overflowlabel")
         # Load dock icon and button objects
         self.window0 = self.builder.get_object("windowimage0")
         self.window1 = self.builder.get_object("windowimage1")
@@ -108,6 +109,14 @@ class OHMSHELL(object):
         self.window17 = self.builder.get_object("windowimage17")
         self.window18 = self.builder.get_object("windowimage18")
         self.window19 = self.builder.get_object("windowimage19")
+        self.window20 = self.builder.get_object("windowimage20")
+        self.window21 = self.builder.get_object("windowimage21")
+        self.window22 = self.builder.get_object("windowimage22")
+        self.window23 = self.builder.get_object("windowimage23")
+        self.window24 = self.builder.get_object("windowimage24")
+        self.window25 = self.builder.get_object("windowimage25")
+        self.window26 = self.builder.get_object("windowimage26")
+        self.window27 = self.builder.get_object("windowimage27")
         self.winbutton0 = self.builder.get_object("winbutton0")
         self.winbutton1 = self.builder.get_object("winbutton1")
         self.winbutton2 = self.builder.get_object("winbutton2")
@@ -128,6 +137,14 @@ class OHMSHELL(object):
         self.winbutton17 = self.builder.get_object("winbutton17")
         self.winbutton18 = self.builder.get_object("winbutton18")
         self.winbutton19 = self.builder.get_object("winbutton19")
+        self.winbutton20 = self.builder.get_object("winbutton20")
+        self.winbutton21 = self.builder.get_object("winbutton21")
+        self.winbutton22 = self.builder.get_object("winbutton22")
+        self.winbutton23 = self.builder.get_object("winbutton23")
+        self.winbutton24 = self.builder.get_object("winbutton24")
+        self.winbutton25 = self.builder.get_object("winbutton25")
+        self.winbutton26 = self.builder.get_object("winbutton26")
+        self.winbutton27 = self.builder.get_object("winbutton27")
         self.winlabel0 = self.builder.get_object("winlabel0")
         self.winlabel1 = self.builder.get_object("winlabel1")
         self.winlabel2 = self.builder.get_object("winlabel2")
@@ -148,6 +165,14 @@ class OHMSHELL(object):
         self.winlabel17 = self.builder.get_object("winlabel17")
         self.winlabel18 = self.builder.get_object("winlabel18")
         self.winlabel19 = self.builder.get_object("winlabel19")
+        self.winlabel20 = self.builder.get_object("winlabel20")
+        self.winlabel21 = self.builder.get_object("winlabel21")
+        self.winlabel22 = self.builder.get_object("winlabel22")
+        self.winlabel23 = self.builder.get_object("winlabel23")
+        self.winlabel24 = self.builder.get_object("winlabel24")
+        self.winlabel25 = self.builder.get_object("winlabel25")
+        self.winlabel26 = self.builder.get_object("winlabel26")
+        self.winlabel27 = self.builder.get_object("winlabel27")
         # file chooser to add to dock
         self.addfavs = self.builder.get_object('addfavs')
         self.addfavok = self.builder.get_object('addfavok')
@@ -158,11 +183,12 @@ class OHMSHELL(object):
         self.windowlist = None
         self.openwindows = None
         self.getwindowlist()
+        # get toolbar height for gnome-classic
         for windows in self.windowlist:
-            # activate window that has the same name
             if windows.get_name() == 'Top Expanded Edge Panel':
                 self.toolbarheight = windows.get_geometry()[3]
-        self.dock = [[self.window0, self.winbutton0, self.winlabel0],
+        # Set up Open Windows overlay
+        self.open = [[self.window0, self.winbutton0, self.winlabel0],
                      [self.window1, self.winbutton1, self.winlabel1],
                      [self.window2, self.winbutton2, self.winlabel2],
                      [self.window3, self.winbutton3, self.winlabel3],
@@ -181,7 +207,15 @@ class OHMSHELL(object):
                      [self.window16, self.winbutton16, self.winlabel16],
                      [self.window17, self.winbutton17, self.winlabel17],
                      [self.window18, self.winbutton18, self.winlabel18],
-                     [self.window19, self.winbutton19, self.winlabel19]]
+                     [self.window19, self.winbutton19, self.winlabel19],
+                     [self.window20, self.winbutton20, self.winlabel20],
+                     [self.window21, self.winbutton21, self.winlabel21],
+                     [self.window22, self.winbutton22, self.winlabel22],
+                     [self.window23, self.winbutton23, self.winlabel23],
+                     [self.window24, self.winbutton24, self.winlabel24],
+                     [self.window25, self.winbutton25, self.winlabel25],
+                     [self.window26, self.winbutton26, self.winlabel26],
+                     [self.window27, self.winbutton27, self.winlabel27]]
         # Shortcuts, buttons and images to connect from config
         self.fav0 = self.builder.get_object("favbutton0")
         self.fav1 = self.builder.get_object("favbutton1")
@@ -245,26 +279,26 @@ class OHMSHELL(object):
         self.cmd17 = None
         self.cmd18 = None
         self.cmd19 = None
-        self.pid0 = None
-        self.pid1 = None
-        self.pid2 = None
-        self.pid3 = None
-        self.pid4 = None
-        self.pid5 = None
-        self.pid6 = None
-        self.pid7 = None
-        self.pid8 = None
-        self.pid9 = None
-        self.pid10 = None
-        self.pid11 = None
-        self.pid12 = None
-        self.pid13 = None
-        self.pid14 = None
-        self.pid15 = None
-        self.pid16 = None
-        self.pid17 = None
-        self.pid18 = None
-        self.pid19 = None
+        self.name0 = None
+        self.name1 = None
+        self.name2 = None
+        self.name3 = None
+        self.name4 = None
+        self.name5 = None
+        self.name6 = None
+        self.name7 = None
+        self.name8 = None
+        self.name9 = None
+        self.name10 = None
+        self.name11 = None
+        self.name12 = None
+        self.name13 = None
+        self.name14 = None
+        self.name15 = None
+        self.name16 = None
+        self.name17 = None
+        self.name18 = None
+        self.name19 = None
         self.fileitem = None
         self.favlist = None
         self.autostart = None
@@ -305,7 +339,8 @@ class OHMSHELL(object):
 
     def run(self, *args):
         """ configure and show the main window """
-        self.processfav()
+        self.updatefavdock()
+        self.updateopenwindows()
         self.initialloading()
         self.activities.show()
         #self.activities.grab_focus()
@@ -339,11 +374,11 @@ class OHMSHELL(object):
         # run autostart commands
         if self.autostart:
             self.autostart = self.autostart.split("    ")
-            self.execute("autostart")
+            self.execute("autostart", None)
         return
 
-    def processfav(self):
-        """ Read config and fill favourites dock """
+    def updatefavdock(self):
+        """ Read config and fill favourites list """
         tmpcount = 0
         checkconfig.checkconfig(CONFIG)
         self.conf.read(CONFIG)
@@ -379,32 +414,32 @@ class OHMSHELL(object):
         self.cmd17 = self.conf.get('dock', '17fav')
         self.cmd18 = self.conf.get('dock', '18fav')
         self.cmd19 = self.conf.get('dock', '19fav')
-        self.favlist = [[self.fav0, self.cmd0, self.image0, self.pid0],
-                        [self.fav1, self.cmd1, self.image1, self.pid1],
-                        [self.fav2, self.cmd2, self.image2, self.pid2],
-                        [self.fav3, self.cmd3, self.image3, self.pid3],
-                        [self.fav4, self.cmd4, self.image4, self.pid4],
-                        [self.fav5, self.cmd5, self.image5, self.pid5],
-                        [self.fav6, self.cmd6, self.image6, self.pid6],
-                        [self.fav7, self.cmd7, self.image7, self.pid7],
-                        [self.fav8, self.cmd8, self.image8, self.pid8],
-                        [self.fav9, self.cmd9, self.image9, self.pid9],
-                        [self.fav10, self.cmd10, self.image10, self.pid10],
-                        [self.fav11, self.cmd11, self.image11, self.pid11],
-                        [self.fav12, self.cmd12, self.image12, self.pid12],
-                        [self.fav13, self.cmd13, self.image13, self.pid13],
-                        [self.fav14, self.cmd14, self.image14, self.pid14],
-                        [self.fav15, self.cmd15, self.image15, self.pid15],
-                        [self.fav16, self.cmd16, self.image16, self.pid16],
-                        [self.fav17, self.cmd17, self.image17, self.pid17],
-                        [self.fav18, self.cmd18, self.image18, self.pid18],
-                        [self.fav19, self.cmd19, self.image19, self.pid19]]
+        self.favlist = [[self.fav0, self.cmd0, self.image0, self.name0],
+                        [self.fav1, self.cmd1, self.image1, self.name1],
+                        [self.fav2, self.cmd2, self.image2, self.name2],
+                        [self.fav3, self.cmd3, self.image3, self.name3],
+                        [self.fav4, self.cmd4, self.image4, self.name4],
+                        [self.fav5, self.cmd5, self.image5, self.name5],
+                        [self.fav6, self.cmd6, self.image6, self.name6],
+                        [self.fav7, self.cmd7, self.image7, self.name7],
+                        [self.fav8, self.cmd8, self.image8, self.name8],
+                        [self.fav9, self.cmd9, self.image9, self.name9],
+                        [self.fav10, self.cmd10, self.image10, self.name10],
+                        [self.fav11, self.cmd11, self.image11, self.name11],
+                        [self.fav12, self.cmd12, self.image12, self.name12],
+                        [self.fav13, self.cmd13, self.image13, self.name13],
+                        [self.fav14, self.cmd14, self.image14, self.name14],
+                        [self.fav15, self.cmd15, self.image15, self.name15],
+                        [self.fav16, self.cmd16, self.image16, self.name16],
+                        [self.fav17, self.cmd17, self.image17, self.name17],
+                        [self.fav18, self.cmd18, self.image18, self.name18],
+                        [self.fav19, self.cmd19, self.image19, self.name19]]
         for items in self.favlist:
             if not items[1] == "":
                 tmpimage = self.conf.get('dock', (str(tmpcount) + 'icon'))
                 items[0].set_visible(True)
                 items[0].set_tooltip_text(items[1])
-                items[0].connect("clicked", self.execute)
+                items[0].connect("button-release-event", self.execute)
                 items[2].set_from_file(tmpimage)
             else:
                 items[0].set_visible(False)
@@ -412,29 +447,34 @@ class OHMSHELL(object):
             tmpcount = tmpcount + 1
         return
 
-    def execute(self, actor):
+    def execute(self, actor, event):
         """ Execute commands in a subprocess """
         tmpcount = 0
         tmppid = None
-        print('execute: ' + time.asctime())
-        for items in self.favlist:
-            if actor == items[0]:
-                print(items[0].get_tooltip_text())
-                # Switch to Active windows
-                if self.changewindow(items[0]):
-                    print('ACTIVATING: ' + items[0].get_tooltip_text())
-                    return True
-                tmpexec = (items[1]).split()
-                if not tmpexec:
-                    tmpexec = [].append(items[1])
-                print('fav execute')
-                tmppid = procman.startprocess(tmpexec)
-                if tmppid:
-                    self.hide()
-                    return True
-            tmpcount = tmpcount + 1
+        if event:
+            if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
+                # show the overlay on left mouse clicks
+                ###debug###print('execute: ' + time.asctime())
+                for items in self.favlist:
+                    if actor == items[0]:
+                        print(items[0].get_tooltip_text())
+                        # Switch to Active windows
+                        if self.changewindow(items[0], event):
+                            print('OHM: activating existing window ' +
+                                  items[0].get_tooltip_text())
+                            return True
+                        tmpexec = (items[1]).split()
+                        if not tmpexec:
+                            tmpexec = [].append(items[1])
+                        print('OHM: executing favourite')
+                        tmppid = procman.startprocess(tmpexec)
+                        if tmppid:
+                            print(tmppid)
+                            self.hide()
+                            return True
+                    tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
-            print('runentry execute')
+            print('OHM: executing from runentry')
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
             print(tmppid)
@@ -445,7 +485,7 @@ class OHMSHELL(object):
                     # execute autorun programs as hidden shell commands
                     tmpexec = items.split()
                     if tmpexec:
-                        print('autostart execute')
+                        print('OHM: executing autostart')
                         tmppid = procman.startprocess(tmpexec)
                         print(tmppid)
         elif actor == "kill":
@@ -480,7 +520,7 @@ class OHMSHELL(object):
                 self.show()
                 return
         elif event.get_keycode()[1] == 36:
-            self.execute("enter")
+            self.execute("enter", None)
 
     def button(self, actor, event):
         """ Catch mouse clicks"""
@@ -515,7 +555,8 @@ class OHMSHELL(object):
     def show(self, *args):
         """ show overlay window """
         ###debug###print('show: ' + time.asctime())
-        self.updatedock()
+        self.updateopenwindows()
+        self.updatefavdock()
         #mytime = time.strftime('%H') + ':' + time.strftime('%M')
         self.timelabel.set_text(time.asctime())
         self.activities.set_keep_above(True)
@@ -531,8 +572,8 @@ class OHMSHELL(object):
         self.window.fullscreen()
         self.window.present()
         self.window.realize()
-        #overlayxid = wins.get_xid()
-        #overlayxid.activate(int(time.time()))
+        while Gtk.events_pending():
+            Gtk.main_iteration()
         return
 
     def hide(self, *args):
@@ -547,38 +588,46 @@ class OHMSHELL(object):
             Gtk.main_iteration()
         return
 
-    def quit(self, *args):
+    def quit(self, event):
         """ stop the process thread and close the program"""
         self.activities.destroy()
         self.window.destroy()
-        self.execute("kill")
-        Gtk.main_quit(*args)
+        self.execute("kill", None)
+        Gtk.main_quit(event)
         return False
 
     def getwindowlist(self):
         """ get running windows and return true if the list has changed"""
         ###debug###print('UPDATE: running apps ' + time.asctime())
+        firstrun = False
+        oldwindows = None
         self.screen = Wnck.Screen.get_default()
         self.screen.force_update()
         #windowlist is the complete list of open windows
         self.windowlist = self.screen.get_windows()
         #openwindows is used to hide desktop windows like toolbars
+        if not self.openwindows:
+            print('FIRST')
+            firstrun = True
+            oldwindows = self.openwindows
         self.openwindows = []
         if not len(self.windowlist) == 0:
             for windows in self.windowlist:
                 if not windows.get_name() in HIDELIST:
                     self.openwindows.append(windows)
+        if oldwindows == self.openwindows and not firstrun:
+            return False
         return True
 
-    def updatedock(self):
+    def updateopenwindows(self):
         """ Update the list of open windows on the overlay """
         winlist = self.getwindowlist()
         if not winlist:
-            print('Apps: No change')
+            print('OHM: no change')
             return False
         count = 0
         # blank before filling dock
-        for items in self.dock:
+        for items in self.open:
             items[0].set_tooltip_text("")
             items[2].set_text("")
             items[0].set_visible(False)
@@ -586,80 +635,122 @@ class OHMSHELL(object):
             items[2].set_visible(False)
         # fill dock with open windows
         for windows in self.openwindows:
-            text = windows.get_name()
-            self.dock[count][0].set_from_pixbuf(windows.get_icon())
-            self.dock[count][1].connect("clicked", self.changewindow)
-            self.dock[count][1].set_tooltip_text(text)
-            self.dock[count][2].set_line_wrap(True)
-            self.dock[count][2].set_text(text)
-            self.dock[count][0].set_visible(True)
-            self.dock[count][1].set_visible(True)
-            self.dock[count][2].set_visible(True)
-            count = count + 1
+            if not count == 28:
+                text = windows.get_name()
+                self.open[count][0].set_from_pixbuf(windows.get_icon())
+                self.open[count][1].connect("button-release-event", self.changewindow)
+                self.open[count][1].set_tooltip_text(text)
+                self.open[count][2].set_line_wrap(True)
+                self.open[count][2].set_text(text)
+                self.open[count][0].set_visible(True)
+                self.open[count][1].set_visible(True)
+                self.open[count][2].set_visible(True)
+                self.overflowlabel.set_text('')
+                count = count + 1
+            if count == 28:
+                self.overflowlabel.set_text('WARNING: Out of room to display' +
+                                            ' open windows')
         return True
 
     def activewindows(self, search):
         """ sort through open windows to activate """
         found = False
+        foundwin = []
         # identify windows by title
         self.getwindowlist()
         for windows in self.windowlist:
-            name = windows.get_name().lower()
+            ###debug###print(dir(windows))
+            tmpxid = windows.get_xid()
+            tmppid = windows.get_pid()
+            currentwindow = Wnck.Window.get(tmpxid)
+            name = currentwindow.get_name().lower()
+            pid = currentwindow.get_pid()
             # Activate windows with the same name from the overlay
-            if not found and (name == search or name.split()[0] in search):
-                print('FOUNDWINDOW: ' + name + ' - ' + search)
+            if search == name and tmppid == pid:
+                foundwin.append(currentwindow)
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
+                #windows.activate(int(time.time()))
+                found = True
+        # search for split text in windows
+        if not found:
+            # if you can't find the exact window activate all matches
+            print('OHM: looking for substrings')
+            for windows in self.windowlist:
+                ###debug###print(dir(windows))
+                tmpxid = windows.get_xid()
+                tmppid = windows.get_pid()
+                currentwindow = Wnck.Window.get(tmpxid)
+                name = currentwindow.get_name().lower()
+                pid = currentwindow.get_pid()
+                # Activate windows with the same name from the overlay
+                if search == name.split()[0]:
+                    foundwin.append(currentwindow)
+                    while Gtk.events_pending():
+                        Gtk.main_iteration()
+                    #windows.activate(int(time.time()))
+                    found = True
+        if foundwin:
+            for windows in foundwin:
+                print('ACTIVATING: ' + windows.get_name())
                 windows.activate(int(time.time()))
-                return True
+            return True
         # Error, Window not activated.
         return False
 
-    def changewindow(self, actor):
+    def changewindow(self, actor, event):
         """ Activate windows that you select from the dock """
+        tooltip = None
+        if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
+            # show the overlay on left mouse clicks
+                tooltip = actor.get_tooltip_text().lower()
         #found = False
-        tooltip = actor.get_tooltip_text().lower()
         # identify open applications from clicked buttons
-        #proclist = procman.getprocesses()
-        if self.activewindows(tooltip):
-            self.window.hide()
-            return True
-        #procfound = False
-        #procname = None
-        #proccmd = None
-        #self.getwindowlist()
-        ##identify process by the tooltip
-        #for proc in proclist:
-        #    if not procfound:
-        #        name = proc[1]
-        #        cmd = proc[2]
-        #        if cmd == []:
-        #            cmd = name
-        #        if tooltip in name or name.split()[0] in tooltip:
-        #            procname = name.lower()
-        #            procfound = True
-        #        if tooltip in cmd or tooltip.split()[0] in cmd:
-        #            proccmd = cmd
-        #if procname or proccmd:
-        #    print(procname)
-        #    print(proccmd)
-        #    for windows in self.windowlist:
-        #        if not found:
-        #            winname = windows.get_name().lower()
-        #            # Activate open windows that match the shortcut.
-        #            for items in self.favlist:
-        #                if actor == items[0] and not found:
-        #                    if procname in winname or winname in proccmd:
-        #                        found = True
-        #                    elif procname in items[1] or items[1] in proccmd:
-        #                        found = True
-        #                    if found:
-        #                        print("FOUNDPROCESS: " + winname)
-        #                        print(procname)
-        #                        print(proccmd)
-        #                        print(tooltip)
-        #                        windows.activate(int(time.time()))
-        #if found:
-        #    print('ERROR: ' + tooltip + ' missing')
-        #    return False
+        if tooltip:
+            #proclist = procman.getprocesses()
+            print('LOOKING FOR: ' + tooltip)
+            if self.activewindows(tooltip):
+                self.window.hide()
+                return True
+            #procfound = False
+            #procname = None
+            #proccmd = None
+            #self.getwindowlist()
+            ##identify process by the tooltip
+            #for proc in proclist:
+            #    if not procfound:
+            #        name = proc[1]
+            #        cmd = proc[2]
+            #        if cmd == []:
+            #            cmd = name
+            #        if tooltip in name or name.split()[0] in tooltip:
+            #            procname = name.lower()
+            #            procfound = True
+            #        if tooltip in cmd or tooltip.split()[0] in cmd:
+            #            proccmd = cmd
+            #if procname or proccmd:
+            #    print(procname)
+            #    print(proccmd)
+            #    for windows in self.windowlist:
+            #        if not found:
+            #            winname = windows.get_name().lower()
+            #            # Activate open windows that match the shortcut.
+            #            for items in self.favlist:
+            #                if actor == items[0] and not found:
+            #                    if procname in winname or winname in proccmd:
+            #                        found = True
+            #                    elif procname in items[1] or items[1] in proccmd:
+            #                        found = True
+            #                    if found:
+            #                        print("FOUNDPROCESS: " + winname)
+            #                        print(procname)
+            #                        print(proccmd)
+            #                        print(tooltip)
+            #                        windows.activate(int(time.time()))
+            #if found:
+            #    print('ERROR: ' + tooltip + ' missing')
+            #    return False
+        time.sleep(0.2)
         return False
 
     def openconf(self, *args):
@@ -685,6 +776,7 @@ class OHMSHELL(object):
 
     def delmode(self, actor):
         """ allow live deleting of favourites """
+        print(actor)
         return
 
     def choosefavs(self, actor):
