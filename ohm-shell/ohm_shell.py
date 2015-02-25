@@ -45,8 +45,7 @@ CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
 HIDELIST = ['ohm_shell.py', 'ohm_shell.py', 'Desktop', 'ohm-shell: Activities',
             'ohm-shell: Overlay', 'xfce4-panel', 'xfce4-notifyd',
             'Top Expanded Edge Panel', 'plank']
-DEFAULTTHEME = '/usr/share/icons/default/index.theme'
-THEMENAME = checkconfig.checksetting(DEFAULTTHEME, 'Icon Theme', 'Inherits')
+THEMENAME = 'gnome'
 MYTHEMEBASE = '/usr/share/icons/' + THEMENAME + '/'
 MYTHEMEPATHS = checkconfig.checksetting(MYTHEMEBASE + '/index.theme',
                                         'Icon Theme', 'Directories')

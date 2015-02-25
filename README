@@ -31,8 +31,10 @@ stalonetray
 Requires
 --------
  * python 2.7
+ * python 3.x
  * python-gobject (possibly others for light desktops)
  * python-psutil
+ * python3-psutil
  * python-xdg
  * gnome-icon-theme (for the moment)
  * gnome-session
