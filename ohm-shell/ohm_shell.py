@@ -64,18 +64,15 @@ class OHMSHELL(object):
         self.builder.connect_signals(self)
         self.conf = ConfigParser.RawConfigParser()
         # Load primary windows, labels and button objects
-        self.window = self.builder.get_object("main_window")
-        self.activities = self.builder.get_object("hot_corner")
-        self.activitylabel = self.builder.get_object("mainevent")
-        self.mainactivitylabel = self.builder.get_object("mainactivityevent")
-        self.mainlabel = self.builder.get_object("mainlabel")
+        self.mainwindow = self.builder.get_object("main_window")
+        self.mainevent = self.builder.get_object("overlayactivityevent")
+        self.maintimelabel = self.builder.get_object("overlaytimelabel")
         self.runentry = self.builder.get_object("runentry")
         self.appgrid = self.builder.get_object("app_grid")
         self.fileview = self.builder.get_object("fileview")
         self.contentlist = self.builder.get_object('filestore')
         self.contenttree = self.builder.get_object('fileview')
         self.gobutton = self.builder.get_object("gobutton")
-        self.timelabel = self.builder.get_object("timelabel")
         self.leftlabel = self.builder.get_object("leftlabel")
         self.rightlabel = self.builder.get_object("rightlabel")
         self.reloadbutton = self.builder.get_object("reloadbutton")
@@ -87,6 +84,14 @@ class OHMSHELL(object):
         self.addfavbutton = self.builder.get_object("addfavbutton")
         self.delfavbutton = self.builder.get_object("delfavbutton")
         self.overflowlabel = self.builder.get_object("overflowlabel")
+        # Load Overlay Dock Toolbar
+        self.topdock = self.builder.get_object("main_dock")
+        self.topdockevent = self.builder.get_object("maindockevent")
+        self.toptimelabel = self.builder.get_object("overlaytimelabel")
+        # Load Activities HotCorner
+        self.hotwin = self.builder.get_object("hot_corner")
+        self.hotevent = self.builder.get_object("hotevent")
+        self.hotlabel = self.builder.get_object("hotlabel")
         # Load dock icon and button objects
         self.window0 = self.builder.get_object("windowimage0")
         self.window1 = self.builder.get_object("windowimage1")
@@ -172,7 +177,7 @@ class OHMSHELL(object):
         self.winlabel25 = self.builder.get_object("winlabel25")
         self.winlabel26 = self.builder.get_object("winlabel26")
         self.winlabel27 = self.builder.get_object("winlabel27")
-        # file chooser to add to dock
+        # Load file chooser to add to dock
         self.addfavs = self.builder.get_object('addfavs')
         self.addfavok = self.builder.get_object('addfavok')
         self.addfavcancel = self.builder.get_object('addfavcancel')
@@ -182,7 +187,7 @@ class OHMSHELL(object):
         self.windowlist = None
         self.openwindows = None
         self.getwindowlist()
-        # get toolbar height for gnome-classic
+        ## get toolbar height for gnome-classic
         for windows in self.windowlist:
             if windows.get_name() == 'Top Expanded Edge Panel':
                 self.toolbarheight = windows.get_geometry()[3]
@@ -307,13 +312,17 @@ class OHMSHELL(object):
         self.mask = None
         self.maskold = None
         # Connect UI
-        self.window.connect("destroy", self.quit)
-        self.window.connect("key-release-event", self.keycatch)
-        self.window.connect("motion-notify-event", self.motion)
-        self.activities.connect("motion-notify-event", self.motion)
-        self.activities.connect("key-release-event", self.keycatch)
-        self.activitylabel.connect("button-release-event", self.button)
-        self.mainactivitylabel.connect("button-release-event", self.button)
+        self.mainwindow.connect("destroy", self.quit)
+        self.mainwindow.connect("key-release-event", self.keycatch)
+        self.mainwindow.connect("motion-notify-event", self.motion)
+        self.mainevent.connect("button-release-event", self.button)
+        self.topdock.connect("destroy", self.quit)
+        self.topdock.connect("key-release-event", self.keycatch)
+        self.topdock.connect("motion-notify-event", self.motion)
+        self.hotwin.connect("motion-notify-event", self.motion)
+        self.hotwin.connect("key-release-event", self.keycatch)
+        self.hotevent.connect("button-release-event", self.button)
+        self.topdockevent.connect("button-release-event", self.button)
         self.gobutton.connect("clicked", self.execute)
         self.addfavbutton.connect("clicked", self.choosefavs)
         self.delfavbutton.connect("clicked", self.delmode)
@@ -325,35 +334,39 @@ class OHMSHELL(object):
         self.restartbutton.connect("clicked", self.sessionman)
         self.haltbutton.connect("clicked", self.sessionman)
         self.closebutton.connect("clicked", self.quit)
-        # make windows undecorated and set options
-        self.window.set_decorated(False)
-        self.activities.set_decorated(False)
-        self.activities.set_skip_taskbar_hint(True)
-        self.activities.set_skip_pager_hint(True)
-        self.activities.set_keep_above(True)
-        self.activities.move(0, 0)
-        self.activities.set_position(Gtk.Align.START)
         # start
         self.run()
         Gtk.main()
 
     def run(self, *args):
         """ configure and show the main window """
+        #format windows
+        windowlist = [self.mainwindow, self.topdock, self.hotwin]
+        # make windows undecorated and set options
+        for windows in windowlist:
+            windows.set_decorated(False)
+            windows.set_decorated(False)
+            windows.set_skip_taskbar_hint(True)
+            windows.set_skip_pager_hint(True)
+            windows.set_keep_above(True)
+        self.hotwin.move(0, 0)
+        self.hotwin.set_position(Gtk.Align.START)
         self.updatefavdock()
         self.updateopenwindows()
         self.initialloading()
-        self.activities.show()
-        #self.activities.grab_focus()
-        self.window.hide()
+        self.hotwin.show()
+        #self.hotwin.grab_focus()
+        self.mainwindow.hide()
+        self.topdock.hide()
         return
 
     def initialloading(self):
         """ set up appearance and run startup commands according to config """
         # Show or hide the hotcorner Activities label
         if self.showhotlabel.lower() == 'true':
-            self.activitylabel.get_child().set_text('Activities')
+            self.hotevent.get_child().set_text('Activities')
         elif self.showhotlabel.lower() == 'false':
-            self.activitylabel.get_child().set_text('<')
+            self.hotevent.get_child().set_text('<')
         # allow moving the list of open apps to better fit dual monitors
         if (self.appposition.lower() == 'centre' or
                 self.appposition.lower() == 'center'):
@@ -517,11 +530,11 @@ class OHMSHELL(object):
         test_mask = (event.state & Gdk.ModifierType.SUPER_MASK ==
                      Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
-            if self.window.get_visible():
+            if self.mainwindow.get_visible():
                 ###debug###print('SUPER: hide overlay ' + time.asctime())
                 self.hide()
                 return
-            elif not self.window.get_visible():
+            elif not self.mainwindow.get_visible():
                 ###debug###print('SUPER: show overlay ' + time.asctime())
                 self.show()
                 return
@@ -547,12 +560,13 @@ class OHMSHELL(object):
         """ Hot Corner functionality """
         winname = actor.get_title()
         self.maskold = self.mask
-        #self.mask = (self.activities.get_pointer())
+        #self.mask = (self.hotwin.get_pointer())
         self.mask = (event.get_coords())
         # avoid repeatedly opening/closing activities
         if self.mask == (0.0, 0.0) and not self.maskold == (0.0, 0.0):
             ###debug###print('MOTION ' + time.asctime())
-            if winname == 'ohm-shell: Overlay':
+            if winname == 'ohm-shell: Overlay' or winname == ('ohm-shell:' +
+                                                              ' Top Bar'):
                 self.hide()
             if winname == 'ohm-shell: Activities':
                 self.show()
@@ -564,20 +578,26 @@ class OHMSHELL(object):
         self.updateopenwindows()
         self.updatefavdock()
         #mytime = time.strftime('%H') + ':' + time.strftime('%M')
-        self.timelabel.set_text(time.asctime())
-        self.activities.set_keep_above(True)
-        #self.window.grab_focus()
+        self.maintimelabel.set_text(time.asctime())
+        self.toptimelabel.set_text(time.asctime())
+        self.hotwin.set_keep_above(False)
+        self.mainwindow.set_keep_above(True)
+        self.topdock.set_keep_above(True)
         self.runentry.grab_focus()
         #resize for trenta/gnome-classic/compiz
         if self.toolbarheight:
             screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
             screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
-            self.window.set_size_request(screenwidth, (screenheight -
+            self.mainwindow.set_size_request(screenwidth, (screenheight -
                                                        self.toolbarheight))
-        self.window.maximize()
-        self.window.fullscreen()
-        self.window.present()
-        self.window.realize()
+            self.topdock.set_size_request(screenwidth, self.toolbarheight)
+            self.topdock.present()
+            self.topdock.realize()
+        self.mainwindow.maximize()
+        self.mainwindow.fullscreen()
+        self.mainwindow.present()
+        self.mainwindow.realize()
+        self.runentry.grab_focus()
         while Gtk.events_pending():
             Gtk.main_iteration()
         return
@@ -585,19 +605,23 @@ class OHMSHELL(object):
     def hide(self, *args):
         """ hide overlay window """
         ###debug###print('hide: ' + time.asctime())
-        self.timelabel.set_text("")
-        self.window.set_keep_above(False)
-        self.window.hide()
-        self.activities.present()
-        self.activities.set_keep_above(True)
+        self.maintimelabel.set_text("")
+        self.toptimelabel.set_text("")
+        self.mainwindow.set_keep_above(False)
+        self.mainwindow.hide()
+        if self.toolbarheight:
+            self.topdock.set_keep_above(False)
+            self.topdock.hide()
+        self.hotwin.present()
+        self.hotwin.set_keep_above(True)
         while Gtk.events_pending():
             Gtk.main_iteration()
         return
 
     def quit(self, event):
         """ stop the process thread and close the program"""
-        self.activities.destroy()
-        self.window.destroy()
+        self.hotwin.destroy()
+        self.mainwindow.destroy()
         self.execute("kill", None)
         Gtk.main_quit(event)
         return False
@@ -717,7 +741,7 @@ class OHMSHELL(object):
             #proclist = procman.getprocesses()
             print('LOOKING FOR: ' + tooltip)
             if self.activewindows(tooltip):
-                self.window.hide()
+                self.mainwindow.hide()
                 return True
             #procfound = False
             #procname = None
