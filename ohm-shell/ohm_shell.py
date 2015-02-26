@@ -24,7 +24,6 @@
 
 import os
 import time
-#import psutil
 
 try:
     import ConfigParser
@@ -36,7 +35,6 @@ import procman
 
 from gi.repository import Gtk
 from gi.repository import Gdk
-#from gi.repository import GLib
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -355,7 +353,6 @@ class OHMSHELL(object):
         self.updateopenwindows()
         self.initialloading()
         self.hotwin.show()
-        #self.hotwin.grab_focus()
         self.mainwindow.hide()
         self.topdock.hide()
         return
@@ -462,27 +459,25 @@ class OHMSHELL(object):
 
     def execute(self, actor, event):
         """ Execute commands in a subprocess """
-        tmpcount = 0
         tmppid = None
         if event:
             if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
-                # show the overlay on left mouse clicks
-                ###debug###print('execute: ' + time.asctime())
-                #check running processes first
+                tmpcount = 0
                 for items in self.favlist:
                     if actor == items[0]:
                         # find existing process
                         if isinstance(items[3], int):
-                            print('OHM: Looking for PID ' + items[1])
                             tmppid = self.activatepid(items[3])
                             if tmppid:
-                                print('OHM: found running pid ' + str(items[3]))
+                                print('OHM: found running pid ' + str(items[1]))
                                 self.setpid(tmppid, tmpcount)
                                 self.hide()
                                 return True
+                    tmpcount = tmpcount + 1
+                tmpcount = 0
                 for items in self.favlist:
                     if actor == items[0]:
-                        # Switch to Active windows
+                        # Switch to active windows
                         if self.changewindow(items[0], event):
                             print('OHM: activating existing window ' +
                                   items[0].get_tooltip_text())
@@ -502,7 +497,6 @@ class OHMSHELL(object):
             print('OHM: executing from runentry')
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
-            print(tmppid)
             self.runentry.set_text("")
         elif actor == "autostart":
             if self.autostart:
@@ -512,12 +506,10 @@ class OHMSHELL(object):
                     if tmpexec:
                         print('OHM: executing autostart')
                         tmppid = procman.startprocess(tmpexec)
-                        print(tmppid)
         elif actor == "kill":
             for items in self.autostart:
                 temp = "/usr/bin/killall " + items.split()[0]
                 os.system(temp)
-        ###debug###print(tmppid)
         if tmppid:
             self.hide()
         return
@@ -527,7 +519,6 @@ class OHMSHELL(object):
         ### NEED A BETTER WAY ###
         print('OHM: adding new pid ' + str(pid))
         if count == 0:
-            self.favlist[count]
             self.fpid0 = pid
         elif count == 1:
             self.fpid1 = pid
@@ -591,11 +582,9 @@ class OHMSHELL(object):
                      Gdk.ModifierType.SUPER_MASK)
         if event.get_state() and test_mask:
             if self.mainwindow.get_visible():
-                ###debug###print('SUPER: hide overlay ' + time.asctime())
                 self.hide()
                 return
             elif not self.mainwindow.get_visible():
-                ###debug###print('SUPER: show overlay ' + time.asctime())
                 self.show()
                 return
         elif event.get_keycode()[1] == 36:
@@ -607,11 +596,9 @@ class OHMSHELL(object):
             # show the overlay on left mouse clicks
             identity = actor.get_child().get_name()
             if identity == 'overlaylabel':
-                ###debug###print('BUTTON: hide overlay ' + time.asctime())
                 self.hide()
                 return
             elif identity == 'hotlabel':
-                ###debug###print('BUTTON: show overlay ' + time.asctime())
                 self.show()
                 return
         return
@@ -620,11 +607,9 @@ class OHMSHELL(object):
         """ Hot Corner functionality """
         winname = actor.get_title()
         self.maskold = self.mask
-        #self.mask = (self.hotwin.get_pointer())
         self.mask = (event.get_coords())
         # avoid repeatedly opening/closing activities
         if self.mask == (0.0, 0.0) and not self.maskold == (0.0, 0.0):
-            ###debug###print('MOTION ' + time.asctime())
             if winname == 'ohm-shell: Overlay' or winname == ('ohm-shell:' +
                                                               ' Top Bar'):
                 self.hide()
@@ -634,10 +619,8 @@ class OHMSHELL(object):
 
     def show(self, *args):
         """ show overlay window """
-        ###debug###print('show: ' + time.asctime())
         self.updateopenwindows()
         self.updatefavdock()
-        #mytime = time.strftime('%H') + ':' + time.strftime('%M')
         self.maintimelabel.set_text(time.asctime())
         self.toptimelabel.set_text(time.asctime())
         self.hotwin.set_keep_above(False)
@@ -649,7 +632,7 @@ class OHMSHELL(object):
             screenwidth = Wnck.Screen.get_width(Wnck.Screen.get_default())
             screenheight = Wnck.Screen.get_height(Wnck.Screen.get_default())
             self.mainwindow.set_size_request(screenwidth, (screenheight -
-                                                       self.toolbarheight))
+                                                           self.toolbarheight))
             self.topdock.set_size_request(screenwidth, self.toolbarheight)
             self.topdock.present()
             self.topdock.realize()
@@ -664,7 +647,6 @@ class OHMSHELL(object):
 
     def hide(self, *args):
         """ hide overlay window """
-        ###debug###print('hide: ' + time.asctime())
         self.maintimelabel.set_text("")
         self.toptimelabel.set_text("")
         self.mainwindow.set_keep_above(False)
@@ -688,7 +670,6 @@ class OHMSHELL(object):
 
     def getwindowlist(self):
         """ get running windows and return true if the list has changed"""
-        ###debug###print('UPDATE: running apps ' + time.asctime())
         firstrun = False
         oldwindows = None
         self.screen = Wnck.Screen.get_default()
@@ -742,14 +723,22 @@ class OHMSHELL(object):
                                             ' open windows')
         return True
 
-    def activewindows(self, search):
+    def activewindows(self, search, actor):
         """ sort through open windows to activate """
         found = False
         foundwin = []
-        # identify windows by title
+        tmpcount = 0
+        overlaycount = None
         self.getwindowlist()
+        for items in self.open:
+            if items[1] == actor:
+                overlaycount = tmpcount
+                self.openwindows[overlaycount].activate(int(time.time()))
+                return True
+            else:
+                tmpcount = tmpcount + 1
+        # identify windows by title
         for windows in self.windowlist:
-            ###debug###print(dir(windows))
             tmpxid = windows.get_xid()
             tmppid = windows.get_pid()
             currentwindow = Wnck.Window.get(tmpxid)
@@ -767,7 +756,6 @@ class OHMSHELL(object):
             # if you can't find the exact window activate all matches
             print('OHM: looking for substrings')
             for windows in self.windowlist:
-                ###debug###print(dir(windows))
                 tmpxid = windows.get_xid()
                 tmppid = windows.get_pid()
                 currentwindow = Wnck.Window.get(tmpxid)
@@ -778,11 +766,11 @@ class OHMSHELL(object):
                     foundwin.append(currentwindow)
                     while Gtk.events_pending():
                         Gtk.main_iteration()
-                    #windows.activate(int(time.time()))
                     found = True
         if foundwin:
             for windows in foundwin:
-                print('ACTIVATING: ' + windows.get_name())
+                print('ACTIVATING: ' + windows.get_name() + ' - ' +
+                      str(windows.get_pid()))
                 windows.activate(int(time.time()))
             return True
         # Error, Window not activated.
@@ -793,7 +781,6 @@ class OHMSHELL(object):
         self.getwindowlist()
         # identify windows by pid
         for windows in self.windowlist:
-            ###debug###print(dir(windows))
             tmppid = windows.get_pid()
             if search == tmppid:
                 windows.activate(int(time.time()))
@@ -806,8 +793,7 @@ class OHMSHELL(object):
         """ Activate windows that you select from the overlay """
         if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
             tooltip = actor.get_tooltip_text().lower()
-            if self.activewindows(tooltip):
-                print('activated window')
+            if self.activewindows(tooltip, actor):
                 self.mainwindow.hide()
                 return True
         return False
@@ -815,7 +801,12 @@ class OHMSHELL(object):
     def openconf(self, *args):
         """ Open config file in default text editor """
         checkconfig.checkconfig(CONFIG)
-        tmppid = procman.startprocess(['/usr/bin/xdg-open', CONFIG])
+        if os.path.isfile('/usr/bin/gedit'):
+            tmppid = procman.startprocess(['gedit', CONFIG])
+        elif os.path.isfile('/usr/bin/mousepad'):
+            tmppid = procman.startprocess(['mousepad', CONFIG])
+        elif os.path.isfile('/usr/bin/xdg-open'):
+            tmppid = procman.startprocess(['xdg-open', CONFIG])
         if tmppid:
             self.hide()
 
@@ -835,7 +826,6 @@ class OHMSHELL(object):
 
     def delmode(self, actor):
         """ allow live deleting of favourites """
-        print(actor)
         return
 
     def choosefavs(self, actor):

@@ -95,6 +95,8 @@
             <property name="name">hotlabel</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="yalign">0</property>
+            <property name="ellipsize">start</property>
           </object>
         </child>
       </object>
@@ -208,6 +210,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+                    <property name="yalign">0</property>
                     <property name="label" translatable="yes">Activities</property>
                   </object>
                 </child>
@@ -1019,6 +1022,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton0">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window0</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1075,6 +1079,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton1">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window1</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1131,6 +1136,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton2">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window2</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1187,6 +1193,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton3">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window3</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1243,6 +1250,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton4">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window4</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1299,6 +1307,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton5">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window5</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1355,6 +1364,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton6">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window6</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1435,6 +1445,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton7">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window7</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1491,6 +1502,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton8">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window8</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1547,6 +1559,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton9">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window9</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1603,6 +1616,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton10">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window10</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1659,6 +1673,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton11">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">11</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1715,6 +1730,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton12">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window12</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1771,6 +1787,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton13">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window13</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1827,6 +1844,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton14">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window14</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1883,6 +1901,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton15">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window15</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1939,6 +1958,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton16">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window16</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -1995,6 +2015,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton17">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window17</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2051,6 +2072,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton18">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window18</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2107,6 +2129,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton19">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window19</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2163,6 +2186,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton20">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window20</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2219,6 +2243,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton21">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window21</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2275,6 +2300,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton22">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window22</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2331,6 +2357,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton23">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window23</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2387,6 +2414,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton24">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window24</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2443,6 +2471,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton25">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window25</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2499,6 +2528,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton26">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window26</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>
@@ -2555,6 +2585,7 @@
                     <child>
                       <object class="GtkButton" id="winbutton27">
                         <property name="use_action_appearance">False</property>
+                        <property name="name">window27</property>
                         <property name="width_request">64</property>
                         <property name="height_request">64</property>
                         <property name="visible">True</property>

@@ -57,7 +57,7 @@ def checkconfig(inputpath):
         conffile.close()
         return
 
-def checksetting(inputpath, settingid, setting ):
+def checksetting(inputpath, settingid, setting):
     """ try to identify the default icon theme path """
     conf = ConfigParser.RawConfigParser()
     conf.read(inputpath)
@@ -79,4 +79,4 @@ def changesetting(inputpath, settingid, setting, value):
 
 def checkdesktopfile(inputfile):
     """ get basic information from the selected desktop file """
-    return
+    return inputfile

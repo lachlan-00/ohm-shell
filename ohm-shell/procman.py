@@ -28,7 +28,6 @@ import subprocess
 def startprocess(proclist):
     """ start process returning the pid """
     pid = None
-    print('PROCMAN: executing process...')
     try:
         pid = subprocess.Popen(proclist).pid
     except OSError:
@@ -50,11 +49,9 @@ def startprocess(proclist):
 def getprocesses():
     """ identify process by the pid """
     proclist = []
-    print('PROCMAN: Scanning processes...')
     for proc in psutil.process_iter():
         xpid = proc.pid
         xname = proc.name
         xproc = proc.cmdline
         proclist.append([xpid, xname, xproc])
     return proclist
-    
