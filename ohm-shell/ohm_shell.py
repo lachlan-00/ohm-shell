@@ -283,26 +283,26 @@ class OHMSHELL(object):
         self.cmd17 = None
         self.cmd18 = None
         self.cmd19 = None
-        self.name0 = None
-        self.name1 = None
-        self.name2 = None
-        self.name3 = None
-        self.name4 = None
-        self.name5 = None
-        self.name6 = None
-        self.name7 = None
-        self.name8 = None
-        self.name9 = None
-        self.name10 = None
-        self.name11 = None
-        self.name12 = None
-        self.name13 = None
-        self.name14 = None
-        self.name15 = None
-        self.name16 = None
-        self.name17 = None
-        self.name18 = None
-        self.name19 = None
+        self.fpid0 = None
+        self.fpid1 = None
+        self.fpid2 = None
+        self.fpid3 = None
+        self.fpid4 = None
+        self.fpid5 = None
+        self.fpid6 = None
+        self.fpid7 = None
+        self.fpid8 = None
+        self.fpid9 = None
+        self.fpid10 = None
+        self.fpid11 = None
+        self.fpid12 = None
+        self.fpid13 = None
+        self.fpid14 = None
+        self.fpid15 = None
+        self.fpid16 = None
+        self.fpid17 = None
+        self.fpid18 = None
+        self.fpid19 = None
         self.fileitem = None
         self.favlist = None
         self.autostart = None
@@ -427,26 +427,26 @@ class OHMSHELL(object):
         self.cmd17 = self.conf.get('dock', '17fav')
         self.cmd18 = self.conf.get('dock', '18fav')
         self.cmd19 = self.conf.get('dock', '19fav')
-        self.favlist = [[self.fav0, self.cmd0, self.image0, self.name0],
-                        [self.fav1, self.cmd1, self.image1, self.name1],
-                        [self.fav2, self.cmd2, self.image2, self.name2],
-                        [self.fav3, self.cmd3, self.image3, self.name3],
-                        [self.fav4, self.cmd4, self.image4, self.name4],
-                        [self.fav5, self.cmd5, self.image5, self.name5],
-                        [self.fav6, self.cmd6, self.image6, self.name6],
-                        [self.fav7, self.cmd7, self.image7, self.name7],
-                        [self.fav8, self.cmd8, self.image8, self.name8],
-                        [self.fav9, self.cmd9, self.image9, self.name9],
-                        [self.fav10, self.cmd10, self.image10, self.name10],
-                        [self.fav11, self.cmd11, self.image11, self.name11],
-                        [self.fav12, self.cmd12, self.image12, self.name12],
-                        [self.fav13, self.cmd13, self.image13, self.name13],
-                        [self.fav14, self.cmd14, self.image14, self.name14],
-                        [self.fav15, self.cmd15, self.image15, self.name15],
-                        [self.fav16, self.cmd16, self.image16, self.name16],
-                        [self.fav17, self.cmd17, self.image17, self.name17],
-                        [self.fav18, self.cmd18, self.image18, self.name18],
-                        [self.fav19, self.cmd19, self.image19, self.name19]]
+        self.favlist = [[self.fav0, self.cmd0, self.image0, self.fpid0],
+                        [self.fav1, self.cmd1, self.image1, self.fpid1],
+                        [self.fav2, self.cmd2, self.image2, self.fpid2],
+                        [self.fav3, self.cmd3, self.image3, self.fpid3],
+                        [self.fav4, self.cmd4, self.image4, self.fpid4],
+                        [self.fav5, self.cmd5, self.image5, self.fpid5],
+                        [self.fav6, self.cmd6, self.image6, self.fpid6],
+                        [self.fav7, self.cmd7, self.image7, self.fpid7],
+                        [self.fav8, self.cmd8, self.image8, self.fpid8],
+                        [self.fav9, self.cmd9, self.image9, self.fpid9],
+                        [self.fav10, self.cmd10, self.image10, self.fpid10],
+                        [self.fav11, self.cmd11, self.image11, self.fpid11],
+                        [self.fav12, self.cmd12, self.image12, self.fpid12],
+                        [self.fav13, self.cmd13, self.image13, self.fpid13],
+                        [self.fav14, self.cmd14, self.image14, self.fpid14],
+                        [self.fav15, self.cmd15, self.image15, self.fpid15],
+                        [self.fav16, self.cmd16, self.image16, self.fpid16],
+                        [self.fav17, self.cmd17, self.image17, self.fpid17],
+                        [self.fav18, self.cmd18, self.image18, self.fpid18],
+                        [self.fav19, self.cmd19, self.image19, self.fpid19]]
         for items in self.favlist:
             if not items[1] == "":
                 tmpimage = self.conf.get('dock', (str(tmpcount) + 'icon'))
@@ -468,21 +468,33 @@ class OHMSHELL(object):
             if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
                 # show the overlay on left mouse clicks
                 ###debug###print('execute: ' + time.asctime())
+                #check running processes first
                 for items in self.favlist:
                     if actor == items[0]:
-                        print(items[0].get_tooltip_text())
+                        # find existing process
+                        if isinstance(items[3], int):
+                            print('OHM: Looking for PID ' + items[1])
+                            tmppid = self.activatepid(items[3])
+                            if tmppid:
+                                print('OHM: found running pid ' + str(items[3]))
+                                self.setpid(tmppid, tmpcount)
+                                self.hide()
+                                return True
+                for items in self.favlist:
+                    if actor == items[0]:
                         # Switch to Active windows
                         if self.changewindow(items[0], event):
                             print('OHM: activating existing window ' +
                                   items[0].get_tooltip_text())
+                            self.hide()
                             return True
                         tmpexec = (items[1]).split()
                         if not tmpexec:
                             tmpexec = [].append(items[1])
-                        print('OHM: executing favourite')
+                        print('OHM: executing favourite ' + str(items[3]))
                         tmppid = procman.startprocess(tmpexec)
                         if tmppid:
-                            print(tmppid)
+                            self.setpid(tmppid[0], tmpcount)
                             self.hide()
                             return True
                     tmpcount = tmpcount + 1
@@ -508,6 +520,54 @@ class OHMSHELL(object):
         ###debug###print(tmppid)
         if tmppid:
             self.hide()
+        return
+
+    def setpid(self, pid, count):
+        """ Update the pid when you run a new process """
+        ### NEED A BETTER WAY ###
+        print('OHM: adding new pid ' + str(pid))
+        if count == 0:
+            self.favlist[count]
+            self.fpid0 = pid
+        elif count == 1:
+            self.fpid1 = pid
+        elif count == 2:
+            self.fpid2 = pid
+        elif count == 3:
+            self.fpid3 = pid
+        elif count == 4:
+            self.fpid4 = pid
+        elif count == 5:
+            self.fpid5 = pid
+        elif count == 6:
+            self.fpid6 = pid
+        elif count == 7:
+            self.fpid7 = pid
+        elif count == 8:
+            self.fpid8 = pid
+        elif count == 9:
+            self.fpid9 = pid
+        elif count == 10:
+            self.fpid10 = pid
+        elif count == 11:
+            self.fpid11 = pid
+        elif count == 12:
+            self.fpid12 = pid
+        elif count == 13:
+            self.fpid13 = pid
+        elif count == 14:
+            self.fpid14 = pid
+        elif count == 15:
+            self.fpid15 = pid
+        elif count == 16:
+            self.fpid16 = pid
+        elif count == 17:
+            self.fpid17 = pid
+        elif count == 18:
+            self.fpid18 = pid
+        elif count == 19:
+            self.fpid19 = pid
+        self.updatefavdock()
         return
 
     def sessionman(self, actor):
@@ -637,7 +697,6 @@ class OHMSHELL(object):
         self.windowlist = self.screen.get_windows()
         #openwindows is used to hide desktop windows like toolbars
         if not self.openwindows:
-            print('FIRST')
             firstrun = True
             oldwindows = self.openwindows
         self.openwindows = []
@@ -729,60 +788,28 @@ class OHMSHELL(object):
         # Error, Window not activated.
         return False
 
+    def activatepid(self, search):
+        """ find process by running pid """
+        self.getwindowlist()
+        # identify windows by pid
+        for windows in self.windowlist:
+            ###debug###print(dir(windows))
+            tmppid = windows.get_pid()
+            if search == tmppid:
+                windows.activate(int(time.time()))
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
+                return tmppid
+        return False
+
     def changewindow(self, actor, event):
-        """ Activate windows that you select from the dock """
-        tooltip = None
+        """ Activate windows that you select from the overlay """
         if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
-            # show the overlay on left mouse clicks
-                tooltip = actor.get_tooltip_text().lower()
-        #found = False
-        # identify open applications from clicked buttons
-        if tooltip:
-            #proclist = procman.getprocesses()
-            print('LOOKING FOR: ' + tooltip)
+            tooltip = actor.get_tooltip_text().lower()
             if self.activewindows(tooltip):
+                print('activated window')
                 self.mainwindow.hide()
                 return True
-            #procfound = False
-            #procname = None
-            #proccmd = None
-            #self.getwindowlist()
-            ##identify process by the tooltip
-            #for proc in proclist:
-            #    if not procfound:
-            #        name = proc[1]
-            #        cmd = proc[2]
-            #        if cmd == []:
-            #            cmd = name
-            #        if tooltip in name or name.split()[0] in tooltip:
-            #            procname = name.lower()
-            #            procfound = True
-            #        if tooltip in cmd or tooltip.split()[0] in cmd:
-            #            proccmd = cmd
-            #if procname or proccmd:
-            #    print(procname)
-            #    print(proccmd)
-            #    for windows in self.windowlist:
-            #        if not found:
-            #            winname = windows.get_name().lower()
-            #            # Activate open windows that match the shortcut.
-            #            for items in self.favlist:
-            #                if actor == items[0] and not found:
-            #                    if procname in winname or winname in proccmd:
-            #                        found = True
-            #                    elif procname in items[1] or items[1] in
-            #proccmd:
-            #                        found = True
-            #                    if found:
-            #                        print("FOUNDPROCESS: " + winname)
-            #                        print(procname)
-            #                        print(proccmd)
-            #                        print(tooltip)
-            #                        windows.activate(int(time.time()))
-            #if found:
-            #    print('ERROR: ' + tooltip + ' missing')
-            #    return False
-        time.sleep(0.2)
         return False
 
     def openconf(self, *args):
