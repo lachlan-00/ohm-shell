@@ -810,7 +810,7 @@ class OHMSHELL(object):
         if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
             tooltip = actor.get_tooltip_text().lower()
             if self.activewindows(tooltip, actor):
-                self.mainwindow.hide()
+                self.hide()
                 return True
         return False
 
