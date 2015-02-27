@@ -35,6 +35,7 @@ import procman
 
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GdkPixbuf
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -446,11 +447,19 @@ class OHMSHELL(object):
                         [self.fav19, self.cmd19, self.image19, self.fpid19]]
         for items in self.favlist:
             if not items[1] == "":
-                tmpimage = self.conf.get('dock', (str(tmpcount) + 'icon'))
+                tmpimage = Gtk.Image()
+                tmpimage.set_from_file(self.conf.get('dock', (str(tmpcount) +
+                                                     'icon')))
+                pixbuf = tmpimage.get_pixbuf()
+                if pixbuf.get_height() > 48 or pixbuf.get_width() > 48:
+                    scaled = pixbuf.scale_simple(48, 48,
+                                                 GdkPixbuf.InterpType.HYPER)
+                else:
+                    scaled = pixbuf
                 items[0].set_visible(True)
                 items[0].set_tooltip_text(items[1])
                 items[0].connect("button-release-event", self.execute)
-                items[2].set_from_file(tmpimage)
+                items[2].set_from_pixbuf(scaled)
             else:
                 items[0].set_visible(False)
                 items[0].set_tooltip_text("")
@@ -707,7 +716,13 @@ class OHMSHELL(object):
         for windows in self.openwindows:
             if not count == 28:
                 text = windows.get_name()
-                self.open[count][0].set_from_pixbuf(windows.get_icon())
+                pixbuf = windows.get_icon()
+                if pixbuf.get_height() > 32 or pixbuf.get_width() > 32:
+                    scaled = pixbuf.scale_simple(32, 32,
+                                                 GdkPixbuf.InterpType.HYPER)
+                else:
+                    scaled = pixbuf
+                self.open[count][0].set_from_pixbuf(scaled)
                 self.open[count][1].connect("button-release-event",
                                             self.changewindow)
                 self.open[count][1].set_tooltip_text(text)
