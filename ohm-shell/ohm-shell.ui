@@ -413,12 +413,12 @@
                     <property name="can_focus">True</property>
                     <property name="vexpand">True</property>
                     <property name="hscrollbar_policy">never</property>
-                    <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkViewport" id="faveview">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="vexpand">True</property>
+                        <property name="shadow_type">none</property>
                         <child>
                           <object class="GtkBox" id="favbox">
                             <property name="width_request">55</property>
@@ -432,6 +432,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image0">
@@ -454,6 +455,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image1">
@@ -476,6 +478,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image2">
@@ -498,6 +501,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image3">
@@ -520,6 +524,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image4">
@@ -542,6 +547,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image5">
@@ -564,6 +570,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image6">
@@ -586,6 +593,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image7">
@@ -608,6 +616,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image8">
@@ -630,6 +639,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image9">
@@ -652,6 +662,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image10">
@@ -674,6 +685,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image11">
@@ -696,6 +708,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image12">
@@ -718,6 +731,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image13">
@@ -740,6 +754,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image14">
@@ -762,6 +777,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image15">
@@ -784,6 +800,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image16">
@@ -806,6 +823,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image17">
@@ -828,6 +846,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image18">
@@ -850,6 +869,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image19">
@@ -873,6 +893,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image20">
@@ -897,6 +918,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
+                                <property name="relief">none</property>
                                 <property name="focus_on_click">False</property>
                                 <child>
                                   <object class="GtkImage" id="image21">
