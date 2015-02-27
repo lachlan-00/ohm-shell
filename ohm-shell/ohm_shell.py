@@ -321,7 +321,7 @@ class OHMSHELL(object):
         self.hotwin.connect("key-release-event", self.keycatch)
         self.hotevent.connect("button-release-event", self.button)
         self.topdockevent.connect("button-release-event", self.button)
-        self.gobutton.connect("clicked", self.execute)
+        self.gobutton.connect("button-release-event", self.execute)
         self.addfavbutton.connect("clicked", self.choosefavs)
         self.delfavbutton.connect("clicked", self.delmode)
         self.addfavok.connect("clicked", self.addfavtoconf)
