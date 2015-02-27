@@ -451,15 +451,16 @@ class OHMSHELL(object):
                 tmpimage.set_from_file(self.conf.get('dock', (str(tmpcount) +
                                                               'icon')))
                 pixbuf = tmpimage.get_pixbuf()
-                if pixbuf.get_height() > 48 or pixbuf.get_width() > 48:
-                    scaled = pixbuf.scale_simple(48, 48,
-                                                 GdkPixbuf.InterpType.HYPER)
-                else:
-                    scaled = pixbuf
+                if pixbuf:
+                    if pixbuf.get_height() > 48 or pixbuf.get_width() > 48:
+                        scaled = pixbuf.scale_simple(48, 48,
+                                                     GdkPixbuf.InterpType.HYPER)
+                    else:
+                        scaled = pixbuf
+                    items[2].set_from_pixbuf(scaled)
                 items[0].set_visible(True)
                 items[0].set_tooltip_text(items[1])
                 items[0].connect("button-release-event", self.execute)
-                items[2].set_from_pixbuf(scaled)
             else:
                 items[0].set_visible(False)
                 items[0].set_tooltip_text("")
