@@ -449,7 +449,7 @@ class OHMSHELL(object):
             if not items[1] == "":
                 tmpimage = Gtk.Image()
                 tmpimage.set_from_file(self.conf.get('dock', (str(tmpcount) +
-                                                     'icon')))
+                                                              'icon')))
                 pixbuf = tmpimage.get_pixbuf()
                 if pixbuf.get_height() > 48 or pixbuf.get_width() > 48:
                     scaled = pixbuf.scale_simple(48, 48,
@@ -837,11 +837,11 @@ class OHMSHELL(object):
                                                  'Comment'))
         self.openconf()
         self.addfavs.hide()
-        return
+        return actor
 
     def delmode(self, actor):
         """ allow live deleting of favourites """
-        return
+        return actor
 
     def choosefavs(self, actor):
         """ file chooser to pick favourites by *.desktop file """
