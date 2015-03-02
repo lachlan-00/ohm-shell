@@ -390,7 +390,6 @@ class OHMSHELL(object):
 
     def updatefavdock(self):
         """ Read config and fill favourites list """
-        tmpcount = 0
         checkconfig.checkconfig(CONFIG)
         self.conf.read(CONFIG)
         try:
@@ -445,26 +444,44 @@ class OHMSHELL(object):
                         [self.fav17, self.cmd17, self.image17, self.fpid17],
                         [self.fav18, self.cmd18, self.image18, self.fpid18],
                         [self.fav19, self.cmd19, self.image19, self.fpid19]]
+        tmpcount = 0
         for items in self.favlist:
             if not items[1] == "":
                 tmpimage = Gtk.Image()
                 tmpimage.set_from_file(self.conf.get('dock', (str(tmpcount) +
                                                               'icon')))
                 pixbuf = tmpimage.get_pixbuf()
-                if pixbuf:
+                try:
                     if pixbuf.get_height() > 48 or pixbuf.get_width() > 48:
                         scaled = pixbuf.scale_simple(48, 48,
                                                      GdkPixbuf.InterpType.HYPER)
                     else:
                         scaled = pixbuf
-                    items[2].set_from_pixbuf(scaled)
+                except AttributeError:
+                    tmpimage.set_from_file('/usr/share/icons/gnome/48x48/' +
+                                           'status/dialog-question.png')
+                    scaled = tmpimage.get_pixbuf()
                 items[0].set_visible(True)
                 items[0].set_tooltip_text(items[1])
                 items[0].connect("button-release-event", self.execute)
+                items[2].set_from_pixbuf(scaled)
             else:
                 items[0].set_visible(False)
                 items[0].set_tooltip_text("")
             tmpcount = tmpcount + 1
+        tmpcount = 0
+        self.delfavbutton.set_visible(False)
+        for items in self.favlist:
+            if not items[1]:
+                tmpcount = tmpcount + 1
+            if items[1]:
+                # Allow delete if there are any shortcuts
+                self.delfavbutton.set_visible(True)
+        # only allow add it there is room to fit it
+        if tmpcount == 0:
+            self.addfavbutton.set_visible(False)
+        else:
+            self.addfavbutton.set_visible(True)
         return
 
     def execute(self, actor, event):
@@ -810,7 +827,7 @@ class OHMSHELL(object):
         if Gdk.ModifierType.BUTTON1_MASK == event.get_state():
             tooltip = actor.get_tooltip_text().lower()
             if self.activewindows(tooltip, actor):
-                self.hide()
+                self.mainwindow.hide()
                 return True
         return False
 
@@ -836,7 +853,16 @@ class OHMSHELL(object):
         filelist.append(checkconfig.checksetting(self.fileitem, entry, 'Icon'))
         filelist.append(checkconfig.checksetting(self.fileitem, entry,
                                                  'Comment'))
-        self.openconf()
+        tmpcount = 0
+        for items in self.favlist:
+            if not items[1]:
+                print('missing favourite item in config found. ADDING:')
+                checkconfig.changesetting(CONFIG, 'dock',
+                                          str(tmpcount) +'fav', filelist[1])
+                checkconfig.changesetting(CONFIG, 'dock',
+                                          str(tmpcount) +'icon', filelist[2])
+                return actor
+            tmpcount = tmpcount + 1
         self.addfavs.hide()
         return actor
 
@@ -847,6 +873,7 @@ class OHMSHELL(object):
     def choosefavs(self, actor):
         """ file chooser to pick favourites by *.desktop file """
         if actor == self.addfavbutton:
+            self.hide()
             self.addfavs.present()
         return
 
@@ -854,5 +881,6 @@ class OHMSHELL(object):
         """ close the filechooser """
         if actor == self.addfavcancel:
             self.addfavs.hide()
+            self.show()
 if __name__ == "__main__":
     OHMSHELL()
