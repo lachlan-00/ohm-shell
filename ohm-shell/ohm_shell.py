@@ -474,9 +474,13 @@ class OHMSHELL(object):
                     else:
                         scaled = pixbuf
 <<<<<<< HEAD
+<<<<<<< HEAD
                 except AttributeError as e:
                     logops.write(LOGFILE, 'Missing favourite bar icon')
                     logops.write(LOGFILE, str(e))
+=======
+                except AttributeError:
+>>>>>>> 9826467... initial favourite adding from desktop files
 =======
                 except AttributeError:
 >>>>>>> 9826467... initial favourite adding from desktop files
@@ -897,8 +901,12 @@ class OHMSHELL(object):
         for items in self.favlist:
             if not items[1]:
 <<<<<<< HEAD
+<<<<<<< HEAD
                 logops.write(LOGFILE, ('missing favourite item i' +
                                        'n config found. ADDING:'))
+=======
+                print('missing favourite item in config found. ADDING:')
+>>>>>>> 9826467... initial favourite adding from desktop files
 =======
                 print('missing favourite item in config found. ADDING:')
 >>>>>>> 9826467... initial favourite adding from desktop files
