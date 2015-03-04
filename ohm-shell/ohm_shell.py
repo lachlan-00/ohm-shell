@@ -25,12 +25,14 @@
 import os
 import time
 
+#ConfigParser renamed for python3
 try:
     import ConfigParser
 except ImportError:
     import configparser as ConfigParser
 
 import checkconfig
+import logops
 import procman
 
 from gi.repository import Gtk
@@ -39,8 +41,10 @@ from gi.repository import GdkPixbuf
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
+
 HOMEFOLDER = os.getenv('HOME')
 CONFIG = xdg_config_dirs[0] + '/ohm-shell.conf'
+LOGFILE = HOMEFOLDER + '/.ohm-shell.log'
 HIDELIST = ['ohm_shell.py', 'ohm_shell.py', 'Desktop', 'ohm-shell: Activities',
             'ohm-shell: Overlay', 'xfce4-panel', 'xfce4-notifyd',
             'Top Expanded Edge Panel', 'plank']
@@ -356,6 +360,11 @@ class OHMSHELL(object):
         self.hotwin.show()
         self.mainwindow.hide()
         self.topdock.hide()
+        logops.write(LOGFILE, '')
+        logops.write(LOGFILE, '===================================')
+        logops.write(LOGFILE, 'LOADING COMPLETE: ohm-shell running')
+        logops.write(LOGFILE, time.asctime())
+        logops.write(LOGFILE, '')
         return
 
     def initialloading(self):
@@ -496,7 +505,9 @@ class OHMSHELL(object):
                         if isinstance(items[3], int):
                             tmppid = self.activatepid(items[3])
                             if tmppid:
-                                print('OHM: found running pid ' + str(items[1]))
+                                logops.write(LOGFILE,
+                                             ('OHM: found running pid ' +
+                                              str(items[1])))
                                 self.setpid(tmppid, tmpcount)
                                 self.hide()
                                 return True
@@ -506,14 +517,17 @@ class OHMSHELL(object):
                     if actor == items[0]:
                         # Switch to active windows
                         if self.changewindow(items[0], event):
-                            print('OHM: activating existing window ' +
-                                  items[0].get_tooltip_text())
+                            logops.write(LOGFILE,
+                                         ('OHM: activating existing window ' +
+                                          items[0].get_tooltip_text()))
                             self.hide()
                             return True
                         tmpexec = (items[1]).split()
                         if not tmpexec:
                             tmpexec = [].append(items[1])
-                        print('OHM: executing favourite ' + str(items[3]))
+                        logops.write(LOGFILE,
+                                     ('OHM: executing favourite ' +
+                                      str(items[3])))
                         tmppid = procman.startprocess(tmpexec)
                         if tmppid:
                             self.setpid(tmppid[0], tmpcount)
@@ -521,7 +535,7 @@ class OHMSHELL(object):
                             return True
                     tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
-            print('OHM: executing from runentry')
+            logops.write(LOGFILE, 'OHM: executing from runentry')
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
             self.runentry.set_text("")
@@ -531,7 +545,7 @@ class OHMSHELL(object):
                     # execute autorun programs as hidden shell commands
                     tmpexec = items.split()
                     if tmpexec:
-                        print('OHM: executing autostart')
+                        logops.write(LOGFILE, 'OHM: executing autostart')
                         tmppid = procman.startprocess(tmpexec)
         elif actor == "kill":
             for items in self.autostart:
@@ -544,7 +558,7 @@ class OHMSHELL(object):
     def setpid(self, pid, count):
         """ Update the pid when you run a new process """
         ### NEED A BETTER WAY ###
-        print('OHM: adding new pid ' + str(pid))
+        logops.write(LOGFILE, 'OHM: adding new pid ' + str(pid))
         if count == 0:
             self.fpid0 = pid
         elif count == 1:
@@ -689,6 +703,11 @@ class OHMSHELL(object):
 
     def quit(self, event):
         """ stop the process thread and close the program"""
+        logops.write(LOGFILE, '')
+        logops.write(LOGFILE, '================================')
+        logops.write(LOGFILE, 'SHUTTING DOWN: ohm-shell closing')
+        logops.write(LOGFILE, time.asctime())
+        logops.write(LOGFILE, '')
         self.hotwin.destroy()
         self.mainwindow.destroy()
         self.execute("kill", None)
@@ -720,7 +739,7 @@ class OHMSHELL(object):
         """ Update the list of open windows on the overlay """
         winlist = self.getwindowlist()
         if not winlist:
-            print('OHM: no change')
+            logops.write(LOGFILE, 'OHM: no change')
             return False
         count = 0
         # blank before filling dock
@@ -787,7 +806,7 @@ class OHMSHELL(object):
         # search for split text in windows
         if not found:
             # if you can't find the exact window activate all matches
-            print('OHM: looking for substrings')
+            logops.write(LOGFILE, 'OHM: looking for substrings')
             for windows in self.windowlist:
                 tmpxid = windows.get_xid()
                 tmppid = windows.get_pid()
@@ -802,8 +821,8 @@ class OHMSHELL(object):
                     found = True
         if foundwin:
             for windows in foundwin:
-                print('ACTIVATING: ' + windows.get_name() + ' - ' +
-                      str(windows.get_pid()))
+                logops.write(LOGFILE, ('ACTIVATING: ' + windows.get_name() +
+                                       ' - ' + str(windows.get_pid())))
                 windows.activate(int(time.time()))
             return True
         # Error, Window not activated.
@@ -856,7 +875,8 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if not items[1]:
-                print('missing favourite item in config found. ADDING:')
+                logops.write(LOGFILE, ('missing favourite item i' +
+                                       'n config found. ADDING:'))
                 checkconfig.changesetting(CONFIG, 'dock',
                                           str(tmpcount) +'fav', filelist[1])
                 checkconfig.changesetting(CONFIG, 'dock',

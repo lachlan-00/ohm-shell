@@ -22,8 +22,13 @@
 
 """
 
+import os
 import psutil
 import subprocess
+
+import logops
+
+LOGFILE = os.getenv('HOME') + '/.ohm-shell.log'
 
 def startprocess(proclist):
     """ start process returning the pid """
@@ -32,11 +37,11 @@ def startprocess(proclist):
         pid = subprocess.Popen(proclist).pid
     except OSError:
         #no file found
-        print('PROCMAN: No File Found')
+        logops.write(LOGFILE, 'PROCMAN: No File Found')
         return False
     except TypeError:
         #malformed entry
-        print('PROCMAN: Bad file name')
+        logops.write(LOGFILE, 'PROCMAN: Bad file name')
         return False
     #process.wait()
     tmpproc = getprocesses()

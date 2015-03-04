@@ -22,7 +22,8 @@
 
 """
 
-#import os
+
+import os
 
 #ConfigParser renamed for python3
 try:
@@ -30,6 +31,9 @@ try:
 except ImportError:
     import configparser as ConfigParser
 
+import logops
+
+LOGFILE = os.getenv('HOME') + '/.ohm-shell.log'
 
 def checkconfig(inputpath):
     """ create a default config if not available """
@@ -37,7 +41,7 @@ def checkconfig(inputpath):
     conf.read(inputpath)
     if not conf.has_section('dock'):
         count = 0
-        print('CHECKCONFIG: adding dock')
+        logops.write(LOGFILE, 'CHECKCONFIG: adding dock')
         conffile = open(inputpath, "w")
         conf.add_section('dock')
         while count < 20:
@@ -48,7 +52,7 @@ def checkconfig(inputpath):
         conffile.close()
     if not conf.has_section('options'):
         conffile = open(inputpath, "w")
-        print('CHECKCONFIG: adding options')
+        logops.write(LOGFILE, 'CHECKCONFIG: adding options')
         conf.add_section('options')
         conf.set('options', 'autostart', '')
         conf.set('options', 'appposition', 'centre')
@@ -64,11 +68,13 @@ def checksetting(inputpath, settingid, setting):
     try:
         name = conf.get(settingid, setting)
     except ConfigParser.NoOptionError:
+        logops.write(LOGFILE, 'CHECKCONFIG: option not found ' + setting)
         return None
     return name
 
 def changesetting(inputpath, settingid, setting, value):
     """ set values for settings """
+    logops.write(LOGFILE, 'CHECKCONFIG: writing new value for ' + setting)
     conf = ConfigParser.RawConfigParser()
     conf.read(inputpath)
     conf.set(settingid, setting, value)
