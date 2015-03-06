@@ -685,7 +685,7 @@ class OHMSHELL(object):
         self.mainwindow.realize()
         while Gtk.events_pending():
             Gtk.main_iteration()
-        GLib.idle_add(self.present(self.mainwindow))        
+        GLib.idle_add(self.present(self.mainwindow))
         self.runentry.grab_focus()
         return
 
