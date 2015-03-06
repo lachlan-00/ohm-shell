@@ -473,17 +473,7 @@ class OHMSHELL(object):
                                                      GdkPixbuf.InterpType.HYPER)
                     else:
                         scaled = pixbuf
-<<<<<<< HEAD
-<<<<<<< HEAD
-                except AttributeError as e:
-                    logops.write(LOGFILE, 'Missing favourite bar icon')
-                    logops.write(LOGFILE, str(e))
-=======
                 except AttributeError:
->>>>>>> 9826467... initial favourite adding from desktop files
-=======
-                except AttributeError:
->>>>>>> 9826467... initial favourite adding from desktop files
                     tmpimage.set_from_file('/usr/share/icons/gnome/48x48/' +
                                            'status/dialog-question.png')
                     scaled = tmpimage.get_pixbuf()
@@ -900,16 +890,7 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if not items[1]:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                logops.write(LOGFILE, ('missing favourite item i' +
-                                       'n config found. ADDING:'))
-=======
                 print('missing favourite item in config found. ADDING:')
->>>>>>> 9826467... initial favourite adding from desktop files
-=======
-                print('missing favourite item in config found. ADDING:')
->>>>>>> 9826467... initial favourite adding from desktop files
                 checkconfig.changesetting(CONFIG, 'dock',
                                           str(tmpcount) +'fav', filelist[1])
                 checkconfig.changesetting(CONFIG, 'dock',
