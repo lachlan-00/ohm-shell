@@ -67,9 +67,8 @@ def checksetting(inputpath, settingid, setting):
     conf.read(inputpath)
     try:
         name = conf.get(settingid, setting)
-    except ConfigParser.NoOptionError as e:
+    except ConfigParser.NoOptionError:
         logops.write(LOGFILE, 'CHECKCONFIG: option not found ' + setting)
-        logops.write(LOGFILE, str(e))
         return None
     return name
 

@@ -35,15 +35,13 @@ def startprocess(proclist):
     pid = None
     try:
         pid = subprocess.Popen(proclist).pid
-    except OSError as e:
+    except OSError:
         #no file found
         logops.write(LOGFILE, 'PROCMAN: No File Found')
-        logops.write(LOGFILE, str(e))
         return False
-    except TypeError as e:
+    except TypeError:
         #malformed entry
         logops.write(LOGFILE, 'PROCMAN: Bad file name')
-        logops.write(LOGFILE, str(e))
         return False
     #process.wait()
     tmpproc = getprocesses()

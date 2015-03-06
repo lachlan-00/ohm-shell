@@ -38,7 +38,6 @@ import procman
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GdkPixbuf
-from gi.repository import GLib
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -404,21 +403,15 @@ class OHMSHELL(object):
         self.conf.read(CONFIG)
         try:
             self.autostart = self.conf.get('options', 'autostart')
-        except ConfigParser.NoOptionError as e:
-            logops.write(LOGFILE, 'Missing autostart option')
-            logops.write(LOGFILE, str(e))
+        except ConfigParser.NoOptionError:
             self.autostart = None
         try:
             self.appposition = self.conf.get('options', 'appposition')
-        except ConfigParser.NoOptionError as e:
-            logops.write(LOGFILE, 'Missing appposition option')
-            logops.write(LOGFILE, str(e))
+        except ConfigParser.NoOptionError:
             self.appposition = 'Centre'
         try:
             self.showhotlabel = self.conf.get('options', 'showhotlabel')
-        except ConfigParser.NoOptionError as e:
-            logops.write(LOGFILE, 'Missing showhotlabel option')
-            logops.write(LOGFILE, str(e))
+        except ConfigParser.NoOptionError:
             self.showhotlabel = 'False'
         self.cmd0 = self.conf.get('dock', '0fav')
         self.cmd1 = self.conf.get('dock', '1fav')
@@ -473,9 +466,7 @@ class OHMSHELL(object):
                                                      GdkPixbuf.InterpType.HYPER)
                     else:
                         scaled = pixbuf
-                except AttributeError as e:
-                    logops.write(LOGFILE, 'Missing favourite bar icon')
-                    logops.write(LOGFILE, str(e))
+                except AttributeError:
                     tmpimage.set_from_file('/usr/share/icons/gnome/48x48/' +
                                            'status/dialog-question.png')
                     scaled = tmpimage.get_pixbuf()
@@ -684,17 +675,15 @@ class OHMSHELL(object):
             self.mainwindow.set_size_request(screenwidth, (screenheight -
                                                            self.toolbarheight))
             self.topdock.set_size_request(screenwidth, self.toolbarheight)
-            self.topdock.show()
+            self.topdock.present()
             self.topdock.realize()
-            GLib.idle_add(self.present(self.topdock))
         self.mainwindow.maximize()
         self.mainwindow.fullscreen()
-        self.mainwindow.show()
+        self.mainwindow.present()
         self.mainwindow.realize()
+        self.runentry.grab_focus()
         while Gtk.events_pending():
             Gtk.main_iteration()
-        GLib.idle_add(self.present(self.mainwindow))        
-        self.runentry.grab_focus()
         return
 
     def hide(self, *args):
@@ -706,16 +695,10 @@ class OHMSHELL(object):
         if self.toolbarheight:
             self.topdock.set_keep_above(False)
             self.topdock.hide()
-        self.hotwin.show()
+        self.hotwin.present()
         self.hotwin.set_keep_above(True)
         while Gtk.events_pending():
             Gtk.main_iteration()
-        #GLib.idle_add(self.present(self.hotwin))
-        return
-
-    def present(self, window):
-        """ show desired window """
-        window.present_with_time(int(time.time()))
         return
 
     def quit(self, event):
