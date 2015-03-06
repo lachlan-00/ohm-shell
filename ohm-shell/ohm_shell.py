@@ -404,15 +404,21 @@ class OHMSHELL(object):
         self.conf.read(CONFIG)
         try:
             self.autostart = self.conf.get('options', 'autostart')
-        except ConfigParser.NoOptionError:
+        except ConfigParser.NoOptionError as e:
+            logops.write(LOGFILE, 'Missing autostart option')
+            logops.write(LOGFILE, str(e))
             self.autostart = None
         try:
             self.appposition = self.conf.get('options', 'appposition')
-        except ConfigParser.NoOptionError:
+        except ConfigParser.NoOptionError as e:
+            logops.write(LOGFILE, 'Missing appposition option')
+            logops.write(LOGFILE, str(e))
             self.appposition = 'Centre'
         try:
             self.showhotlabel = self.conf.get('options', 'showhotlabel')
-        except ConfigParser.NoOptionError:
+        except ConfigParser.NoOptionError as e:
+            logops.write(LOGFILE, 'Missing showhotlabel option')
+            logops.write(LOGFILE, str(e))
             self.showhotlabel = 'False'
         self.cmd0 = self.conf.get('dock', '0fav')
         self.cmd1 = self.conf.get('dock', '1fav')
@@ -467,7 +473,9 @@ class OHMSHELL(object):
                                                      GdkPixbuf.InterpType.HYPER)
                     else:
                         scaled = pixbuf
-                except AttributeError:
+                except AttributeError as e:
+                    logops.write(LOGFILE, 'Missing favourite bar icon')
+                    logops.write(LOGFILE, str(e))
                     tmpimage.set_from_file('/usr/share/icons/gnome/48x48/' +
                                            'status/dialog-question.png')
                     scaled = tmpimage.get_pixbuf()
