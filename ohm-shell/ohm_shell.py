@@ -38,6 +38,7 @@ import procman
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GdkPixbuf
+from gi.repository import GLib
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -675,15 +676,17 @@ class OHMSHELL(object):
             self.mainwindow.set_size_request(screenwidth, (screenheight -
                                                            self.toolbarheight))
             self.topdock.set_size_request(screenwidth, self.toolbarheight)
-            self.topdock.present()
+            self.topdock.show()
             self.topdock.realize()
+            GLib.idle_add(self.present(self.topdock))
         self.mainwindow.maximize()
         self.mainwindow.fullscreen()
-        self.mainwindow.present()
+        self.mainwindow.show()
         self.mainwindow.realize()
-        self.runentry.grab_focus()
         while Gtk.events_pending():
             Gtk.main_iteration()
+        GLib.idle_add(self.present(self.mainwindow))        
+        self.runentry.grab_focus()
         return
 
     def hide(self, *args):
@@ -695,10 +698,16 @@ class OHMSHELL(object):
         if self.toolbarheight:
             self.topdock.set_keep_above(False)
             self.topdock.hide()
-        self.hotwin.present()
+        self.hotwin.show()
         self.hotwin.set_keep_above(True)
         while Gtk.events_pending():
             Gtk.main_iteration()
+        #GLib.idle_add(self.present(self.hotwin))
+        return
+
+    def present(self, window):
+        """ show desired window """
+        window.present_with_time(int(time.time()))
         return
 
     def quit(self, event):
