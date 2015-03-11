@@ -34,16 +34,16 @@ def startprocess(proclist):
     """ start process returning the pid """
     pid = None
     try:
-        pid = subprocess.Popen(proclist).pid
-    except OSError as e:
+        pid = subprocess.Popen(proclist, preexec_fn=os.setpgrp).pid
+    except OSError as err:
         #no file found
         logops.write(LOGFILE, 'PROCMAN: No File Found')
-        logops.write(LOGFILE, str(e))
+        logops.write(LOGFILE, str(err))
         return False
-    except TypeError as e:
+    except TypeError as err:
         #malformed entry
         logops.write(LOGFILE, 'PROCMAN: Bad file name')
-        logops.write(LOGFILE, str(e))
+        logops.write(LOGFILE, str(err))
         return False
     #process.wait()
     tmpproc = getprocesses()
@@ -62,3 +62,17 @@ def getprocesses():
         xproc = proc.cmdline
         proclist.append([xpid, xname, xproc])
     return proclist
+
+def killprocess(pid):
+    """ kill process by pid """
+    try:
+        proc = psutil.Process(pid)
+    except psutil.NoSuchProcess:
+        # PID already closed
+        proc = None
+    if proc:
+        logops.write(LOGFILE, 'PROCMAN: Killing ' + str(proc.name()))
+        temp = ["/usr/bin/killall", "-g", proc.name()]
+        startprocess(temp)
+        return True
+    return False

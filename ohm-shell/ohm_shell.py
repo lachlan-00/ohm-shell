@@ -38,7 +38,7 @@ import procman
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GdkPixbuf
-from gi.repository import GLib
+#from gi.repository import GLib
 from gi.repository import Wnck
 from xdg.BaseDirectory import xdg_config_dirs
 
@@ -310,6 +310,7 @@ class OHMSHELL(object):
         self.fileitem = None
         self.favlist = None
         self.autostart = None
+        self.autostartpids = []
         self.showhotlabel = None
         self.appposition = None
         # remember pointer so hot corner doesn't continually open/close
@@ -339,7 +340,7 @@ class OHMSHELL(object):
         self.haltbutton.connect("clicked", self.sessionman)
         self.closebutton.connect("clicked", self.quit)
         # start
-        self.run()
+        self.run('START')
         Gtk.main()
 
     def run(self, *args):
@@ -357,15 +358,30 @@ class OHMSHELL(object):
         self.hotwin.set_position(Gtk.Align.START)
         self.updatefavdock()
         self.updateopenwindows()
+        if args:
+            # only run autostart on initial run
+            if args[0] == 'START':
+                # write the start of the log
+                logops.write(LOGFILE, '\n===================================')
+                logops.write(LOGFILE, 'LOADING COMPLETE: ohm-shell running')
+                logops.write(LOGFILE, time.asctime())
+                logops.write(LOGFILE, ('Writing to log file: ' + LOGFILE + '\n'))
+                # run autostart commands
+                if self.autostart:
+                    self.autostart = self.autostart.split("    ")
+                    for items in self.autostart:
+                        # execute autorun programs as hidden shell commands
+                        tmpexec = items.split()
+                        if tmpexec:
+                            logops.write(LOGFILE, 'OHM: executing autostart\n' + items)
+                            tmppid = procman.startprocess(tmpexec)
+                        if tmppid:
+                            self.autostartpids.append(tmppid)
+        # set visual options.
         self.initialloading()
         self.hotwin.show()
         self.mainwindow.hide()
         self.topdock.hide()
-        logops.write(LOGFILE, '')
-        logops.write(LOGFILE, '===================================')
-        logops.write(LOGFILE, 'LOADING COMPLETE: ohm-shell running')
-        logops.write(LOGFILE, time.asctime())
-        logops.write(LOGFILE, '')
         return
 
     def initialloading(self):
@@ -392,10 +408,6 @@ class OHMSHELL(object):
             self.leftlabel.realize()
             self.rightlabel.set_visible(False)
             self.rightlabel.unrealize()
-        # run autostart commands
-        if self.autostart:
-            self.autostart = self.autostart.split("    ")
-            self.execute("autostart", None)
         return
 
     def updatefavdock(self):
@@ -404,21 +416,21 @@ class OHMSHELL(object):
         self.conf.read(CONFIG)
         try:
             self.autostart = self.conf.get('options', 'autostart')
-        except ConfigParser.NoOptionError as e:
+        except ConfigParser.NoOptionError as err:
             logops.write(LOGFILE, 'Missing autostart option')
-            logops.write(LOGFILE, str(e))
+            logops.write(LOGFILE, str(err))
             self.autostart = None
         try:
             self.appposition = self.conf.get('options', 'appposition')
-        except ConfigParser.NoOptionError as e:
+        except ConfigParser.NoOptionError as err:
             logops.write(LOGFILE, 'Missing appposition option')
-            logops.write(LOGFILE, str(e))
+            logops.write(LOGFILE, str(err))
             self.appposition = 'Centre'
         try:
             self.showhotlabel = self.conf.get('options', 'showhotlabel')
-        except ConfigParser.NoOptionError as e:
+        except ConfigParser.NoOptionError as err:
             logops.write(LOGFILE, 'Missing showhotlabel option')
-            logops.write(LOGFILE, str(e))
+            logops.write(LOGFILE, str(err))
             self.showhotlabel = 'False'
         self.cmd0 = self.conf.get('dock', '0fav')
         self.cmd1 = self.conf.get('dock', '1fav')
@@ -518,6 +530,8 @@ class OHMSHELL(object):
                                 self.setpid(tmppid, tmpcount)
                                 self.hide()
                                 return True
+                            else:
+                                self.setpid(None, tmpcount)
                     tmpcount = tmpcount + 1
                 tmpcount = 0
                 for items in self.favlist:
@@ -546,18 +560,10 @@ class OHMSHELL(object):
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
             self.runentry.set_text("")
-        elif actor == "autostart":
-            if self.autostart:
-                for items in self.autostart:
-                    # execute autorun programs as hidden shell commands
-                    tmpexec = items.split()
-                    if tmpexec:
-                        logops.write(LOGFILE, 'OHM: executing autostart')
-                        tmppid = procman.startprocess(tmpexec)
         elif actor == "kill":
-            for items in self.autostart:
-                temp = "/usr/bin/killall " + items.split()[0]
-                os.system(temp)
+            for items in self.autostartpids:
+                procman.killprocess(items[0])
+            return
         if tmppid:
             self.hide()
         return
@@ -684,15 +690,20 @@ class OHMSHELL(object):
             self.topdock.set_size_request(screenwidth, self.toolbarheight)
             self.topdock.show()
             self.topdock.realize()
-            GLib.idle_add(self.present(self.topdock))
+            self.presentwindows(self.topdock)
         self.mainwindow.maximize()
         self.mainwindow.fullscreen()
         self.mainwindow.show()
         self.mainwindow.realize()
         while Gtk.events_pending():
             Gtk.main_iteration()
-        GLib.idle_add(self.present(self.mainwindow))
+        self.presentwindows(self.mainwindow)
         self.runentry.grab_focus()
+        return
+
+    def presentwindows(self, window):
+        """ show desired window """
+        window.present_with_time(int(time.time()))
         return
 
     def hide(self, *args):
@@ -709,11 +720,6 @@ class OHMSHELL(object):
         while Gtk.events_pending():
             Gtk.main_iteration()
         #GLib.idle_add(self.present(self.hotwin))
-        return
-
-    def present(self, window):
-        """ show desired window """
-        window.present_with_time(int(time.time()))
         return
 
     def quit(self, event):
