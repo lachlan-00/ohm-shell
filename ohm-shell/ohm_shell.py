@@ -365,7 +365,8 @@ class OHMSHELL(object):
                 logops.write(LOGFILE, '\n===================================')
                 logops.write(LOGFILE, 'LOADING COMPLETE: ohm-shell running')
                 logops.write(LOGFILE, time.asctime())
-                logops.write(LOGFILE, ('Writing to log file: ' + LOGFILE + '\n'))
+                logops.write(LOGFILE, ('Writing to log file: ' + LOGFILE +
+                                       '\n'))
                 # run autostart commands
                 if self.autostart:
                     self.autostart = self.autostart.split("    ")
@@ -373,7 +374,8 @@ class OHMSHELL(object):
                         # execute autorun programs as hidden shell commands
                         tmpexec = items.split()
                         if tmpexec:
-                            logops.write(LOGFILE, 'OHM: executing autostart\n' + items)
+                            logops.write(LOGFILE, 'OHM: executing aut' +
+                                         'ostart\n' + items)
                             tmppid = procman.startprocess(tmpexec)
                         if tmppid:
                             self.autostartpids.append(tmppid)
@@ -560,10 +562,6 @@ class OHMSHELL(object):
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
             self.runentry.set_text("")
-        elif actor == "kill":
-            for items in self.autostartpids:
-                procman.killprocess(items[0])
-            return
         if tmppid:
             self.hide()
         return
@@ -731,7 +729,8 @@ class OHMSHELL(object):
         logops.write(LOGFILE, '')
         self.hotwin.destroy()
         self.mainwindow.destroy()
-        self.execute("kill", None)
+        for items in self.autostartpids:
+            procman.killprocess(items[0])
         Gtk.main_quit(event)
         return False
 
@@ -896,7 +895,8 @@ class OHMSHELL(object):
         tmpcount = 0
         for items in self.favlist:
             if not items[1]:
-                print('missing favourite item in config found. ADDING:')
+                logops.write(LOGFILE, ('OHM: adding file to config ' +
+                                       filelist[1]))
                 checkconfig.changesetting(CONFIG, 'dock',
                                           str(tmpcount) +'fav', filelist[1])
                 checkconfig.changesetting(CONFIG, 'dock',
