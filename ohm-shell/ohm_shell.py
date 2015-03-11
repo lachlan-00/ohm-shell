@@ -901,6 +901,8 @@ class OHMSHELL(object):
                                           str(tmpcount) +'fav', filelist[1])
                 checkconfig.changesetting(CONFIG, 'dock',
                                           str(tmpcount) +'icon', filelist[2])
+                self.addfavs.hide()
+                self.show()
                 return actor
             tmpcount = tmpcount + 1
         self.addfavs.hide()
