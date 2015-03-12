@@ -33,7 +33,8 @@ except ImportError:
 
 import logops
 
-LOGFILE = os.getenv('HOME') + '/.ohm-shell.log'
+HOMEFOLDER = os.getenv('HOME')
+LOGFILE = HOMEFOLDER + '/.ohm-shell.log'
 
 def checkconfig(inputpath):
     """ create a default config if not available """
@@ -67,9 +68,9 @@ def checksetting(inputpath, settingid, setting):
     conf.read(inputpath)
     try:
         name = conf.get(settingid, setting)
-    except ConfigParser.NoOptionError as e:
+    except ConfigParser.NoOptionError as err:
         logops.write(LOGFILE, 'CHECKCONFIG: option not found ' + setting)
-        logops.write(LOGFILE, str(e))
+        logops.write(LOGFILE, str(err))
         return None
     return name
 

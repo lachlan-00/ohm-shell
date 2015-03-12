@@ -356,17 +356,16 @@ class OHMSHELL(object):
             windows.set_keep_above(True)
         self.hotwin.move(0, 0)
         self.hotwin.set_position(Gtk.Align.START)
-        self.updatefavdock()
-        self.updateopenwindows()
         if args:
             # only run autostart on initial run
             if args[0] == 'START':
                 # write the start of the log
-                logops.write(LOGFILE, '\n===================================')
-                logops.write(LOGFILE, 'LOADING COMPLETE: ohm-shell running')
-                logops.write(LOGFILE, time.asctime())
-                logops.write(LOGFILE, ('Writing to log file: ' + LOGFILE +
-                                       '\n'))
+                logops.write(LOGFILE, ('\n================================' +
+                                       '===\nSTARTUP: ohm-shell is loading' +
+                                       '...\n' + time.asctime() +
+                                       '\nWriting to log file: ' + LOGFILE +
+                                       '\n================================' +
+                                       '===\n'))
                 # run autostart commands
                 if self.autostart:
                     self.autostart = self.autostart.split("    ")
@@ -375,10 +374,13 @@ class OHMSHELL(object):
                         tmpexec = items.split()
                         if tmpexec:
                             logops.write(LOGFILE, 'OHM: executing aut' +
-                                         'ostart\n' + items)
+                                         'ostart\n   Command: ' + items + '\n')
                             tmppid = procman.startprocess(tmpexec)
                         if tmppid:
                             self.autostartpids.append(tmppid)
+        # Check config files and load favourites.
+        self.updatefavdock()
+        self.updateopenwindows()
         # set visual options.
         self.initialloading()
         self.hotwin.show()
@@ -419,19 +421,19 @@ class OHMSHELL(object):
         try:
             self.autostart = self.conf.get('options', 'autostart')
         except ConfigParser.NoOptionError as err:
-            logops.write(LOGFILE, 'Missing autostart option')
+            logops.write(LOGFILE, 'CONFIG: Missing autostart option')
             logops.write(LOGFILE, str(err))
             self.autostart = None
         try:
             self.appposition = self.conf.get('options', 'appposition')
         except ConfigParser.NoOptionError as err:
-            logops.write(LOGFILE, 'Missing appposition option')
+            logops.write(LOGFILE, 'CONFIG: Missing appposition option')
             logops.write(LOGFILE, str(err))
             self.appposition = 'Centre'
         try:
             self.showhotlabel = self.conf.get('options', 'showhotlabel')
         except ConfigParser.NoOptionError as err:
-            logops.write(LOGFILE, 'Missing showhotlabel option')
+            logops.write(LOGFILE, 'CONFIG: Missing showhotlabel option')
             logops.write(LOGFILE, str(err))
             self.showhotlabel = 'False'
         self.cmd0 = self.conf.get('dock', '0fav')
@@ -526,14 +528,13 @@ class OHMSHELL(object):
                         if isinstance(items[3], int):
                             tmppid = self.activatepid(items[3])
                             if tmppid:
-                                logops.write(LOGFILE,
-                                             ('OHM: found running pid ' +
-                                              str(items[1])))
-                                self.setpid(tmppid, tmpcount)
+                                logops.write(LOGFILE, ('OHM: found running ' +
+                                                       'pid\n     Command: ' +
+                                                       str(items[1]) +
+                                                       '\n     PID: ' +
+                                                       str(items[3]) + '\n'))
                                 self.hide()
                                 return True
-                            else:
-                                self.setpid(None, tmpcount)
                     tmpcount = tmpcount + 1
                 tmpcount = 0
                 for items in self.favlist:
@@ -541,24 +542,27 @@ class OHMSHELL(object):
                         # Switch to active windows
                         if self.changewindow(items[0], event):
                             logops.write(LOGFILE,
-                                         ('OHM: activating existing window ' +
-                                          items[0].get_tooltip_text()))
+                                         ('OHM: activate existing window\n  ' +
+                                          '   ' + items[0].get_tooltip_text()))
                             self.hide()
                             return True
                         tmpexec = (items[1]).split()
                         if not tmpexec:
                             tmpexec = [].append(items[1])
-                        logops.write(LOGFILE,
-                                     ('OHM: executing favourite ' +
-                                      str(items[3])))
                         tmppid = procman.startprocess(tmpexec)
                         if tmppid:
+                            logops.write(LOGFILE,
+                                         ('OHM: executing favourite\n' +
+                                          '     CMD: ' + str(items[1]) +
+                                          '\n     PID: ' + str(tmppid[0]) +
+                                          '\n'))
                             self.setpid(tmppid[0], tmpcount)
                             self.hide()
                             return True
                     tmpcount = tmpcount + 1
         if actor == "enter" or actor == self.gobutton:
-            logops.write(LOGFILE, 'OHM: executing from runentry')
+            logops.write(LOGFILE, ('OHM: executing from runentry\n     ' +
+                                   self.runentry.get_text() + '\n'))
             runcmd = str.split(self.runentry.get_text())
             tmppid = procman.startprocess(runcmd)
             self.runentry.set_text("")
@@ -569,7 +573,6 @@ class OHMSHELL(object):
     def setpid(self, pid, count):
         """ Update the pid when you run a new process """
         ### NEED A BETTER WAY ###
-        logops.write(LOGFILE, 'OHM: adding new pid ' + str(pid))
         if count == 0:
             self.fpid0 = pid
         elif count == 1:
@@ -722,11 +725,6 @@ class OHMSHELL(object):
 
     def quit(self, event):
         """ stop the process thread and close the program"""
-        logops.write(LOGFILE, '')
-        logops.write(LOGFILE, '================================')
-        logops.write(LOGFILE, 'SHUTTING DOWN: ohm-shell closing')
-        logops.write(LOGFILE, time.asctime())
-        logops.write(LOGFILE, '')
         self.hotwin.destroy()
         self.mainwindow.destroy()
         for items in self.autostartpids:
@@ -805,7 +803,13 @@ class OHMSHELL(object):
         for items in self.open:
             if items[1] == actor:
                 overlaycount = tmpcount
-                self.openwindows[overlaycount].activate(int(time.time()))
+                window = self.openwindows[overlaycount]
+                tmpname = window.get_name()
+                tmppid = str(window.get_pid())
+                logops.write(LOGFILE, ('OHM: activating window\n     NAME: ' +
+                                       tmpname + '\n     PID:  ' + tmppid +
+                                       '\n'))
+                window.activate(int(time.time()))
                 return True
             else:
                 tmpcount = tmpcount + 1
@@ -826,7 +830,6 @@ class OHMSHELL(object):
         # search for split text in windows
         if not found:
             # if you can't find the exact window activate all matches
-            logops.write(LOGFILE, 'OHM: looking for substrings')
             for windows in self.windowlist:
                 tmpxid = windows.get_xid()
                 tmppid = windows.get_pid()
@@ -840,9 +843,12 @@ class OHMSHELL(object):
                         Gtk.main_iteration()
                     found = True
         if foundwin:
+            logops.write(LOGFILE, ('OHM: activating window group'))
             for windows in foundwin:
-                logops.write(LOGFILE, ('ACTIVATING: ' + windows.get_name() +
-                                       ' - ' + str(windows.get_pid())))
+                tmpname = windows.get_name()
+                tmppid = str(windows.get_pid())
+                logops.write(LOGFILE, ('     NAME: ' + tmpname +
+                                       '\n     PID:  ' + tmppid + '\n'))
                 windows.activate(int(time.time()))
             return True
         # Error, Window not activated.
@@ -896,7 +902,7 @@ class OHMSHELL(object):
         for items in self.favlist:
             if not items[1]:
                 logops.write(LOGFILE, ('OHM: adding file to config ' +
-                                       filelist[1]))
+                                       filelist[1] + '\n'))
                 checkconfig.changesetting(CONFIG, 'dock',
                                           str(tmpcount) +'fav', filelist[1])
                 checkconfig.changesetting(CONFIG, 'dock',
@@ -926,3 +932,7 @@ class OHMSHELL(object):
             self.show()
 if __name__ == "__main__":
     OHMSHELL()
+    logops.write(LOGFILE, ('\n===================================\n' +
+                           'SHUTTING DOWN: ohm-shell closing...\n' +
+                           time.asctime() + '\n========================' +
+                           '===========\n'))
